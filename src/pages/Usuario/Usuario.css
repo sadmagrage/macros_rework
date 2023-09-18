@@ -1,0 +1,135 @@
+.usuario {
+    height: 100%;
+    background-image: url("../../../public/images/xandao-dancando.gif");
+    background-size: 100vw 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.usuario_config {
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 90vw;
+    height: 90%;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 15px;
+}
+
+.alterar_foto, .preferencias {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 90%;
+}
+
+.alterar_foto {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.preferencias {
+    width: 40%;
+}
+
+.alterar_foto_title, .preferencias_title {
+    color: white;
+    text-align: center;
+}
+
+.alterar_foto_img {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+}
+
+.preferencias_form {
+    height: 95%;
+    overflow-y: auto;
+    width: 100%;
+    justify-content: unset;
+}
+
+.dias_da_semana {
+    height: 100%;
+    width: 90%;
+}
+
+.dias_da_semana_title {
+    text-align: center;
+    margin: 5px;
+}
+
+.container_input {
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 5px;
+    align-items: center;
+}
+
+.plus_icon {
+    background-color: white;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    margin-top: 5px;
+}
+
+.close_icon {
+    background-color: white;
+    border-radius: 2px;
+    width: 15px;
+    height: 15px;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    margin: 0px 2px;
+}
+
+.plus_icon:hover, .close_icon:hover {
+    cursor: pointer;
+}
+
+.new_input {
+    display: flex;
+    align-items: center;
+}
+
+.treino-input {
+    margin-left: 5px;
+    width: 50px;
+}
+
+.form-select {
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 5px;
+    color: white;
+}
+
+.form-superavit, .form-deficit {
+    margin: 5px;
+}
+
+.form-radio {
+    margin-left: 5px;
+    margin-right: 10px;
+}
+
+.alterar_foto .form-button {
+    width: 100%;
+}

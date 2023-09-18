@@ -1,0 +1,38 @@
+.home {
+    height: 85.4%;
+    background-image: url("../../../public/images/luffy.gif");
+    background-size: 100vw 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.options {
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 300px;
+    height: min-content;
+    border-radius: 20px;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.options:hover {
+    cursor: pointer;
+}
+
+.description {
+    width: 100%;
+}
+
+.options_title {
+    color: white;
+    width: 100%;
+    text-align: center;
+}
+
+.description_image {
+    width: 100%;
+    margin: 5px 0px;
+}

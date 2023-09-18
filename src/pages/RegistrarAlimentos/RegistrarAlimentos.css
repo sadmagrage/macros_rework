@@ -1,0 +1,12 @@
+.registrar_alimento {
+    height: 85.4%;
+    background-image: url("../../../public/images/dark-luffy.gif");
+    background-size: 100vw 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container-alimento {
+    height: 500px !important;
+}
