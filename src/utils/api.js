@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getAuthToken, removeAuthToken } from "./auth";
 
-const API_URL = "http://localhost:3000";
+const API_URL = "https://innate-confirmed-tulip.glitch.me";
 
 export const login = async credentials => {
     return new Promise( async (resolve, reject) => {
@@ -16,7 +16,7 @@ export const login = async credentials => {
 
 export const register = async credentials => {
     return new Promise( async (resolve, reject) => {
-        const response = axios.post(`${ API_URL }/user/registrar`, credentials);
+        const response = await axios.post(`${ API_URL }/user/registrar`, credentials);
 
         if (response.status !== 201) reject(new Error("Erro ao registrar"));
 
