@@ -87,3 +87,25 @@ export const updateUserImg = async (img) => {
         resolve();
     });
 };
+
+export const getSpent = async () => {
+    return new Promise( async (resolve, reject) => {
+        const headers = { 'Authorization': getAuthToken() };
+
+        const response = await axios.get(`${ API_URL }/user/calculate`, { headers });
+
+        if (response.status !== 200) reject(new Error("Erro ao receber gasto"));
+
+        resolve(response.data);
+    });
+};
+
+export const activateApi = async () => {
+    return new Promise( async (resolve, reject) => {
+        const response = await axios.get(`${ API_URL }/user/permission`);
+
+        if (response.status !== 200) reject(new Error("Erro ao ativar API"));
+
+        resolve(response.data);
+    });
+};

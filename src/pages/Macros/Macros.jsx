@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getComida, getData } from "../../utils/api";
+import { getComida, getData, getSpent } from "../../utils/api";
 import { isAuthenticated } from '../../utils/auth';
 import "./Macros.css";
 
@@ -132,61 +132,16 @@ export function Macros() {
 
     useEffect(() => {
 
-        getData()
+        getSpent()
             .then(data => {
-                const dataUser = data;
-                const pesoMagro = dataUser.peso * (100 - dataUser.bodyfat)/100;
-                const harrisBenedictMale = 66.5 + (13.75 * pesoMagro) + (5.003 * dataUser.altura) - (6.755 * dataUser.idade)
-                const basal = harrisBenedictMale * 1.3;
-                const indice = pesoMagro * 90 * 0.1;
-
-                const newTreino = {
-                    "domingo": dataUser.treino.domingo,
-                    "segunda": dataUser.treino.segunda,
-                    "terca": dataUser.treino.terca,
-                    "quarta": dataUser.treino.quarta,
-                    "quinta": dataUser.treino.quinta,
-                    "sexta": dataUser.treino.sexta,
-                    "sabado": dataUser.treino.sabado
-                }
-
-                Object.keys(newTreino).map((item, index) => {
-                    if (index === new Date().getDay()) {
-                        const Treino = newTreino[item];
-
-                        const supino = Treino.filter(item => item.treino === "supino").length > 0 ? Treino.filter(item => item.treino === "supino")[0].serie : 0;
-                        const terra = Treino.filter(item => item.treino === "terra").length > 0 ? Treino.filter(item => item.treino === "terra")[0].serie : 0;
-                        const agacho = Treino.filter(item => item.treino === "agacho").length > 0 ? Treino.filter(item => item.treino === "agacho")[0].serie : 0;
-                        const stiff = Treino.filter(item => item.treino === "stiff").length > 0 ? Treino.filter(item => item.treino === "stiff")[0].serie : 0;
-                        const restante = Treino.filter(item => item.treino === "restante").length > 0 ? Treino.filter(item => item.treino === "restante")[0].serie : 0;
-                        const velocidade = Treino.filter(item => item.treino === "velocidade").length > 0 ? Treino.filter(item => item.treino === "velocidade")[0].serie : 0;
-                        const minuto = Treino.filter(item => item.treino === "minuto").length > 0 ? Treino.filter(item => item.treino === "minuto")[0].serie : 0;
-
-                        const treino = (1.25 * supino * indice / 34) + (1.5 * terra * indice / 34) + (2 * agacho * indice / 34) + (1.5 * indice * stiff / 34) + (indice * restante / 34);
-
-                        const cardio = 0.0175 * pesoMagro * velocidade * minuto;
-
-                        let gasto = 0;
-
-                        if (dataUser.estado === "bulking") {
-                            gasto = (basal + treino + cardio + dataUser.adicional ) * (100 + dataUser.superavit)/100
-                        }
-                        else if (dataUser.estado === "cutting") {
-                            gasto = basal + treino + cardio + dataUser.adicional - dataUser.deficit
-                        }
-                        else if (dataUser.estado === "manutencao") {
-                            gasto = basal + treino + cardio + dataUser.adicional;
-                        }
-
-                        setGasto(gasto.toFixed(2));
-                        setMetaProth(dataUser.peso * (100 - dataUser.bodyfat)/100 * 2 * 0.9);
-                        setMetaProtl(dataUser.peso * (100 - dataUser.bodyfat)/100 * 2 * 0.1);
-                        setMetaFat(dataUser.peso * (100 - dataUser.bodyfat)/100);
-                        setMetaCarb((gasto - (metaProth + metaProtl) * 4 - metaFat * 9)/4);
-                    }
-                })
+                setGasto(data.gasto);
+                
+                setMetaCarb(data.metaCarb);
+                setMetaProtl(data.metaProtl);
+                setMetaProth(data.metaProth);
+                setMetaFat(data.metaFat);
             })
-            .catch(error => console.log(error));
+            .catch(error => console.log(error.message));
 
         getComida()
             .then(data => {

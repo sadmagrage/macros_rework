@@ -1,9 +1,19 @@
-import React, { useState } from "react";
-import { login as loginApi, register } from "../../utils/api";
+import React, { useEffect, useState } from "react";
+import { activateApi, login as loginApi, register } from "../../utils/api";
 import { setAuthToken } from "../../utils/auth";
 import "./Login.css"
 
 export function Login() {
+
+    const [Permission, setPermission] = useState(false);
+
+    useEffect(() => {
+        activateApi()
+            .then(data => {
+                setPermission(data.permission)
+            })
+            .catch(error => console.log(error.message));
+    }, []);
 
     const handleSubmitLogin = async (e) => {
         const formData = new FormData(document.querySelector(".form_login"));
@@ -50,7 +60,7 @@ export function Login() {
                     <br/>
                     <p className="to_register" onClick={ () => setLogin(false) }>Não tem uma conta ? Clique para registrar-se</p>
                     <br/>
-                    <input type="submit" className="form-button" value="Enviar" />
+                    <input type="submit" className="form-button" value={ Permission ? "Enviar" : "Carregando ..." } />
                 </form>
             </div>
         </div>
@@ -72,7 +82,7 @@ export function Login() {
                     <br/>
                     <p className="to_register" onClick={ () => setLogin(true) }>Voltar para a tela de login</p>
                     <br/>
-                    <input type="submit" className="form-button" value="Enviar" />
+                    <input type="submit" className="form-button" value={ Permission ? "Enviar" : "Carregando ..." } />
                 </form>
             </div>
         </div>
