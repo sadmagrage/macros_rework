@@ -21,6 +21,7 @@ export function Macros() {
     const [metaCarb, setMetaCarb] = useState(0);
 
     const [ComidaUtilizadas, setComidaUtilizadas] = useState([]);
+    const [ApenasUtilizados, setApenasUtilizados] = useState(false);
 
     const valueToMacros = () => {
         let carb = 0;
@@ -206,6 +207,17 @@ export function Macros() {
                     }
                 </div>
                 <div className='properties_container'>
+                    <input className='filter-button' type="button" onClick={ (e) => {
+                        ApenasUtilizados ? setApenasUtilizados(false) : setApenasUtilizados(true);
+
+                        if (ApenasUtilizados) {
+                            setComida(DataComida);
+                        }
+                        else {
+                            setComida(ComidaUtilizadas);
+                        }
+
+                        } } value={ ApenasUtilizados ? "Mostrar todos alimentos" : "Mostrar apenas utilizados" } />
                     <input type="text" onChange={ (e) => {
                         let filteredData = DataComida.filter(item => item.nome.toLowerCase().includes(e.target.value.toLowerCase()));
 

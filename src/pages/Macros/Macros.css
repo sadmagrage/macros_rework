@@ -154,3 +154,12 @@
 .wrapper.open {
     grid-template-rows: 1fr;
 }
+
+.filter-button {
+    border: 2px solid white;
+    color: white;
+    background-color: transparent;
+    width: 100%;
+    margin-bottom: 5px;
+    border-radius: 7px;
+}
