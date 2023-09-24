@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getComida, getData, getSpent } from "../../utils/api";
+import { getComida, getSpent } from "../../utils/api";
 import { isAuthenticated } from '../../utils/auth';
 import "./Macros.css";
 
@@ -23,6 +23,8 @@ export function Macros() {
     const [ComidaUtilizadas, setComidaUtilizadas] = useState([]);
     const [ApenasUtilizados, setApenasUtilizados] = useState(false);
 
+    const [Atualizador, setAtualizador] = useState(0);
+
     const valueToMacros = () => {
         let carb = 0;
         let protl = 0;
@@ -30,10 +32,12 @@ export function Macros() {
         let fat = 0;
 
         ComidaUtilizadas.map(item => {
-            carb += item.carb * item.value;
-            protl += item.protl * item.value;
-            proth += item.proth * item.value;
-            fat += item.fat * item.value;
+            const valor = item.value[item.value.length - 1] == "+" || item.value[item.value.length - 1] == "-" || item.value[item.value.length - 1] == "*" || item.value[item.value.length - 1] == "/" ? eval(item.value.slice(0, -1)) : eval(item.value) ;
+            
+            carb += item.carb * valor;
+            protl += item.protl * valor;
+            proth += item.proth * valor;
+            fat += item.fat * valor;
         });
 
         protl = protl > metaProtl ? metaProtl : protl ;
@@ -99,7 +103,7 @@ export function Macros() {
 
     const autoGetValue = (id) => {
         const optionalComida = ComidaUtilizadas.filter(comida => comida.comida_id === id);
-
+        
         if (optionalComida.length === 1) {
             return optionalComida[0].value;
         }
@@ -166,13 +170,13 @@ export function Macros() {
                                         <div className='comida' >
                                             <h3 className='comida_title'>{ containerItem.nome }</h3>
                                             <img className='comida_img' src={ containerItem.img } />
-                                            <input type="number" className='white-input' value={ autoGetValue(containerItem.comida_id) } onChange={ (e) => {
+                                            <input type="text" className='white-input' value={ autoGetValue(containerItem.comida_id) } onChange={ (e) => {
                                                 let comida = {};
                                                 Object.keys(containerItem).map(prop => {
                                                     comida[prop] = containerItem[prop];
                                                 })
 
-                                                comida["value"] = (e.target.value === "") ? 0 : parseFloat(e.target.value)
+                                                comida["value"] = e.target.value
 
                                                 if (e.target.value === "") {
                                                     ComidaUtilizadas.splice(ComidaUtilizadas.findIndex(obj => obj.comida_id === comida.comida_id), 1);
@@ -181,7 +185,7 @@ export function Macros() {
                                                     const optionalComida = ComidaUtilizadas.filter(obj => obj.comida_id === comida.comida_id);
 
                                                     if (optionalComida.length == 1) {
-                                                        optionalComida[0].value = parseFloat(e.target.value);
+                                                        optionalComida[0].value = e.target.value;
                                                     }
                                                     else {
                                                         ComidaUtilizadas.push(comida);
@@ -189,6 +193,7 @@ export function Macros() {
                                                 }
                                                 
                                                 valueToMacros();
+                                                Atualizador == 0 ? setAtualizador(1) : setAtualizador(0);
                                             } } />
                                         </div>)
                                 }) }</div>;
@@ -207,7 +212,7 @@ export function Macros() {
                     }
                 </div>
                 <div className='properties_container'>
-                    <input className='filter-button' type="button" onClick={ (e) => {
+                    <input className='filter-button' type="button" onClick={ () => {
                         ApenasUtilizados ? setApenasUtilizados(false) : setApenasUtilizados(true);
 
                         if (ApenasUtilizados) {
