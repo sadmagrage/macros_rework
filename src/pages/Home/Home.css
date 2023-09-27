@@ -1,10 +1,11 @@
 .home {
     height: 85.4%;
-    background-image: url("../../../public/images/luffy.gif");
+    background-image: url("../../../public/images/background-image.jpg");
     background-size: 100vw 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .options {
@@ -15,7 +16,8 @@
     border: 2px solid black;
     display: flex;
     flex-direction: column;
-    padding: 5px;
+    padding: 8px;
+    margin: 5px;
 }
 
 .options:hover {
@@ -30,9 +32,20 @@
     color: white;
     width: 100%;
     text-align: center;
+    margin: 5px;
 }
 
-.description_image {
+.description_text {
+    color: white;
+    text-align: center;
     width: 100%;
-    margin: 5px 0px;
+}
+
+.description_text_container {
+    width: 100%;
+}
+
+.warning {
+    color: red;
+    font-weight: bolder;
 }

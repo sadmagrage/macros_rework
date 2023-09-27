@@ -8,6 +8,7 @@ import { Usuario } from "./pages/Usuario/Usuario";
 import { Alimentos } from "./pages/Alimentos/Alimentos";
 import { RegistrarAlimentos } from "./pages/RegistrarAlimentos/RegistrarAlimentos";
 import { Header } from "./components/Header/Header"
+import { Repositorios } from "./pages/Repositorios/Repositorios";
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/alimentos/registrar" element={ <RegistrarAlimentos /> } />
         <Route path="/usuario" element={ <Usuario /> } />
         <Route path="/macros" element={ <Macros /> } />
+        <Route path="/repositorios" element={ <Repositorios /> } />
       </Routes>
     </BrowserRouter>
   )
