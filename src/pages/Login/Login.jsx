@@ -39,6 +39,20 @@ export function Login() {
             })
             .catch(error => console.log(error));
     }
+
+    const loginAsGuest = () => {
+        const body = {
+            "username": "teste",
+            "password": "123"
+        };
+
+        loginApi(body)
+            .then(token => {
+                setAuthToken(token);
+                window.location.pathname = "/";
+            })
+            .catch(error => console.log(error.message));
+    };
     
     const [login, setLogin] = useState(true);
 
@@ -61,6 +75,7 @@ export function Login() {
                     <p className="to_register" onClick={ () => setLogin(false) }>Não tem uma conta ? Clique para registrar-se</p>
                     <br/>
                     <input type="submit" className="form-button" value={ Permission ? "Enviar" : "Carregando ..." } />
+                    <input type="button" onClick={ () => loginAsGuest() } className="form-button" value={ Permission ? "Entrar como convidado" : "Carregando ..." } />
                 </form>
             </div>
         </div>
@@ -83,6 +98,7 @@ export function Login() {
                     <p className="to_register" onClick={ () => setLogin(true) }>Voltar para a tela de login</p>
                     <br/>
                     <input type="submit" className="form-button" value={ Permission ? "Enviar" : "Carregando ..." } />
+                    <input type="button" onClick={ () => loginAsGuest() } className="form-button" value={ Permission ? "Entrar como convidado" : "Carregando ..." } />
                 </form>
             </div>
         </div>
