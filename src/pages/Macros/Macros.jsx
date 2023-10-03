@@ -141,10 +141,10 @@ export function Macros() {
             .then(data => {
                 setGasto(data.gasto);
                 
-                setMetaCarb(data.metaCarb);
-                setMetaProtl(data.metaProtl);
-                setMetaProth(data.metaProth);
-                setMetaFat(data.metaFat);
+                setMetaCarb(parseFloat(data.metaCarb));
+                setMetaProtl(parseFloat(data.metaProtl));
+                setMetaProth(parseFloat(data.metaProth));
+                setMetaFat(parseFloat(data.metaFat));
             })
             .catch(error => console.log(error.message));
 

@@ -7,7 +7,7 @@ export function Usuario() {
     
     const [DataUser, setDataUser] = useState({});
     const [SelectedEstado, setSelectedEstado] = useState("");
-    const [Treino, setTreino] = useState({});
+    const [FatorAtividade, setFatorAtividade] = useState("");
     const [Atualizador, setAtualizador] = useState(0);
 
     const handleSubmitImg = async () => {
@@ -33,20 +33,33 @@ export function Usuario() {
 
             const body = Object.fromEntries(formData)
 
-            Object.keys(body).map(item => {
-                if (item.includes("_")) {
-                    delete body[item];
-                }
-            });
-
             body["peso"] = parseFloat(body["peso"]);
             body["bodyfat"] = parseFloat(body["bodyfat"]);
-            body["altura"] = parseFloat(body["altura"]);
-            body["idade"] = parseFloat(body["idade"]);
+
+            if (FatorAtividade != "outro") {
+                if (FatorAtividade == "sedentario") {
+                    body["fator_atividade"] = 1.2;
+                }
+                else if (FatorAtividade == "levemente-ativo") {
+                    body["fator_atividade"] = 1.375;
+                }
+                else if (FatorAtividade == "moderadamente-ativo") {
+                    body["fator_atividade"] = 1.55;
+                }
+                else if (FatorAtividade == "muito-ativo") {
+                    body["fator_atividade"] = 1.725;
+                }
+                else if (FatorAtividade == "extremamente-ativo") {
+                    body["fator_atividade"] = 1.9;
+                }
+            }
+            else {
+                body["fator_atividade"] = parseFloat(body["fator_atividade"]);
+            }
+            
             body["superavit"] = parseFloat(body["superavit"]);
             body["deficit"] = parseFloat(body["deficit"]);
             body["adicional"] = parseFloat(body["adicional"]);
-            body["treino"] = Treino;
             
             updateUserSettings(body)
                 .then(() => window.location.pathname = "/")
@@ -63,17 +76,26 @@ export function Usuario() {
                 setDataUser(data)
                 setSelectedEstado(data.estado)
 
-                const newTreino = {
-                    "domingo": data.treino.domingo,
-                    "segunda": data.treino.segunda,
-                    "terca": data.treino.terca,
-                    "quarta": data.treino.quarta,
-                    "quinta": data.treino.quinta,
-                    "sexta": data.treino.sexta,
-                    "sabado": data.treino.sabado
-                };
-
-                setTreino(newTreino)
+                switch (data.fator_atividade) {
+                    case 1.2:
+                        setFatorAtividade("sedentario")
+                        break;
+                    case 1.375:
+                        setFatorAtividade("levemente-ativo");
+                        break;
+                    case 1.55:
+                        setFatorAtividade("moderadamente-ativo");
+                        break;
+                    case 1.725:
+                        setFatorAtividade("muito-ativo");
+                        break;
+                    case 1.9:
+                        setFatorAtividade("extremamente-ativo");
+                        break;
+                    default:
+                        setFatorAtividade("outro")
+                        break;
+                }
             })
             .catch(error => console.log(error));
     }, [])
@@ -99,49 +121,6 @@ export function Usuario() {
                             e.preventDefault();
                             await handleSubmit();
                         }} >
-                            {   Object.keys(Treino).map(dia => {
-                                    return (
-                                        <div className="dias_da_semana" key={ dia } >
-                                            <label className="form-label dias_da_semana_title">{ dia.charAt(0).toUpperCase() + dia.slice(1) }</label>
-                                            <div className="container_input">
-                                                { Treino[dia].map((item) => {
-                                                    return (
-                                                        <div className="new_input">
-                                                            <select className="form-select" value={ item.treino } onChange={ (e) => {
-                                                                e.target.parentElement.childNodes[1].name = `${dia.toLowerCase()}_${e.target.value}`
-                                                                
-                                                                item.treino = e.target.value
-                                                                setAtualizador(Atualizador == 1 ? 0 : 1);
-                                                                } } >
-                                                                <option value="supino" >Supino</option>
-                                                                <option value="terra" >Terra</option>
-                                                                <option value="stiff" >Stiff</option>
-                                                                <option value="agacho" >Agacho</option>
-                                                                <option value="restante" >Restante</option>
-                                                                <option value="velocidade" >Velocidade</option>
-                                                                <option value="minuto" >Minuto</option>
-                                                                <option value="adicional" >Adicional</option>
-                                                            </select>
-                                                            <input className="form-input treino-input" type="number" value={ item.serie } onChange={ (e) => {
-                                                                item.serie = e.target.value
-                                                                setAtualizador(Atualizador == 1 ? 0 : 1);
-                                                            } } name={ `${dia.toLowerCase()}_supino` } />
-                                                            <p className="close_icon" onClick={ () => {
-                                                                Treino[dia].splice(Treino[dia].indexOf(item), 1);
-                                                                setAtualizador(Atualizador == 1 ? 0 : 1)
-                                                            } } >X</p>
-                                                        </div>
-                                                    )
-                                                }) }
-                                                <p className="plus_icon" onClick={ () => {
-                                                    const newItem = { "treino": "supino", "serie": 0 }
-
-                                                    Treino[dia].push(newItem)
-                                                    setAtualizador(Atualizador == 1 ? 0 : 1);
-                                                } } >+</p>
-                                            </div>
-                                        </div>)
-                            }) }
                             <div className="form-superavit">
                                 <label className="form-label">Peso:</label>
                                 <input type="number" name="peso" className="form-input treino-input" defaultValue={ DataUser.peso } />
@@ -150,13 +129,20 @@ export function Usuario() {
                                 <label className="form-label">BodyFat em %:</label>
                                 <input type="number" name="bodyfat" className="form-input treino-input" defaultValue={ DataUser.bodyfat } />
                             </div>
-                            <div className="form-superavit">
-                                <label className="form-label">Altura em cm:</label>
-                                <input type="number" name="altura" className="form-input treino-input" defaultValue={ DataUser.altura } />
-                            </div>
-                            <div className="form-superavit">
-                                <label className="form-label">Idade:</label>
-                                <input type="number" name="idade" className="form-input treino-input" defaultValue={ DataUser.idade } />
+                            <label className="form-label">Fator de atividade:</label>
+                            <div className="form-fator-atividade">
+                                <label className="form-label"><input className="radio-fator-atividade" type="radio" name="fator_atividade" value="sedentario" checked={ FatorAtividade == "sedentario" } onChange={ () => setFatorAtividade("sedentario") } />Sedentário - 1.2</label>
+                                <br/>
+                                <label className="form-label"><input className="radio-fator-atividade" type="radio" name="fator_atividade" value="levemente-ativo" checked={ FatorAtividade == "levemente-ativo" } onChange={ () => setFatorAtividade("levemente-ativo") } />Levemente ativo - 1.375</label>
+                                <br/>
+                                <label className="form-label"><input className="radio-fator-atividade" type="radio" name="fator_atividade" value="moderadamente-ativo" checked={ FatorAtividade == "moderadamente-ativo" }  onChange={ () => setFatorAtividade("moderadamente-ativo") }/>Moderadamente ativo - 1.55</label>
+                                <br/>
+                                <label className="form-label"><input className="radio-fator-atividade" type="radio" name="fator_atividade" value="muito-ativo" checked={ FatorAtividade == "muito-ativo" }  onChange={ () => setFatorAtividade("muito-ativo") }/>Muito ativo - 1.725</label>
+                                <br/>
+                                <label className="form-label"><input className="radio-fator-atividade" type="radio" name="fator_atividade" value="extremamente-ativo" checked={ FatorAtividade == "extremamente-ativo" }  onChange={ () => setFatorAtividade("extremamente-ativo") }/>Extremamente ativo - 1.9</label>
+                                <br/>
+                                <label className="form-label"><input className="radio-fator-atividade" type="radio" name="fator_atividade" value="outro" checked={ FatorAtividade == "outro" }  onChange={ () => setFatorAtividade("outro") }/>Outro</label>
+                                <input type="text" name="fator_atividade" className="form-input treino-input" defaultValue={ DataUser.fator_atividade } />
                             </div>
                             <div className="form-superavit">
                                 <label className="form-label">Superavit em %:</label>
