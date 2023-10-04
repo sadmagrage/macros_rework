@@ -9,6 +9,7 @@ export function Macros() {
     const [DataComida, setDataComida] = useState([]);
 
     const [Carb, setCarb] = useState(0);
+    const [Prot, setProt] = useState(0);
     const [Protl, setProtl] = useState(0);
     const [Proth, setProth] = useState(0);
     const [Fat, setFat] = useState(0);
@@ -27,6 +28,7 @@ export function Macros() {
 
     const valueToMacros = () => {
         let carb = 0;
+        let prot = 0;
         let protl = 0;
         let proth = 0;
         let fat = 0;
@@ -39,6 +41,7 @@ export function Macros() {
             proth += item.proth * valor;
             fat += item.fat * valor;
         });
+        prot = protl + proth;
 
         protl = protl > metaProtl ? metaProtl : protl ;
         proth = proth > metaProth ? metaProth : proth ;
@@ -46,6 +49,7 @@ export function Macros() {
         let kcal = (carb + protl + proth) * 4 + fat * 9 ;
 
         setCarb(carb.toFixed(2));
+        setProt(prot.toFixed(2));
         setProtl(protl.toFixed(2));
         setProth(proth.toFixed(2));
         setFat(fat.toFixed(2));
@@ -230,6 +234,7 @@ export function Macros() {
                     } } className='white-input' />
                     <div className='properties'>
                         <p className='macro_value'>Carb: { Carb }</p>
+                        <p className='macro_value'>Prot: { Prot }</p>
                         <p className='macro_value'>Protl: { Protl }</p>
                         <p className='macro_value'>Proth: { Proth }</p>
                         <p className='macro_value'>Fat: { Fat }</p>
