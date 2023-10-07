@@ -46,7 +46,7 @@ export function Macros() {
         protl = protl > metaProtl ? metaProtl : protl ;
         proth = proth > metaProth ? metaProth : proth ;
 
-        let kcal = (carb + protl + proth) * 4 + fat * 9 ;
+        let kcal = (carb + prot) * 4 + fat * 9 ;
 
         setCarb(carb.toFixed(2));
         setProt(prot.toFixed(2));
@@ -60,7 +60,7 @@ export function Macros() {
 
         if ((item === "Carb" && comida.carb >= 0.2 && comida.carb < 1) || (item === "Carb" && comida.nome.toLowerCase() === "suco prats") || (item === "Carb" && comida.nome.toLowerCase() === "feijao")) {
       
-            const faltaCarb = (metaCarb - Carb + ((metaFat - Fat) * 9 / 4))/(comida.carb+comida.fat * 9 / 4);
+            const faltaCarb = (Gasto - Kcal) / 4 / (comida.carb + comida.protl + comida.proth + comida.fat * 9 / 4);
 
             return (
                 <div className='sugestion'>
