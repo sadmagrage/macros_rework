@@ -12,6 +12,13 @@ export function RegistrarAlimentos() {
 
         const body = Object.fromEntries(formData);
 
+        body.quantidade = (body.quantidade == "") ? 1 : parseFloat(body.quantidade);
+
+        body.carb = (body.carb == "") ? 0 : parseFloat(body.carb);
+        body.protl = (body.protl == "") ? 0 : parseFloat(body.protl);
+        body.proth = (body.proth == "") ? 0 : parseFloat(body.proth);
+        body.fat = (body.fat == "") ? 0 : parseFloat(body.fat);
+
         createComida(body)
             .then(() => window.location.pathname = "/")
             .catch(error => console.log(error.message));
@@ -32,23 +39,23 @@ export function RegistrarAlimentos() {
                         <br/>
                         <label className="form-label">Quantidade</label>
                         <br/>
-                        <input className="form-input" type="number" name="quantidade" />
+                        <input className="form-input" type="text" name="quantidade" />
                         <br/>
                         <label className="form-label">Carb</label>
                         <br/>
-                        <input className="form-input" type="number" name="carb" />
+                        <input className="form-input" type="text" name="carb" />
                         <br/>
                         <label className="form-label">Protl</label>
                         <br/>
-                        <input className="form-input" type="number" name="protl" />
+                        <input className="form-input" type="text" name="protl" />
                         <br/>
                         <label className="form-label">Proth</label>
                         <br/>
-                        <input className="form-input" type="number" name="proth" />
+                        <input className="form-input" type="text" name="proth" />
                         <br/>
                         <label className="form-label">Fat</label>
                         <br/>
-                        <input className="form-input" type="number" name="fat" />
+                        <input className="form-input" type="text" name="fat" />
                         <br/>
                         <label className="form-label">Image link</label>
                         <br/>
