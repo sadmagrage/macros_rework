@@ -30,7 +30,7 @@ export const getData = async () => {
         //const headers = { 'Authorization': getAuthToken() };
 
         //const response = await axios.get(`${ API_URL }/user/data`, { headers });
-        const response = await axios.get(`${ API_URL }/user/data`);
+        const response = await axios.get(`${ API_URL }/user/data`, { withCredentials: true });
 
         if (response.status !== 200) reject(new Error("Erro na busca de dados."));
 
