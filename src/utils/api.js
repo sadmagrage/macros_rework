@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAuthToken, removeAuthToken } from "./auth";
 import Cookies from "js-cookie";
 
-const API_URL = "http://localhost:3000";//https://innate-confirmed-tulip.glitch.me";
+const API_URL = "https://innate-confirmed-tulip.glitch.me";
 
 export const login = async credentials => {
     return new Promise( async (resolve, reject) => {
