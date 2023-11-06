@@ -1,9 +1,13 @@
 import Axios from "axios";
 import { getAuthToken, removeAuthToken } from "./auth";
 
-const axios = Axios.create({
+/* const axios = Axios.create({
     baseURL: "https://innate-confirmed-tulip.glitch.me"
-})
+}); */
+const axios = Axios.create({
+    baseURL: "http://localhost:3000",
+    withCredentials: true
+});
 
 export const login = async credentials => {
     return new Promise( async (resolve, reject) => {
@@ -28,9 +32,9 @@ export const register = async credentials => {
 
 export const getData = async () => {
     return new Promise( async (resolve, reject) => {
-        const headers = { "Authorization": getAuthToken() };
+        //const headers = { "Authorization": getAuthToken() };
 
-        const response = await axios.get(`/user/data`, { headers });
+        const response = await axios.get(`/user/data`);
 
         if (response.status !== 200) reject(new Error("Erro na busca de dados."));
 

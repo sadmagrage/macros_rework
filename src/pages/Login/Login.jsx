@@ -20,8 +20,8 @@ export function Login() {
         const body = Object.fromEntries(formData);
 
         loginApi(body)
-            .then(token => {
-                setAuthToken(token);
+            .then(response => {
+                console.log(response.data);
                 window.location.pathname = "/";
             })
             .catch(error => console.log(error.message));
@@ -47,8 +47,8 @@ export function Login() {
         };
 
         loginApi(body)
-            .then(token => {
-                setAuthToken(token);
+            .then(response => {
+                console.log(response.data);
                 window.location.pathname = "/";
             })
             .catch(error => console.log(error.message));
