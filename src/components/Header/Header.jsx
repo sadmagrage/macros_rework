@@ -11,7 +11,7 @@ export function Header() {
     
     useEffect(() => {    
         if (window.location.pathname !== '/login')
-            if (!localStorage.getItem("user_data")) {
+            if (localStorage.getItem("user_data") == undefined) {
                 getData()
                     .then(data => {
                         setDataUser(data);
