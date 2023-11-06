@@ -3,10 +3,7 @@ import { getAuthToken, removeAuthToken } from "./auth";
 
 const axios = Axios.create({
     baseURL: "https://innate-confirmed-tulip.glitch.me",
-    withCredentials: true,
-    headers: {
-        'Content-Type': 'application/json'
-    }
+    withCredentials: true
 })
 
 axios.defaults.withCredentials= true;
