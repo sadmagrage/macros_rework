@@ -21,7 +21,7 @@ export function Login() {
 
         loginApi(body)
             .then(response => {
-                console.log(response.data);
+                setAuthToken(response)
                 window.location.pathname = "/";
             })
             .catch(error => console.log(error.message));

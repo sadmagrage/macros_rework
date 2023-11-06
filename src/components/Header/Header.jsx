@@ -10,13 +10,19 @@ export function Header() {
     const [Atualizador, setAtualizador] = useState(0);
     
     useEffect(() => {    
-        if (window.location.pathname !== '/login') 
-            getData()
-                .then(data => {
-                    setDataUser(data);
-                    setAtualizador(Atualizador == 1 ? 0 : 1);
-                })
-                .catch(error => console.log(error.message));
+        if (window.location.pathname !== '/login')
+            if (!localStorage.getItem("user_data")) {
+                getData()
+                    .then(data => {
+                        setDataUser(data);
+                        localStorage.setItem("user_data", JSON.stringify(data));
+                        setAtualizador(Atualizador == 1 ? 0 : 1);
+                    })
+                    .catch(error => console.log(error.message));
+            }
+            else {
+                setDataUser(JSON.parse(localStorage.getItem("user_data")));
+            }
     }, [])
 
     return window.location.pathname !== '/login' ? (

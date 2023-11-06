@@ -12,8 +12,7 @@ export const login = async credentials => {
 
         if (response.status !== 200) reject("Erro ao fazer login");
 
-        const token = response.data;
-        resolve(token);
+        resolve(response.data);
     });
 }
 
@@ -29,8 +28,6 @@ export const register = async credentials => {
 
 export const getData = async () => {
     return new Promise( async (resolve, reject) => {
-        //const headers = { "Authorization": getAuthToken() };
-
         const response = await axios.get(`/user/data`);
 
         if (response.status !== 200) reject(new Error("Erro na busca de dados."));
@@ -54,9 +51,7 @@ export const logout = async () => {
 
 export const createComida = async (body) => {
     try {
-        const headers = { "Authorization": getAuthToken() };
-
-        const response = await axios.post(`/comida`, body, { headers });
+        const response = await axios.post(`/comida`, body);
 
         if (response.status !== 201) throw new Error("Error");
     } catch (error) {
@@ -66,9 +61,7 @@ export const createComida = async (body) => {
 
 export const updateUserSettings = async (body) => {
     return new Promise( async (resolve, reject) => {
-        const headers = { "Authorization": getAuthToken() };
-
-        const response = await axios.post(`/user/update`, body, { headers });
+        const response = await axios.post(`/user/update`, body);
         
         if (response.status !== 200) reject(new Error("Erro ao atualizar configurações do usuário"));
         resolve();
@@ -77,9 +70,7 @@ export const updateUserSettings = async (body) => {
 
 export const updateUserImg = async (img) => {
     return new Promise( async (resolve, reject) => {
-        const headers = { "Authorization": getAuthToken() };
-
-        const response = await axios.post(`/user/alter_img`, { "img": img }, { headers });
+        const response = await axios.post(`/user/alter_img`, { "img": img });
         
         if (response.status !== 200) reject(new Error("Erro ao trocar imagem"));
         resolve();
@@ -88,9 +79,7 @@ export const updateUserImg = async (img) => {
 
 export const getSpent = async () => {
     return new Promise( async (resolve, reject) => {
-        const headers = { "Authorization": getAuthToken() };
-
-        const response = await axios.get(`/user/calculate`, { headers });
+        const response = await axios.get(`/user/calculate`);
 
         if (response.status !== 200) reject(new Error("Erro ao receber gasto"));
 
