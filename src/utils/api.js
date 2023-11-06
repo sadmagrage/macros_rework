@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { removeAuthToken } from "./auth";
+import { getAuthToken, removeAuthToken } from "./auth";
 
 const axios = Axios.create({
     baseURL: "https://innate-confirmed-tulip.glitch.me",
@@ -34,7 +34,7 @@ export const register = async credentials => {
 
 export const getData = async () => {
     return new Promise( async (resolve, reject) => {
-        const response = await axios.get(`/user/data`);
+        const response = await axios.get(`/user/data`, { "Authorization": getAuthToken() });
 
         if (response.status !== 200) reject(new Error("Erro na busca de dados."));
 
@@ -57,7 +57,7 @@ export const logout = async () => {
 
 export const createComida = async (body) => {
     try {
-        const response = await axios.post(`/comida`, body);
+        const response = await axios.post(`/comida`, body, { "Authorization": getAuthToken() });
 
         if (response.status !== 201) throw new Error("Error");
     } catch (error) {
@@ -67,7 +67,7 @@ export const createComida = async (body) => {
 
 export const updateUserSettings = async (body) => {
     return new Promise( async (resolve, reject) => {
-        const response = await axios.post(`/user/update`, body);
+        const response = await axios.post(`/user/update`, body, { "Authorization": getAuthToken() });
         
         if (response.status !== 200) reject(new Error("Erro ao atualizar configurações do usuário"));
         resolve();
@@ -76,7 +76,7 @@ export const updateUserSettings = async (body) => {
 
 export const updateUserImg = async (img) => {
     return new Promise( async (resolve, reject) => {
-        const response = await axios.post(`/user/alter_img`, { "img": img });
+        const response = await axios.post(`/user/alter_img`, { "img": img }, { "Authorization": getAuthToken() });
         
         if (response.status !== 200) reject(new Error("Erro ao trocar imagem"));
         resolve();
@@ -85,7 +85,7 @@ export const updateUserImg = async (img) => {
 
 export const getSpent = async () => {
     return new Promise( async (resolve, reject) => {
-        const response = await axios.get(`/user/calculate`);
+        const response = await axios.get(`/user/calculate`, { "Authorization": getAuthToken() });
 
         if (response.status !== 200) reject(new Error("Erro ao receber gasto"));
 
