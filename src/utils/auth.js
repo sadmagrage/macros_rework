@@ -1,16 +1,16 @@
-import axios from "axios";
 import jwt_decode from "jwt-decode";
+import Cookies from 'js-cookie';
 
 export const getAuthToken = () => {
-  return localStorage.getItem("token");
+  return Cookies.get("token");
 };
 
 export const setAuthToken = (token) => {
-  localStorage.setItem("token", token);
+  Cookies.set("token", token, { expires: new Date(new Date().getTime() + 60 * 60 * 1000) });
 };
 
 export const removeAuthToken = () => {
-  localStorage.removeItem(token);
+  Cookies.remove("token");
 };
 
 export const isTokenExpired = (token) => {

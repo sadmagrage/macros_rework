@@ -47,7 +47,7 @@ export function Macros() {
         proth = proth > metaProth ? metaProth : proth ;
 
         let kcal = (carb + prot) * 4 + fat * 9 ;
-
+        
         setCarb(carb.toFixed(2));
         setProt(prot.toFixed(2));
         setProtl(protl.toFixed(2));
@@ -158,7 +158,16 @@ export function Macros() {
                 setDataComida(data);
             })
             .catch(error => console.log(error));
+
+        const comidaStorage = localStorage.getItem("comida");
+
+        if (comidaStorage) {
+            setComidaUtilizadas(JSON.parse(comidaStorage));
+            valueToMacros();
+        };
     }, []);
+
+    useEffect(valueToMacros, [ComidaUtilizadas]);
 
     if (isAuthenticated()) {
     return (
@@ -197,6 +206,7 @@ export function Macros() {
                                                 }
                                                 
                                                 valueToMacros();
+                                                localStorage.setItem("comida", JSON.stringify(ComidaUtilizadas));
                                                 Atualizador == 0 ? setAtualizador(1) : setAtualizador(0);
                                             } } />
                                         </div>)
@@ -227,6 +237,7 @@ export function Macros() {
                         }
 
                         } } value={ ApenasUtilizados ? "Mostrar todos alimentos" : "Mostrar apenas utilizados" } />
+                    <input value="Esvaziar comida" className='filter-button' type='button' onClick={ () => setComidaUtilizadas([]) } />
                     <input type="text" onChange={ (e) => {
                         let filteredData = DataComida.filter(item => item.nome.toLowerCase().includes(e.target.value.toLowerCase()));
 

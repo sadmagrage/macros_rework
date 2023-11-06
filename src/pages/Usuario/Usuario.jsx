@@ -8,16 +8,30 @@ export function Usuario() {
     const [DataUser, setDataUser] = useState({});
     const [SelectedEstado, setSelectedEstado] = useState("");
     const [FatorAtividade, setFatorAtividade] = useState("");
+    const [FileArrayBuffer, setFileArrayBuffer] = useState({});
     const [Atualizador, setAtualizador] = useState(0);
+
+    const blobToImg = (img) => {
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+            const fileContent = event.target.result;
+
+            const blob = new Blob([fileContent], { type: img.type });
+
+            const blobURL = URL.createObjectURL(blob);
+
+            DataUser.img = blobURL;
+            Atualizador == 1 ? setAtualizador(0) : setAtualizador(1);
+        }
+
+        reader.readAsArrayBuffer(img);
+    }
 
     const handleSubmitImg = async () => {
         
         try {
-            const formData = new FormData(document.querySelector(".alterar_foto"));
-
-            const img = Object.fromEntries(formData);
-
-            updateUserImg(img)
+            updateUserImg(FileArrayBuffer)
                 .then(() => window.location.pathname = "/")
                 .catch(error => console.log(error));
 
@@ -111,7 +125,12 @@ export function Usuario() {
                     } } >
                         <h2 className="alterar_foto_title">Alterar foto</h2>
                         <img className="alterar_foto_img" src={ DataUser.img } />
-                        <input className="form-input" type="text" name="img" />
+                        <input className="form-input" type="file" name="img" onChange={ (e) => {
+                            const img = e.target.files[0];
+
+                            setFileArrayBuffer(img);
+                            blobToImg(img);
+                        } } />
                         <br/>
                         <input type="submit" className="form-button" value="Enviar" />
                     </form>
