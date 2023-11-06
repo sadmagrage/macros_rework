@@ -11,7 +11,7 @@ export function Header() {
     
     useEffect(() => {    
         if (window.location.pathname !== '/login')
-            if (localStorage.getItem("user_data") == undefined) {
+            /* if (localStorage.getItem("user_data") == undefined) {
                 getData()
                     .then(data => {
                         setDataUser(data);
@@ -22,7 +22,14 @@ export function Header() {
             }
             else {
                 setDataUser(JSON.parse(localStorage.getItem("user_data")));
-            }
+            } */
+            getData()
+                .then(data => {
+                    setDataUser(data);
+                    localStorage.setItem("user_data", JSON.stringify(data));
+                    setAtualizador(Atualizador == 1 ? 0 : 1);
+                })
+                .catch(error => console.log(error.message));
     }, [])
 
     return window.location.pathname !== '/login' ? (
