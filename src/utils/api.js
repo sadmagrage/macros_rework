@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getAuthToken, removeAuthToken } from "./auth";
-import Cookies from "js-cookie";
+
+axios.defaults.withCredentials= true;
 
 const API_URL = "https://innate-confirmed-tulip.glitch.me";
 
@@ -30,7 +31,7 @@ export const getData = async () => {
         //const headers = { 'Authorization': getAuthToken() };
 
         //const response = await axios.get(`${ API_URL }/user/data`, { headers });
-        const response = await axios.get(`${ API_URL }/user/data`, { withCredentials: true });
+        const response = await axios.get(`${ API_URL }/user/data`);
 
         if (response.status !== 200) reject(new Error("Erro na busca de dados."));
 
