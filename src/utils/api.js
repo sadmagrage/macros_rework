@@ -2,8 +2,7 @@ import Axios from "axios";
 import { getAuthToken, removeAuthToken } from "./auth";
 
 const axios = Axios.create({
-    baseURL: "https://innate-confirmed-tulip.glitch.me",
-    withCredentials: true
+    baseURL: "https://innate-confirmed-tulip.glitch.me"
 })
 
 axios.defaults.withCredentials= true;
