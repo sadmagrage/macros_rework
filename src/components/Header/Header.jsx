@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import './Header.css'
-import { getData } from '../../utils/api';
+import jwtDecode from 'jwt-decode';
+import Cookies from 'js-cookie';
+import { getAuthToken } from '../../utils/auth';
+import { imageBufferToUrl } from '../../utils/imageBufferToUrl';
 
 export function Header() {
 
@@ -9,28 +12,17 @@ export function Header() {
     const [DataUser, setDataUser] = useState({ "username": "", "img": "" });
     const [Atualizador, setAtualizador] = useState(0);
     
-    useEffect(() => {    
-        if (window.location.pathname !== '/login')
-            /* if (localStorage.getItem("user_data") == undefined) {
-                getData()
-                    .then(data => {
-                        setDataUser(data);
-                        localStorage.setItem("user_data", JSON.stringify(data));
-                        setAtualizador(Atualizador == 1 ? 0 : 1);
-                    })
-                    .catch(error => console.log(error.message));
-            }
-            else {
-                setDataUser(JSON.parse(localStorage.getItem("user_data")));
-            } */
-            getData()
-                .then(data => {
-                    setDataUser(data);
-                    localStorage.setItem("user_data", JSON.stringify(data));
-                    setAtualizador(Atualizador == 1 ? 0 : 1);
-                })
-                .catch(error => console.log(error.message));
-    }, [])
+    useEffect(() => {
+        
+        if (window.location.pathname !== '/login') {
+            const data = jwtDecode(getAuthToken()).data;
+
+            data["img"] = imageBufferToUrl(JSON.parse(localStorage.getItem("userImg")));
+
+            setDataUser(data);
+            setAtualizador(Atualizador == 1 ? 0 : 1);
+        }
+    }, []);
 
     return window.location.pathname !== '/login' ? (
         <header>

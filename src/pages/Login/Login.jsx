@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { activateApi, login as loginApi, register } from "../../utils/api";
 import { setAuthToken } from "../../utils/auth";
 import "./Login.css"
+import jwtDecode from "jwt-decode";
+import { imageBufferToUrl } from "../../utils/imageBufferToUrl";
 
 export function Login() {
 
@@ -20,8 +22,8 @@ export function Login() {
         const body = Object.fromEntries(formData);
 
         loginApi(body)
-            .then(response => {
-                setAuthToken(response)
+            .then(token => {
+                setAuthToken(token)
                 window.location.pathname = "/";
             })
             .catch(error => console.log(error.message));

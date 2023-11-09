@@ -6,7 +6,8 @@ export const getAuthToken = () => {
 };
 
 export const setAuthToken = (token) => {
-  Cookies.set("token", token, { expires: new Date(new Date().getTime() + 60 * 60 * 1000) });
+  /* Cookies.remove("token"); */
+  Cookies.set("token", token, { expires: 30 / (24 * 60) });
 };
 
 export const removeAuthToken = () => {

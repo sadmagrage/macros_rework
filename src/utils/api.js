@@ -1,9 +1,12 @@
 import Axios from "axios";
 import { getAuthToken, removeAuthToken } from "./auth";
 
+/* const axios = Axios.create({
+    baseURL: "https://innate-confirmed-tulip.glitch.me"
+}); */
+
 const axios = Axios.create({
-    baseURL: "https://innate-confirmed-tulip.glitch.me",
-    withCredentials: true
+    baseURL: "http://localhost:3000"
 });
 
 export const login = async credentials => {
@@ -11,8 +14,10 @@ export const login = async credentials => {
         const response = await axios.post(`/user/login`, credentials);
 
         if (response.status !== 200) reject("Erro ao fazer login");
+        
+        localStorage.setItem("userImg", JSON.stringify(response.data.userImg.data));
 
-        resolve(response.data);
+        resolve(response.data.token);
     });
 }
 
@@ -24,16 +29,6 @@ export const register = async credentials => {
 
         resolve(response.data);
     })
-}
-
-export const getData = async () => {
-    return new Promise( async (resolve, reject) => {
-        const response = await axios.get(`/user/data`);
-
-        if (response.status !== 200) reject(new Error("Erro na busca de dados."));
-
-        resolve(response.data);
-    });
 }
 
 export const getComida = async (body) => {
@@ -49,9 +44,10 @@ export const logout = async () => {
     removeAuthToken();
 }
 
-export const createComida = async (body) => {
+export const createComida = async (body, token) => {
     try {
-        const response = await axios.post(`/comida`, body);
+        const headers = { 'Authorization': token }
+        const response = await axios.post(`/comida`, body, { headers });
 
         if (response.status !== 201) throw new Error("Error");
     } catch (error) {
@@ -59,27 +55,34 @@ export const createComida = async (body) => {
     }
 }
 
-export const updateUserSettings = async (body) => {
+export const updateUserSettings = async (body, token) => {
     return new Promise( async (resolve, reject) => {
-        const response = await axios.post(`/user/update`, body);
+        const headers = { 'Authorization': token };
+
+        const response = await axios.post(`/user/update`, body, { headers });
         
         if (response.status !== 200) reject(new Error("Erro ao atualizar configurações do usuário"));
         resolve();
     });
 };
 
-export const updateUserImg = async (img) => {
+export const updateUserImg = async (img, token) => {
     return new Promise( async (resolve, reject) => {
-        const response = await axios.post(`/user/alter_img`, { "img": img });
+        const headers = { 'Authorization': getAuthToken() };
+
+        const response = await axios.post(`/user/alter_img`, img, { headers });
         
         if (response.status !== 200) reject(new Error("Erro ao trocar imagem"));
-        resolve();
+
+        resolve(response.data);
     });
 };
 
 export const getSpent = async () => {
     return new Promise( async (resolve, reject) => {
-        const response = await axios.get(`/user/calculate`);
+        const headers = { 'Authorization': token };
+
+        const response = await axios.get(`/user/calculate`, { headers });
 
         if (response.status !== 200) reject(new Error("Erro ao receber gasto"));
 

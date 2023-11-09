@@ -1,6 +1,6 @@
 import React from "react";
 import { createComida } from "../../utils/api";
-import { isAuthenticated } from "../../utils/auth";
+import { getAuthToken, isAuthenticated } from "../../utils/auth";
 import "./RegistrarAlimentos.css";
 
 export function RegistrarAlimentos() {
@@ -19,7 +19,7 @@ export function RegistrarAlimentos() {
         body.proth = (body.proth == "") ? 0 : parseFloat(body.proth);
         body.fat = (body.fat == "") ? 0 : parseFloat(body.fat);
 
-        createComida(body)
+        createComida(body, getAuthToken())
             .then(() => window.location.pathname = "/")
             .catch(error => console.log(error.message));
     }

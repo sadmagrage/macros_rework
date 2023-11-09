@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getData, updateUserImg, updateUserSettings } from "../../utils/api";
-import { isAuthenticated } from "../../utils/auth";
+import { updateUserImg, updateUserSettings } from "../../utils/api";
+import { isAuthenticated, setAuthToken } from "../../utils/auth";
 import "./Usuario.css";
+import jwtDecode from "jwt-decode";
+import Cookies from "js-cookie";
+import axios from "axios";
+import { imageBufferToUrl } from "../../utils/imageBufferToUrl";
 
 export function Usuario() {
     
@@ -31,8 +35,14 @@ export function Usuario() {
     const handleSubmitImg = async () => {
         
         try {
-            updateUserImg(FileArrayBuffer)
-                .then(() => window.location.pathname = "/")
+
+            const formData = new FormData(document.querySelector(".alterar_foto"));
+
+            updateUserImg(formData)
+                .then(token => {
+                    setAuthToken(token);
+                    window.location.pathname = "/";
+                })
                 .catch(error => console.log(error));
 
         } catch (error) {
@@ -85,33 +95,34 @@ export function Usuario() {
     };
 
     useEffect(() => {
-        getData()
-            .then(data => {
-                setDataUser(data)
-                setSelectedEstado(data.estado)
 
-                switch (data.fator_atividade) {
-                    case 1.2:
-                        setFatorAtividade("sedentario")
-                        break;
-                    case 1.375:
-                        setFatorAtividade("levemente-ativo");
-                        break;
-                    case 1.55:
-                        setFatorAtividade("moderadamente-ativo");
-                        break;
-                    case 1.725:
-                        setFatorAtividade("muito-ativo");
-                        break;
-                    case 1.9:
-                        setFatorAtividade("extremamente-ativo");
-                        break;
-                    default:
-                        setFatorAtividade("outro")
-                        break;
-                }
-            })
-            .catch(error => console.log(error));
+        const data = jwtDecode(Cookies.get("token")).data;
+
+        data["img"] = imageBufferToUrl(JSON.parse(localStorage.getItem("userImg")));
+    
+        setDataUser(data);
+        setSelectedEstado(data.estado)
+        switch (data.fator_atividade) {
+            case 1.2:
+                setFatorAtividade("sedentario")
+                break;
+            case 1.375:
+                setFatorAtividade("levemente-ativo");
+                break;
+            case 1.55:
+                setFatorAtividade("moderadamente-ativo");
+                break;
+            case 1.725:
+                setFatorAtividade("muito-ativo");
+                break;
+            case 1.9:
+                setFatorAtividade("extremamente-ativo");
+                break;
+            default:
+                setFatorAtividade("outro")
+                break;
+        }
+        setAtualizador(Atualizador == 1 ? 0 : 1);
     }, [])
 
     if (isAuthenticated()) {
