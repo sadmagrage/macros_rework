@@ -82,7 +82,7 @@ export const updateUserImg = async (img, token) => {
 
 export const getSpent = async () => {
     return new Promise( async (resolve, reject) => {
-        const headers = { 'Authorization': token };
+        const headers = { 'Authorization': getAuthToken() };
 
         const response = await axios.get(`/user/calculate`, { headers });
 
