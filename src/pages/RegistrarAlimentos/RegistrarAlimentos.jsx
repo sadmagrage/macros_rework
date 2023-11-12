@@ -19,7 +19,7 @@ export function RegistrarAlimentos() {
         body.proth = (body.proth == "") ? 0 : parseFloat(body.proth);
         body.fat = (body.fat == "") ? 0 : parseFloat(body.fat);
 
-        createComida(body, getAuthToken())
+        createComida(body)
             .then(() => window.location.pathname = "/")
             .catch(error => console.log(error.message));
     }

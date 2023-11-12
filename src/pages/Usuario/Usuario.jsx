@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { updateUserImg, updateUserSettings } from "../../utils/api";
+import { updateImage, updateData } from "../../utils/api";
 import { isAuthenticated, setAuthToken } from "../../utils/auth";
 import "./Usuario.css";
-import jwtDecode from "jwt-decode";
-import Cookies from "js-cookie";
-import axios from "axios";
-import { imageBufferToUrl } from "../../utils/imageBufferToUrl";
+import { decodeToken } from "../../utils/decodeToken";
 
 export function Usuario() {
     
@@ -38,7 +35,7 @@ export function Usuario() {
 
             const formData = new FormData(document.querySelector(".alterar_foto"));
 
-            updateUserImg(formData)
+            updateImage(formData)
                 .then(token => {
                     setAuthToken(token);
                     window.location.pathname = "/";
@@ -85,8 +82,11 @@ export function Usuario() {
             body["deficit"] = parseFloat(body["deficit"]);
             body["adicional"] = parseFloat(body["adicional"]);
             
-            updateUserSettings(body)
-                .then(() => window.location.pathname = "/")
+            updateData(body)
+                .then((token) => {
+                    setAuthToken(token);
+                    window.location.pathname = "/"
+                })
                 .catch(error => console.log(error.message));
 
         } catch (error) {
@@ -96,9 +96,7 @@ export function Usuario() {
 
     useEffect(() => {
 
-        const data = jwtDecode(Cookies.get("token")).data;
-
-        data["img"] = imageBufferToUrl(JSON.parse(localStorage.getItem("userImg")));
+        const data = decodeToken();
     
         setDataUser(data);
         setSelectedEstado(data.estado)

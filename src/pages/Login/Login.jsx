@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { activateApi, login as loginApi, register } from "../../utils/api";
 import { setAuthToken } from "../../utils/auth";
 import "./Login.css"
-import jwtDecode from "jwt-decode";
-import { imageBufferToUrl } from "../../utils/imageBufferToUrl";
+import { MyToast } from "../../components/MyToast/MyToast";
+import { toast } from "react-toastify";
 
 export function Login() {
 
@@ -21,22 +21,27 @@ export function Login() {
         const formData = new FormData(document.querySelector(".form_login"));
         const body = Object.fromEntries(formData);
 
+        toast.info("Fazendo login");
+
         loginApi(body)
             .then(token => {
-                setAuthToken(token)
+                setAuthToken(token);
+                /* toast.success('Login realizado com sucesso'); */
                 window.location.pathname = "/";
-            })
-            .catch(error => console.log(error.message));
+            });
     };
 
     const handleSubmitRegister = async (e) => {
         const formData = new FormData(document.querySelector(".form_login"));
 
         const body = Object.fromEntries(formData);
+
+        toast.info("Fazendo registro");
         
         register(body)
             .then(token => {
                 setAuthToken(token);
+                /* toast.success('Registro realizado com sucesso'); */
                 window.location.pathname = "/";
             })
             .catch(error => console.log(error));
@@ -80,6 +85,7 @@ export function Login() {
                     <input type="button" onClick={ () => loginAsGuest() } className="form-button" value={ Permission ? "Entrar como convidado" : "Carregando ..." } />
                 </form>
             </div>
+            <MyToast />
         </div>
     ) : (
         <div className="login">

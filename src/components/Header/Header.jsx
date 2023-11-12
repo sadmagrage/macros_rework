@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import './Header.css'
-import jwtDecode from 'jwt-decode';
-import Cookies from 'js-cookie';
-import { getAuthToken } from '../../utils/auth';
-import { imageBufferToUrl } from '../../utils/imageBufferToUrl';
+import { decodeToken } from '../../utils/decodeToken';
 
 export function Header() {
 
@@ -15,9 +12,7 @@ export function Header() {
     useEffect(() => {
         
         if (window.location.pathname !== '/login') {
-            const data = jwtDecode(getAuthToken()).data;
-
-            data["img"] = imageBufferToUrl(JSON.parse(localStorage.getItem("userImg")));
+            const data = decodeToken();
 
             setDataUser(data);
             setAtualizador(Atualizador == 1 ? 0 : 1);
