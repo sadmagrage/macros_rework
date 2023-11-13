@@ -1,33 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { activateApi, login as loginApi, register } from "../../utils/api";
 import { setAuthToken } from "../../utils/auth";
 import "./Login.css"
-import { MyToast } from "../../components/MyToast/MyToast";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export function Login() {
 
     const [Permission, setPermission] = useState(false);
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        activateApi()
-            .then(data => {
-                setPermission(data.permission)
-            })
-            .catch(error => console.log(error.message));
-    }, []);
+    activateApi()
+        .then(data => {
+            setPermission(data.permission)
+        })
+        .catch(error => console.log(error.message));
 
     const handleSubmitLogin = async (e) => {
         const formData = new FormData(document.querySelector(".form_login"));
         const body = Object.fromEntries(formData);
 
-        toast.info("Fazendo login");
+        toast.loading("Fazendo login", { autoClose: false });
 
         loginApi(body)
             .then(token => {
                 setAuthToken(token);
-                /* toast.success('Login realizado com sucesso'); */
-                window.location.pathname = "/";
+                toast.dismiss();
+                toast.success('Login realizado com sucesso');
+                navigate("/");
+            }).
+            catch(() => {
+                toast.dismiss();
+                toast.error('Credenciais incorretas');
             });
     };
 
@@ -36,15 +40,19 @@ export function Login() {
 
         const body = Object.fromEntries(formData);
 
-        toast.info("Fazendo registro");
+        toast.loading("Fazendo registro", { autoClose: false });
         
         register(body)
             .then(token => {
                 setAuthToken(token);
-                /* toast.success('Registro realizado com sucesso'); */
-                window.location.pathname = "/";
+                toast.dismiss();
+                toast.success('Registro realizado com sucesso');
+                navigate("/");
             })
-            .catch(error => console.log(error));
+            .catch(() => {
+                toast.dismiss();
+                toast.error("Erro ao cadastrar");
+            });
     }
 
     const loginAsGuest = () => {
@@ -85,7 +93,6 @@ export function Login() {
                     <input type="button" onClick={ () => loginAsGuest() } className="form-button" value={ Permission ? "Entrar como convidado" : "Carregando ..." } />
                 </form>
             </div>
-            <MyToast />
         </div>
     ) : (
         <div className="login">

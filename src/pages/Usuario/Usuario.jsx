@@ -3,6 +3,8 @@ import { updateImage, updateData } from "../../utils/api";
 import { isAuthenticated, setAuthToken } from "../../utils/auth";
 import "./Usuario.css";
 import { decodeToken } from "../../utils/decodeToken";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export function Usuario() {
     
@@ -11,6 +13,7 @@ export function Usuario() {
     const [FatorAtividade, setFatorAtividade] = useState("");
     const [FileArrayBuffer, setFileArrayBuffer] = useState({});
     const [Atualizador, setAtualizador] = useState(0);
+    const navigate = useNavigate();
 
     const blobToImg = (img) => {
         const reader = new FileReader();
@@ -35,12 +38,19 @@ export function Usuario() {
 
             const formData = new FormData(document.querySelector(".alterar_foto"));
 
+            toast.dismiss();
+            toast.loading("Atualizando imagem");
+
             updateImage(formData)
-                .then(token => {
-                    setAuthToken(token);
-                    window.location.pathname = "/";
+                .then(() => {
+                    toast.dismiss();
+                    toast.success("Imagem atualizada com sucesso");
+                    navigate("/");
                 })
-                .catch(error => console.log(error));
+                .catch(() => {
+                    toast.dismiss();
+                    toast.error("Erro ao atualizar a imagem do usuário");
+                });
 
         } catch (error) {
             console.error(error);
@@ -85,9 +95,14 @@ export function Usuario() {
             updateData(body)
                 .then((token) => {
                     setAuthToken(token);
-                    window.location.pathname = "/"
+                    toast.dismiss();
+                    toast.success("Informações atualizadas com sucesso");
+                    navigate("/");
                 })
-                .catch(error => console.log(error.message));
+                .catch(() => {
+                    toast.dismiss();
+                    toast.error("Erro ao atualizar configurações do usuário");
+                });
 
         } catch (error) {
             console.log(error.message)

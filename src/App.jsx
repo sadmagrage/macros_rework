@@ -9,6 +9,7 @@ import { Alimentos } from "./pages/Alimentos/Alimentos";
 import { RegistrarAlimentos } from "./pages/RegistrarAlimentos/RegistrarAlimentos";
 import { Header } from "./components/Header/Header"
 import { Repositorios } from "./pages/Repositorios/Repositorios";
+import { MyToast } from "./components/MyToast/MyToast";
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/macros" element={ <Macros /> } />
         <Route path="/repositorios" element={ <Repositorios /> } />
       </Routes>
+      <MyToast />
     </BrowserRouter>
   )
 }

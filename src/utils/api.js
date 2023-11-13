@@ -4,31 +4,35 @@ import { getAuthToken, removeAuthToken } from "./auth";
 const axios = Axios.create({
     baseURL: "https://innate-confirmed-tulip.glitch.me"
 });
-
-/* const axios = Axios.create({
+/* 
+const axios = Axios.create({
     baseURL: "http://localhost:3000"
-}); */
-
+});
+ */
 
 export const login = async credentials => {
     return new Promise( async (resolve, reject) => {
-        const response = await axios.post(`/user/login`, credentials);
-
-        if (response.status !== 200) reject("Erro ao fazer login");
+        try {
+            const response = await axios.post(`/user/login`, credentials);
         
-        localStorage.setItem("user_img", JSON.stringify(response.data.userImg.data));
-
-        resolve(response.data.token);
+            localStorage.setItem("user_img", JSON.stringify(response.data.userImg.data));
+    
+            resolve(response.data.token);
+        } catch (error) {
+            reject();
+        }
     });
 }
 
 export const register = async credentials => {
     return new Promise( async (resolve, reject) => {
-        const response = await axios.post(`/user/registrar`, credentials);
+        try {
+            const response = await axios.post(`/user/registrar`, credentials);
 
-        if (response.status !== 201) reject(new Error("Erro ao registrar"));
-
-        resolve(response.data);
+            resolve(response.data);            
+        } catch (error) {
+            reject();
+        }
     });
 }
 
@@ -58,26 +62,32 @@ export const createComida = async (body) => {
 
 export const updateData = async (body) => {
     return new Promise( async (resolve, reject) => {
-        const headers = { 'Authorization': getAuthToken() };
+        try {
+            const headers = { 'Authorization': getAuthToken() };
 
-        const response = await axios.put(`/user`, body, { headers });
-        
-        if (response.status !== 200) reject(new Error("Erro ao atualizar configurações do usuário"));
-        resolve(response.data);
+            const response = await axios.put(`/user`, body, { headers });
+            
+            resolve(response.data);
+        } catch (error) {
+            console.log(error)
+            reject();
+        }
     });
 };
 
 export const updateImage = async (img) => {
     return new Promise( async (resolve, reject) => {
-        const headers = { 'Authorization': getAuthToken() };
+        try {
+            const headers = { 'Authorization': getAuthToken() };
 
-        const response = await axios.patch(`/user`, img, { headers });
-        
-        if (response.status !== 200) reject(new Error("Erro ao trocar imagem"));
-
-        localStorage.setItem("user_img", JSON.stringify(response.data.data));
-
-        resolve();
+            const response = await axios.patch(`/user`, img, { headers });
+    
+            localStorage.setItem("user_img", JSON.stringify(response.data.data));
+    
+            resolve();
+        } catch (error) {
+            reject();
+        }
     });
 };
 

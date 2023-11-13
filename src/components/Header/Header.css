@@ -45,6 +45,12 @@ header a {
     text-align: center;    
 }
 
-.profile_container:hover {
+.profile_container:hover, .logout:hover {
     cursor: pointer;
+}
+
+.logout {
+    color: white;
+    font-size: 15px;
+    text-align: center;
 }

@@ -1,9 +1,13 @@
 import React from "react";
 import { createComida } from "../../utils/api";
-import { getAuthToken, isAuthenticated } from "../../utils/auth";
+import { isAuthenticated } from "../../utils/auth";
 import "./RegistrarAlimentos.css";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export function RegistrarAlimentos() {
+
+    const navigate = useNavigate();
 
     const handleSubmit = async () => {
         
@@ -19,9 +23,18 @@ export function RegistrarAlimentos() {
         body.proth = (body.proth == "") ? 0 : parseFloat(body.proth);
         body.fat = (body.fat == "") ? 0 : parseFloat(body.fat);
 
+        toast.info("Registrando alimento");
+
         createComida(body)
-            .then(() => window.location.pathname = "/")
-            .catch(error => console.log(error.message));
+            .then(() => {
+                toast.dismiss();
+                toast.success("Alimento registrado");
+                navigate("/");
+            })
+            .catch(() => {
+                toast.dismiss();
+                toast.error("Erro ao registrar alimento");
+            });
     }
 
     if (isAuthenticated()) {

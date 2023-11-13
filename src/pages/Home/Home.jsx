@@ -1,30 +1,33 @@
+import { useNavigate } from "react-router-dom";
 import { isAuthenticated } from "../../utils/auth";
 import "./Home.css";
 
 export function Home() {
 
+    const navigate = useNavigate();
+
     if (isAuthenticated()) {
         return (
             <div className='home'>
-                <div className="options"onClick={ () => window.location.pathname = "/repositorios" } >
+                <div className="options"onClick={ () => navigate("/repositorios") } >
                     <h3 className='options_title'>Repositórios</h3>
                     <div className='description'>
                         <p className="description_text">Link dos repositórios</p>
                     </div>
                 </div>
-                <div className='options' onClick={ () => window.location.pathname = "/macros" } >
+                <div className='options' onClick={ () => navigate("/macros") } >
                     <h3 className='options_title'>Calcular macros</h3>
                     <div className='description'>
                         <p className="description_text">O gasto é calculado de acordo com as informações passadas no usuário.</p>
                     </div>
                 </div>
-                <div className='options' onClick={ () => window.location.pathname = "/alimentos" } >
+                <div className='options' onClick={ () => navigate("/alimentos") } >
                     <h3 className='options_title'>Ver alimentos</h3>
                     <div className='description'>
                         <p className="description_text">Mostra os valores de cada alimento</p>
                     </div>
                 </div>
-                <div className='options' onClick={ () => window.location.pathname = "/alimentos/registrar" } >
+                <div className='options' onClick={ () => navigate("/alimentos/registrar") } >
                     <h3 className='options_title'>Registrar alimentos</h3>
                     <div className='description'>
                         <div className="description_text_container">
