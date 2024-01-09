@@ -4,11 +4,11 @@ import { getAuthToken, removeAuthToken } from "./auth";
 const axios = Axios.create({
     baseURL: "https://innate-confirmed-tulip.glitch.me"
 });
-/* 
-const axios = Axios.create({
+
+/* const axios = Axios.create({
     baseURL: "http://localhost:3000"
-});
- */
+}); */
+
 
 export const login = async credentials => {
     return new Promise( async (resolve, reject) => {

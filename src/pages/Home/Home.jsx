@@ -1,42 +1,24 @@
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import Option from "../../components/Option/Option";
 import { isAuthenticated } from "../../utils/auth";
-import "./Home.css";
+import { HomeContainer } from "./Home.styled";
 
 export function Home() {
 
-    const navigate = useNavigate();
+    const [options] = useState([
+        { title: "Repositório", description: "Link dos repositórios", url: "/repositorios" }, 
+        { title: "Ver alimentos", description: "Mostra os valores de cada alimento", url: "/alimentos" }, 
+        { title: "Calcular macros", description: "O gasto é calculado de acordo com as informações passadas no usuário.", url: "/macros" }, 
+        { description: "Inserir novo registro de alimento Permitido apenas a alguns usuários", title: "Registrar alimentos", url: "/alimentos/registrar" }
+    ]);
 
     if (isAuthenticated()) {
         return (
-            <div className='home'>
-                <div className="options"onClick={ () => navigate("/repositorios") } >
-                    <h3 className='options_title'>Repositórios</h3>
-                    <div className='description'>
-                        <p className="description_text">Link dos repositórios</p>
-                    </div>
-                </div>
-                <div className='options' onClick={ () => navigate("/macros") } >
-                    <h3 className='options_title'>Calcular macros</h3>
-                    <div className='description'>
-                        <p className="description_text">O gasto é calculado de acordo com as informações passadas no usuário.</p>
-                    </div>
-                </div>
-                <div className='options' onClick={ () => navigate("/alimentos") } >
-                    <h3 className='options_title'>Ver alimentos</h3>
-                    <div className='description'>
-                        <p className="description_text">Mostra os valores de cada alimento</p>
-                    </div>
-                </div>
-                <div className='options' onClick={ () => navigate("/alimentos/registrar") } >
-                    <h3 className='options_title'>Registrar alimentos</h3>
-                    <div className='description'>
-                        <div className="description_text_container">
-                            <p className="description_text">Inserir novo registro de alimento</p>
-                            <p className="description_text warning">Permitido apenas a alguns usuários</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <HomeContainer>
+                {
+                    options.map(option => <Option title={ option.title } description={ option.description } url={ option.url } />)
+                }
+            </HomeContainer>
         )
     }
     else {

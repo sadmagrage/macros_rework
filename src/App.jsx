@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 
-import "./App.css"
 import { Home } from "./pages/Home/Home";
 import { Login } from "./pages/Login/Login";
 import { Macros } from "./pages/Macros/Macros";
