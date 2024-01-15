@@ -1,28 +1,21 @@
 import React, { useState } from "react";
-import { activateApi, login as loginApi, register } from "../../utils/api";
+import { login as loginApi, register } from "../../utils/api";
 import { setAuthToken } from "../../utils/auth";
-import "./Login.css"
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { Form, FormButton, FormChanger, FormContainer, FormInput, FormLabel, FormTitle, LoginContainer } from "./Login.styled";
 
 export function Login() {
 
     const [Permission, setPermission] = useState(false);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    activateApi()
-        .then(data => {
-            setPermission(data.permission)
-        })
-        .catch(error => console.log(error.message));
-
     const handleSubmitLogin = async (e) => {
-        const formData = new FormData(document.querySelector(".form_login"));
-        const body = Object.fromEntries(formData);
-
         toast.loading("Fazendo login", { autoClose: false });
 
-        loginApi(body)
+        loginApi({ username, password })
             .then(token => {
                 setAuthToken(token);
                 toast.dismiss();
@@ -36,13 +29,9 @@ export function Login() {
     };
 
     const handleSubmitRegister = async (e) => {
-        const formData = new FormData(document.querySelector(".form_login"));
-
-        const body = Object.fromEntries(formData);
-
         toast.loading("Fazendo registro", { autoClose: false });
         
-        register(body)
+        register({ username, password })
             .then(token => {
                 setAuthToken(token);
                 toast.dismiss();
@@ -63,7 +52,6 @@ export function Login() {
 
         loginApi(body)
             .then(response => {
-                console.log(response.data);
                 window.location.pathname = "/";
             })
             .catch(error => console.log(error.message));
@@ -71,51 +59,26 @@ export function Login() {
     
     const [login, setLogin] = useState(true);
 
-    return login ? (
-        <div className="login">
-            <div className="form-container">
-                <h3 className="form_title">Login</h3>
-                <form className="form_login" onSubmit={ async (e) => {
-                    e.preventDefault();
-                    await handleSubmitLogin(e);
-                } } >
-                    <label className="form-label">Username: </label>
+    return (
+        <LoginContainer>
+            <FormContainer>
+                <FormTitle>{  login ? "Login" : "Registrar" }</FormTitle>
+                <Form>
+                    <FormLabel name="username" >Username: </FormLabel>
                     <br/>
-                    <input type="text" name="username" className="form-input" />
+                    <FormInput type="text" name="username" onChange={ (e) => setUsername(e.target.value) } />
                     <br/>
-                    <label className="form-label">Password: </label>
+                    <FormLabel name="password">Password: </FormLabel>
                     <br/>
-                    <input type="password" name="password" className="form-input" />
+                    <FormInput type="password" name="password" onChange={ (e) => setPassword(e.target.value) } />
                     <br/>
-                    <p className="to_register" onClick={ () => setLogin(false) }>Não tem uma conta ? Clique para registrar-se</p>
+                    <FormChanger onClick={ () => setLogin(!login) } >{ login ? "Não tem uma conta ? Clique aqui para se registrar" : "Voltar para a tela de login" }</FormChanger>
                     <br/>
-                    <input type="submit" className="form-button" value={ Permission ? "Enviar" : "Carregando ..." } />
-                    <input type="button" onClick={ () => loginAsGuest() } className="form-button" value={ Permission ? "Entrar como convidado" : "Carregando ..." } />
-                </form>
-            </div>
-        </div>
-    ) : (
-        <div className="login">
-            <div className="form-container">
-                <h3 className="form_title">Registrar</h3>
-                <form className="form_login" onSubmit={ async (e) => {
-                    e.preventDefault();
-                    await handleSubmitRegister(e);
-                } } >
-                    <label className="form-label">Username: </label>
-                    <br/>
-                    <input type="text" name="username" className="form-input" />
-                    <br/>
-                    <label className="form-label">Password: </label>
-                    <br/>
-                    <input type="password" name="password" className="form-input" />
-                    <br/>
-                    <p className="to_register" onClick={ () => setLogin(true) }>Voltar para a tela de login</p>
-                    <br/>
-                    <input type="submit" className="form-button" value={ Permission ? "Enviar" : "Carregando ..." } />
-                    <input type="button" onClick={ () => loginAsGuest() } className="form-button" value={ Permission ? "Entrar como convidado" : "Carregando ..." } />
-                </form>
-            </div>
-        </div>
-    );
+                    <FormButton type="button" value={ Permission ? "Enviar" : "Carregando ..." } onClick={ async (e) => { login ? await handleSubmitLogin(e) : await handleSubmitRegister(e) } } />
+                    <FormButton type="button" onClick={ () => loginAsGuest() } value={ Permission ? "Entrar como convidado" : "Carregando ..." } />
+                </Form>
+            </FormContainer>
+        </LoginContainer>
+        
+    )
 }

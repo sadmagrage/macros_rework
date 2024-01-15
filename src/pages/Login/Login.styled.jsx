@@ -1,14 +1,15 @@
-.login {
-    background-image: url(../../../public/images/background-image.jpg);
-    background-size: 100vw 100%;
-    width: 100vw;
-    height: 85.4%;
+import styled from "styled-components";
+import { black, white } from "../../utils/colors"
+
+export const LoginContainer = styled.div`
+    background-color: ${ white };
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+`;
 
-.form-container {
+export const FormContainer = styled.div`
     background-color: rgba(0, 0, 0, 0.8);
     display: flex;
     flex-direction: column;
@@ -16,26 +17,27 @@
     height: 300px;
     width: 300px;
     border-radius: 15px;
-}
-form {
+`;
+
+export const FormTitle = styled.h3`
+    margin: 5px;
+    color: white;
+`;
+
+export const Form = styled.form`
     display: flex;
     width: 100%;
     height: 100%;
     flex-direction: column;
     justify-content: space-around;
     padding: 0px 15px 15px 15px;
-}
+`;
 
-.form_title {
-    margin: 5px;
+export const FormLabel = styled.label`
     color: white;
-}
+`;
 
-.form-label {
-    color: white;
-}
-
-.form-input {
+export const FormInput = styled.input`
     width: 100%;
     padding-left: 5px;
     border-radius: 7px;
@@ -44,18 +46,18 @@ form {
     color: white;
     outline: none;
     appearance: textfield;
-}
+`;
 
-.form-button {
+export const FormChanger = styled.p`
+color: aqua;
+
+&:hover {
+    cursor: pointer;
+}
+`;
+
+export const FormButton = styled.input`
     background-color: aqua;
     border: 2px solid aqua;
     border-radius: 5px;
-}
-
-.to_register {
-    color: aqua;
-}
-
-.to_register:hover {
-    cursor: pointer;
-}
+`;
