@@ -1,16 +1,18 @@
 import styled from "styled-components";
-import { black, white } from "../../utils/colors"
+import { blackTransparent, white } from "../../utils/colors";
 
-export const LoginContainer = styled.div`
-    background-color: ${ white };
+export const RegistrarAlimentoContainer = styled.div`
     flex: 1;
+    background-color: ${ white };
+    background-size: 100vw 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 `;
 
-export const FormContainer = styled.div`
-    background-color: rgba(0, 0, 0, 0.8);
+export const FormContainerAlimento = styled.div`
+    height: 500px !important;
+    background-color: ${ blackTransparent };
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -19,12 +21,12 @@ export const FormContainer = styled.div`
     border-radius: 15px;
 `;
 
-export const FormTitle = styled.h3`
+export const RegistrarAlimentoTitle = styled.h3`
     margin: 5px;
     color: white;
 `;
 
-export const Form = styled.form`
+export const RegistrarAlimentoForm = styled.form`
     display: flex;
     width: 100%;
     height: 100%;
@@ -33,11 +35,11 @@ export const Form = styled.form`
     padding: 0px 15px 15px 15px;
 `;
 
-export const FormLabel = styled.label`
+export const RegistrarAlimentoLabel = styled.label`
     color: white;
 `;
 
-export const FormInput = styled.input`
+export const RegistrarAlimentoInput = styled.input`
     width: 100%;
     padding-left: 5px;
     border-radius: 7px;
@@ -48,15 +50,7 @@ export const FormInput = styled.input`
     appearance: textfield;
 `;
 
-export const FormChanger = styled.p`
-    color: aqua;
-    
-    &:hover {
-        cursor: pointer;
-    }
-`;
-
-export const FormButton = styled.input`
+export const RegistrarAlimentoButton = styled.input`
     background-color: aqua;
     border: 2px solid aqua;
     border-radius: 5px;

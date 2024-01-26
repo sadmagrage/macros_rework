@@ -1,31 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { createComida } from "../../utils/api";
 import { isAuthenticated } from "../../utils/auth";
-import "./RegistrarAlimentos.css";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { FormContainerAlimento, RegistrarAlimentoButton, RegistrarAlimentoContainer, RegistrarAlimentoForm, RegistrarAlimentoInput, RegistrarAlimentoLabel, RegistrarAlimentoTitle } from "./RegistrarAlimentos.styled";
 
 export function RegistrarAlimentos() {
 
     const navigate = useNavigate();
+    const [formCamp] = useState(["Nome", "Quantidade", "Carb", "Protl", "Proth", "Fat", "Image link"]);
+    const [formBody] = useState({
+        nome: "",
+        quantidade: "",
+        carb: "",
+        protl: "",
+        proth: "",
+        fat: ""
+    });
 
-    const handleSubmit = async () => {
-        
-        const formElement = document.querySelector(".form_alimentos");
-        const formData = new FormData(formElement);
+    const createAlimento = async () => {
 
-        const body = Object.fromEntries(formData);
+        formBody.quantidade = (formBody.quantidade == "") ? 1 : parseFloat(formBody.quantidade);
 
-        body.quantidade = (body.quantidade == "") ? 1 : parseFloat(body.quantidade);
-
-        body.carb = (body.carb == "") ? 0 : parseFloat(body.carb);
-        body.protl = (body.protl == "") ? 0 : parseFloat(body.protl);
-        body.proth = (body.proth == "") ? 0 : parseFloat(body.proth);
-        body.fat = (body.fat == "") ? 0 : parseFloat(body.fat);
+        formBody.carb = (formBody.carb == "") ? 0 : parseFloat(formBody.carb);
+        formBody.protl = (formBody.protl == "") ? 0 : parseFloat(formBody.protl);
+        formBody.proth = (formBody.proth == "") ? 0 : parseFloat(formBody.proth);
+        formBody.fat = (formBody.fat == "") ? 0 : parseFloat(formBody.fat);
 
         toast.info("Registrando alimento");
 
-        createComida(body)
+        createComida(formBody)
             .then(() => {
                 toast.dismiss();
                 toast.success("Alimento registrado");
@@ -37,47 +41,27 @@ export function RegistrarAlimentos() {
             });
     }
 
+    const changeBodyProperty = (e, camp) => formBody[camp.toLowerCase()] = e.target.value;
+
     if (isAuthenticated()) {
         return (
-            <div className="registrar_alimento">
-                <div className="form-container form-container-alimento">
-                    <h3 className="form_title">Registrar alimento</h3>
-                    <form onSubmit={ async (e) => {
-                        e.preventDefault();
-                        await handleSubmit();
-                    } } className="form_alimentos" >
-                        <label className="form-label">Nome</label>
-                        <br/>
-                        <input className="form-input" type="text" name="nome" />
-                        <br/>
-                        <label className="form-label">Quantidade</label>
-                        <br/>
-                        <input className="form-input" type="text" name="quantidade" />
-                        <br/>
-                        <label className="form-label">Carb</label>
-                        <br/>
-                        <input className="form-input" type="text" name="carb" />
-                        <br/>
-                        <label className="form-label">Protl</label>
-                        <br/>
-                        <input className="form-input" type="text" name="protl" />
-                        <br/>
-                        <label className="form-label">Proth</label>
-                        <br/>
-                        <input className="form-input" type="text" name="proth" />
-                        <br/>
-                        <label className="form-label">Fat</label>
-                        <br/>
-                        <input className="form-input" type="text" name="fat" />
-                        <br/>
-                        <label className="form-label">Image link</label>
-                        <br/>
-                        <input className="form-input" type="text" name="img" />
-                        <br/>
-                        <input className="form-button" type="submit" value="Enviar" />
-                    </form>
-                </div>
-            </div>
+            <RegistrarAlimentoContainer>
+                <FormContainerAlimento>
+                    <RegistrarAlimentoTitle>Registrar alimentos</RegistrarAlimentoTitle>
+                    <RegistrarAlimentoForm>
+                        {
+                            formCamp.map(camp => 
+                            <div>
+                                <RegistrarAlimentoLabel>{ camp }</RegistrarAlimentoLabel>
+                                <br/>
+                                <RegistrarAlimentoInput type="text" onChange={ e => changeBodyProperty(e, camp) } />
+                                <br/>
+                            </div>)
+                        }
+                        <RegistrarAlimentoButton type="button" value="Enviar" onClick={ createAlimento } />
+                    </RegistrarAlimentoForm>
+                </FormContainerAlimento>
+            </RegistrarAlimentoContainer>
         );
     }
     else {

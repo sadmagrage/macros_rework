@@ -1,52 +1,50 @@
 import { useEffect, useState } from 'react';
-import './Header.css'
 import { decodeToken } from '../../utils/decodeToken';
 import { removeAuthToken } from '../../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { HeaderContainer, HeaderLinks, Link, Logout, ProfileContainer, ProfileInfo, ProfilePic, ProfileUsername } from './Header.styled';
 
 export function Header() {
-
-    const appName = "Macros Rework";
     
-    const [DataUser, setDataUser] = useState({ "username": "", "img": "" });
-    const [Atualizador, setAtualizador] = useState(0);
+    const [dataUser, setDataUser] = useState({ "username": "", "img": "" });
+    const [atualizador, setAtualizador] = useState(0);
+    const [isLogin, setIsLogin] = useState(window.location.pathname === '/login');
     const navigate = useNavigate();
     
     useEffect(() => {
-        
-        if (window.location.pathname !== '/login') {
+        if (!isLogin) {
             const data = decodeToken();
 
             setDataUser(data);
-            setAtualizador(Atualizador == 1 ? 0 : 1);
+            setAtualizador(atualizador == 1 ? 0 : 1);
         }
     }, []);
 
+    useEffect(() => setIsLogin(window.location.pathname === '/login'));
+
     const logout = () => {
         toast.dismiss();
+        removeAuthToken();
         toast.success("Deslogado com sucesso");
         navigate("/login");
     }
 
-    return window.location.pathname !== '/login' ? (
-        <header>
-            <a onClick={ () => navigate("/") } className='logo_name'>{ appName }</a>
-            <div className='headerLinks'>
-                <a onClick={ () => navigate("/macros") }>Macros</a>
-                <a onClick={ () => navigate("/alimentos") }>Alimentos</a>
-                <a onClick={ () => navigate("/repositorios") }>Repositórios</a>
-            </div>
-            <div className='profile_container'  onClick={ () => navigate("/usuario") } >
-                <img src={ DataUser.img } className='profile_pic' />
-                <h6 className='profile_username'>{ DataUser.username }</h6>
-                <p className='logout' onClick={ logout } >Logout</p>
-            </div>
-        </header>
-    ) : (
-        <header>
-            <h3 className='logo_name'>{ appName }</h3>
-            <a onClick={ () => navigate("/repositorios") }>Repositórios</a>
-        </header>
-    );
+    return (
+        <HeaderContainer>
+            <HeaderLinks>
+            <Link isLogin={ isLogin } onClick={ () => navigate("/")} >Home</Link>
+                <Link isLogin={ isLogin } onClick={ () => navigate("/macros")} >Macros</Link>
+                <Link isLogin={ isLogin } onClick={ () => navigate("/alimentos")} >Alimentos</Link>
+                <Link onClick={ () => navigate("/repositorios")} >Repositórios</Link>
+            </HeaderLinks>
+            <ProfileContainer isLogin={ isLogin } onClick={ () => navigate("/usuario") } >
+                <ProfileInfo>
+                    <ProfilePic src={ dataUser.img } />
+                    <ProfileUsername>{ dataUser.username }</ProfileUsername>
+                </ProfileInfo>
+                <Logout onClick={ logout } >Logout</Logout>
+            </ProfileContainer>
+        </HeaderContainer>
+    )
 }

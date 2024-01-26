@@ -7,7 +7,6 @@ import { Form, FormButton, FormChanger, FormContainer, FormInput, FormLabel, For
 
 export function Login() {
 
-    const [Permission, setPermission] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -16,8 +15,8 @@ export function Login() {
         toast.loading("Fazendo login", { autoClose: false });
 
         loginApi({ username, password })
-            .then(token => {
-                setAuthToken(token);
+            .then(token => setAuthToken(token))
+            .then(() => {
                 toast.dismiss();
                 toast.success('Login realizado com sucesso');
                 navigate("/");
@@ -45,13 +44,8 @@ export function Login() {
     }
 
     const loginAsGuest = () => {
-        const body = {
-            "username": "teste",
-            "password": "123"
-        };
-
-        loginApi(body)
-            .then(response => {
+        loginApi({ "username": "teste", "password": "123" })
+            .then(() => {
                 window.location.pathname = "/";
             })
             .catch(error => console.log(error.message));
@@ -74,8 +68,8 @@ export function Login() {
                     <br/>
                     <FormChanger onClick={ () => setLogin(!login) } >{ login ? "Não tem uma conta ? Clique aqui para se registrar" : "Voltar para a tela de login" }</FormChanger>
                     <br/>
-                    <FormButton type="button" value={ Permission ? "Enviar" : "Carregando ..." } onClick={ async (e) => { login ? await handleSubmitLogin(e) : await handleSubmitRegister(e) } } />
-                    <FormButton type="button" onClick={ () => loginAsGuest() } value={ Permission ? "Entrar como convidado" : "Carregando ..." } />
+                    <FormButton type="button" value="Enviar" onClick={ async (e) => { login ? await handleSubmitLogin(e) : await handleSubmitRegister(e) } } />
+                    <FormButton type="button" onClick={ () => loginAsGuest() } value="Entrar como convidado" />
                 </Form>
             </FormContainer>
         </LoginContainer>
