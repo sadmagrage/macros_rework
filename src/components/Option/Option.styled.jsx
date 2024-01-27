@@ -1,11 +1,12 @@
 import styled from "styled-components";
+import { lightModeOption, darkModeOption } from "../../utils/colors";
 
 export const OptionContainer = styled.div`
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: ${ props => props.darkMode ? darkModeOption : lightModeOption };
     width: 300px;
     height: min-content;
     border-radius: 20px;
-    border: 2px solid black;
+    border: 2px solid transparent;
     display: flex;
     flex-direction: column;
     padding: 8px;

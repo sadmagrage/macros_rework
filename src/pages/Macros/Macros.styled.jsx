@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { blackTransparent } from "../../utils/colors";
+import { darkModeBody } from "../../utils/colors";
 
 export const MacrosContainer = styled.div`
     flex: 1;
@@ -10,7 +10,7 @@ export const MacrosContainer = styled.div`
 `;
 
 export const MacrosScreen = styled.div`
-    background-color: ${ blackTransparent };
+    background-color: ${ darkModeBody };
     width: 95%;
     height: 90%;
     border-radius: 15px;

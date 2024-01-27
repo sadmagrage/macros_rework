@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { blackTransparent, white } from "../../utils/colors";
+import { darkModeBody, white } from "../../utils/colors";
 
 export const AlimentosStyled = styled.div`
     flex: 1;
@@ -28,7 +28,7 @@ export const SearchInput = styled.input`
 export const AlimentosMenu = styled.div`
     display: flex;
     flex-direction: column;
-    background-color: ${ blackTransparent };
+    background-color: ${ darkModeBody };
     width: 90%;
     height: fit-content;
     margin: 10px 20px;

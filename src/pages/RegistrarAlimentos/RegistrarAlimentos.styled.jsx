@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { blackTransparent, white } from "../../utils/colors";
+import { darkModeBody, white } from "../../utils/colors";
 
 export const RegistrarAlimentoContainer = styled.div`
     flex: 1;
@@ -12,7 +12,7 @@ export const RegistrarAlimentoContainer = styled.div`
 
 export const FormContainerAlimento = styled.div`
     height: 500px !important;
-    background-color: ${ blackTransparent };
+    background-color: ${ darkModeBody };
     display: flex;
     flex-direction: column;
     align-items: center;

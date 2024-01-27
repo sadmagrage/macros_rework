@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { blackTransparent, white } from "../../utils/colors";
+import { darkModeBody, white } from "../../utils/colors";
 
 export const RepositoriosContainer = styled.div`
     background-color: ${ white };
@@ -10,7 +10,7 @@ export const RepositoriosContainer = styled.div`
 `;
 
 export const RepositorioLink = styled.a`
-    background-color: ${ blackTransparent };
+    background-color: ${ darkModeBody };
     width: 300px;
     text-decoration: none;
     padding: 10px;

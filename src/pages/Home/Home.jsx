@@ -2,8 +2,11 @@ import { useState } from "react";
 import Option from "../../components/Option/Option";
 import { isAuthenticated } from "../../utils/auth";
 import { HomeContainer } from "./Home.styled";
+import useTheme from "../../context/ThemeContext";
 
 export function Home() {
+
+    const { darkMode } = useTheme();
 
     const [options] = useState([
         { title: "Repositório", description: "Link dos repositórios", url: "/repositorios" }, 
@@ -14,9 +17,9 @@ export function Home() {
 
     if (isAuthenticated()) {
         return (
-            <HomeContainer>
+            <HomeContainer darkMode={ darkMode } >
                 {
-                    options.map(option => <Option title={ option.title } description={ option.description } url={ option.url } />)
+                    options.map(option => <Option title={ option.title } description={ option.description } url={ option.url } darkMode={ darkMode } />)
                 }
             </HomeContainer>
         )

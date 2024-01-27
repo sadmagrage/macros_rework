@@ -13,8 +13,6 @@ const GlobalStyle = createGlobalStyle`
       flex-direction: column;
     }
     body {
-        background-color: #111;
-        color: white;
         height: 100vh;
         display: flex;
         -webkit-font-smoothing: antialiased;

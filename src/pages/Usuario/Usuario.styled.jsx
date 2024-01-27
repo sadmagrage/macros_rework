@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { black, blackTransparent, white } from "../../utils/colors";
+import { darkModeBody, white } from "../../utils/colors";
 
 export const UsuarioContainer = styled.div`
     flex: 1;
@@ -11,7 +11,7 @@ export const UsuarioContainer = styled.div`
 
 export const UsuarioForm = styled.div`
     width: 30%;
-    background-color: ${ blackTransparent };
+    background-color: ${ darkModeBody };
     height: 800px;
     border-radius: 5%;
     padding: 10px;

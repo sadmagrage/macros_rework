@@ -3,14 +3,18 @@ import { decodeToken } from '../../utils/decodeToken';
 import { removeAuthToken } from '../../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { HeaderContainer, HeaderLinks, Link, Logout, ProfileContainer, ProfileInfo, ProfilePic, ProfileUsername } from './Header.styled';
+import { HeaderContainer, HeaderLinks, Link, Logout, ProfileContainer, ProfileInfo, ProfilePic, ProfileUsername, ThemeIcon, ThemeToggler } from './Header.styled';
+import useTheme from "../../context/ThemeContext";
 
 export function Header() {
     
     const [dataUser, setDataUser] = useState({ "username": "", "img": "" });
     const [atualizador, setAtualizador] = useState(0);
     const [isLogin, setIsLogin] = useState(window.location.pathname === '/login');
+    const { darkMode, toggleTheme } = useTheme();
     const navigate = useNavigate();
+
+    const [link] = useState([{ isLogin: true, url: "/", text: "Home" }, { isLogin: true, url: "/macros", text: "Macros" }, { isLogin: true, url: "/alimentos", text: "Alimentos" }, { isLogin: false, url: "/repositorios", text: "Repositórios" }]);
     
     useEffect(() => {
         if (!isLogin) {
@@ -31,19 +35,26 @@ export function Header() {
     }
 
     return (
-        <HeaderContainer>
+        <HeaderContainer darkMode={ darkMode } >
             <HeaderLinks>
-            <Link isLogin={ isLogin } onClick={ () => navigate("/")} >Home</Link>
-                <Link isLogin={ isLogin } onClick={ () => navigate("/macros")} >Macros</Link>
-                <Link isLogin={ isLogin } onClick={ () => navigate("/alimentos")} >Alimentos</Link>
-                <Link onClick={ () => navigate("/repositorios")} >Repositórios</Link>
+                {
+                    link.map(linkItem => linkItem.isLogin ? 
+                        <Link darkMode={ darkMode } isLogin={ isLogin } onClick={ () => navigate(linkItem.url)} >{ linkItem.text }</Link>
+                            :
+                        <Link darkMode={ darkMode } onClick={ () => navigate(linkItem.url)} >{ linkItem.text }</Link>
+                    )
+                }
             </HeaderLinks>
-            <ProfileContainer isLogin={ isLogin } onClick={ () => navigate("/usuario") } >
-                <ProfileInfo>
+            <ProfileContainer isLogin={ isLogin } >
+                <ThemeToggler onClick={ toggleTheme } >
+                    <ThemeIcon darkMode={ darkMode } src="/icons/sun.png" alt="" />
+                    <ThemeIcon darkMode={ !darkMode } src="/icons/moon.png" alt="" />
+                </ThemeToggler>
+                <ProfileInfo onClick={ () => navigate("/usuario") } >
                     <ProfilePic src={ dataUser.img } />
-                    <ProfileUsername>{ dataUser.username }</ProfileUsername>
+                    <ProfileUsername darkMode={ darkMode } >{ dataUser.username }</ProfileUsername>
                 </ProfileInfo>
-                <Logout onClick={ logout } >Logout</Logout>
+                <Logout onClick={ logout } darkMode={ darkMode } >Logout</Logout>
             </ProfileContainer>
         </HeaderContainer>
     )
