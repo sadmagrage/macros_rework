@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { darkModeBody, white } from "../../utils/colors";
+import { darkModeBody, darkModeOption, lightModeBody, lightModeOption, white } from "../../utils/colors";
 
 export const RepositoriosContainer = styled.div`
-    background-color: ${ white };
+    background-color: ${ props => props.darkMode ? darkModeBody : lightModeBody };
     flex: 1;
     display: flex;
     justify-content: space-around;
@@ -10,15 +10,19 @@ export const RepositoriosContainer = styled.div`
 `;
 
 export const RepositorioLink = styled.a`
-    background-color: ${ darkModeBody };
+    background-color: ${ props => props.darkMode ? darkModeOption : lightModeOption };
     width: 300px;
     text-decoration: none;
     padding: 10px;
     border-radius: 20px;
-    border: 2px solid black;
+    border: 2px solid transparent;
     color: white;
 `;
 
-export const RepositorioLinkTitle = styled.h3``;
+export const RepositorioLinkTitle = styled.h3`
+    text-align: center;
+`;
 
-export const RepositorioLinkDescription = styled.p``;
+export const RepositorioLinkDescription = styled.p`
+    text-align: center;
+`;
