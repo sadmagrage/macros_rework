@@ -45,6 +45,15 @@ export function Header() {
                     )
                 }
             </HeaderLinks>
+            {
+                isLogin ? 
+            <ThemeToggler onClick={ toggleTheme } >
+                <ThemeIcon darkMode={ darkMode } src="/icons/sun.png" alt="" />
+                <ThemeIcon darkMode={ !darkMode } src="/icons/moon.png" alt="" />
+            </ThemeToggler>
+                :
+            ""
+            }
             <ProfileContainer isLogin={ isLogin } >
                 <ThemeToggler onClick={ toggleTheme } >
                     <ThemeIcon darkMode={ darkMode } src="/icons/sun.png" alt="" />

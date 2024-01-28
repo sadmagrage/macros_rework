@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { black, white } from "../../utils/colors"
+import { darkModeBody, darkModeOption, lightModeBody, lightModeOption } from "../../utils/colors"
 
 export const LoginContainer = styled.div`
-    background-color: ${ white };
+    background-color: ${ props => props.darkMode ? darkModeBody : lightModeBody };
     flex: 1;
     display: flex;
     justify-content: center;
@@ -10,7 +10,7 @@ export const LoginContainer = styled.div`
 `;
 
 export const FormContainer = styled.div`
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: ${ props => props.darkMode ? darkModeOption : lightModeOption };
     display: flex;
     flex-direction: column;
     align-items: center;

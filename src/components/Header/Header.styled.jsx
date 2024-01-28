@@ -7,6 +7,7 @@ export const HeaderContainer = styled.div`
     width: 100vw;
     height: 90px;
     justify-content: space-around;
+    align-items: center;
     background-color: ${ props => props.darkMode ? darkModeHeader : white };
     font-size: 30px;
 `;
@@ -21,7 +22,6 @@ export const Link = styled.a`
     color: ${ props => props.darkMode ? white : black };
     box-sizing: initial;
     padding: 15px;
-    align-self: center;
 `;
 
 export const ProfileContainer = styled.div`

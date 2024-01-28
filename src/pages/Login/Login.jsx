@@ -4,11 +4,13 @@ import { setAuthToken } from "../../utils/auth";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { Form, FormButton, FormChanger, FormContainer, FormInput, FormLabel, FormTitle, LoginContainer } from "./Login.styled";
+import useTheme from "../../context/ThemeContext";
 
 export function Login() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const { darkMode } = useTheme();
     const navigate = useNavigate();
 
     const handleSubmitLogin = async (e) => {
@@ -54,17 +56,17 @@ export function Login() {
     const [login, setLogin] = useState(true);
 
     return (
-        <LoginContainer>
-            <FormContainer>
-                <FormTitle>{  login ? "Login" : "Registrar" }</FormTitle>
+        <LoginContainer darkMode={ darkMode } >
+            <FormContainer darkMode={ darkMode } >
+                <FormTitle darkMode={ darkMode } >{  login ? "Login" : "Registrar" }</FormTitle>
                 <Form>
-                    <FormLabel name="username" >Username: </FormLabel>
+                    <FormLabel darkMode={ darkMode }  name="username" >Username: </FormLabel>
                     <br/>
-                    <FormInput type="text" name="username" onChange={ (e) => setUsername(e.target.value) } />
+                    <FormInput darkMode={ darkMode }  type="text" name="username" onChange={ (e) => setUsername(e.target.value) } />
                     <br/>
-                    <FormLabel name="password">Password: </FormLabel>
+                    <FormLabel darkMode={ darkMode }  name="password">Password: </FormLabel>
                     <br/>
-                    <FormInput type="password" name="password" onChange={ (e) => setPassword(e.target.value) } />
+                    <FormInput darkMode={ darkMode }  type="password" name="password" onChange={ (e) => setPassword(e.target.value) } />
                     <br/>
                     <FormChanger onClick={ () => setLogin(!login) } >{ login ? "Não tem uma conta ? Clique aqui para se registrar" : "Voltar para a tela de login" }</FormChanger>
                     <br/>
