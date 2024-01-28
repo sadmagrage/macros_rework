@@ -5,9 +5,11 @@ import { toast } from "react-toastify";
 import { updateData, updateImage } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { setAuthToken } from "../../utils/auth";
+import useTheme from "../../context/ThemeContext";
 
 export function Usuario () {
 
+    const { darkMode } = useTheme();
     const navigate = useNavigate();
 
     const [camps] = useState([{ label: "Peso", type: "number" }, { label: "Bodyfat em %", type: "number" }, { label: "Fator de atividade", type: "radio" }, { label: "Superavit em %", type: "number" }, { label: "Deficit em unidade", type: "number" }, { label: "Adicional", type: "number" }, { label: "Estado", type: "select" }]);
@@ -160,8 +162,8 @@ export function Usuario () {
     }, []);
 
     return (
-        <UsuarioContainer>
-            <UsuarioForm>
+        <UsuarioContainer darkMode={ darkMode } >
+            <UsuarioForm darkMode={ darkMode } >
                 <UsuarioFormTitle>Configurações</UsuarioFormTitle>
                 <UsuarioImage src={ image } />
                 <UsuarioInputImage type="file" onChange={ inputImage } />

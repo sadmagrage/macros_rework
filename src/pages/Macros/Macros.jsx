@@ -163,7 +163,7 @@ export function Macros() {
                             if (container.length == 1 || index === comida.length - 1) {
                                 container.push(item);
 
-                                containerText = <ContainerComida>{ container.map(comidaItem => <Comida name={ comidaItem.name } img={ comidaItem.img } onInput={ e => inputComidaAction(e, comidaItem) } value={ autoGetValue(comidaItem.comida_id) } />) }</ContainerComida>
+                                containerText = <ContainerComida>{ container.map(comidaItem => <Comida name={ comidaItem.nome } img={ comidaItem.img } onInput={ e => inputComidaAction(e, comidaItem) } value={ autoGetValue(comidaItem.comida_id) } />) }</ContainerComida>
 
                                 container = [];
 
@@ -176,9 +176,9 @@ export function Macros() {
                     }
                 </MacrosComida>
                 <InfoContainer>
-                    <FilterButton darkMode={ darkMode } type="button" onClick={ filterAction } value={ ApenasUtilizados ? "Mostrar todos alimentos" : "Mostrar apenas utilizados" } />
-                    <FilterButton darkMode={ darkMode } value="Esvaziar comida" type="button" onClick={ () => setComidaUtilizadas([]) } />
-                    <FilterInput darkMode={ darkMode } type="text" onChange={ filterByTextAction } />
+                    <FilterButton type="button" onClick={ filterAction } value={ ApenasUtilizados ? "Mostrar todos alimentos" : "Mostrar apenas utilizados" } />
+                    <FilterButton value="Esvaziar comida" type="button" onClick={ () => setComidaUtilizadas([]) } />
+                    <FilterInput type="text" onChange={ filterByTextAction } />
                     <Properties macrosProperty={ { Carb, Prot, Proth, Protl, Fat, Kcal, Gasto } } />
                     <Sugestions>
                         {

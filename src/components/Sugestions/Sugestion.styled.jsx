@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { black, white } from "../../utils/colors";
 
 export const SugestionContainer = styled.div`
-    border: 1px solid ${ props => props.darkMode ? white : black };
+    border: 1px solid ${ white };
     border-left: none;
     border-right: none;
     margin-top: 5px;
@@ -18,12 +18,12 @@ export const Description = styled.div`
 `;
 
 export const MacroName = styled.p`
-    color: ${ props => props.darkMode ? white : black };
+    color: ${ white };
     width: min-content;
 `;
 
 export const BottomArrow = styled.p`
-    color: ${ props => props.darkMode ? white : black };
+    color: ${ white };
     width: min-content;
 `;
 

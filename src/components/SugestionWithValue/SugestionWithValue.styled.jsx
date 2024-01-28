@@ -6,7 +6,7 @@ export const SugestionWithValueItem = styled.div`
 `;
 
 export const SugestionName = styled.h3`
-    color: ${ props => props.darkMode ? white : black };
+    color: ${ white };
     text-align: center;
 `;
 
@@ -22,6 +22,6 @@ export const SugestionImg = styled.img`
 export const SugestionValue = styled.h4`
     width: 30%;
     text-align: center;
-    color: ${ props => props.darkMode ? white : black };
+    color: ${ white };
     align-self: center;
 `;

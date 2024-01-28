@@ -19,10 +19,10 @@ export function Alimentos() {
             containerText = <div key={ container.length === 2 ? container[0].comida_id + container[1].comida_id : container[0].comida_id } >{ container.map(containerItem => {
                 return (
                     <Alimento key={ containerItem.comida_id } >
-                        <AlimentoNome darkMode={ darkMode } >{ containerItem.nome }</AlimentoNome>
+                        <AlimentoNome>{ containerItem.nome }</AlimentoNome>
                         <AlimentoImage src={ containerItem.img } />
                         {
-                            macroCamps.map(macroCamp => <Macro darkMode={ darkMode } >{ macroCamp }: { containerItem[macroCamp.toLowerCase()].toFixed(3) }</Macro>)
+                            macroCamps.map(macroCamp => <Macro>{ macroCamp }: { containerItem[macroCamp.toLowerCase()].toFixed(3) }</Macro>)
                         }
                     </Alimento>)
             }) }</div>
@@ -62,7 +62,7 @@ export function Alimentos() {
         return (
             <AlimentosStyled darkMode={ darkMode } >
                 <AlimentosMenu darkMode={ darkMode } >
-                    <SearchInput darkMode={ darkMode } type="text" onChange={ searchAction } />
+                    <SearchInput type="text" onChange={ searchAction } />
                     <AlimentosParentContainer>
                         {
                             Alimentos.map(iterateAlimento)

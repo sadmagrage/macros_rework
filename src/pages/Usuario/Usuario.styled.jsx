@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { darkModeBody, white } from "../../utils/colors";
+import { darkModeBody, darkModeOption, lightModeBody, lightModeOption, white } from "../../utils/colors";
 
 export const UsuarioContainer = styled.div`
     flex: 1;
-    background-color: ${ white };
+    background-color: ${ props => props.darkMode ? darkModeBody : lightModeBody };
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,7 +11,7 @@ export const UsuarioContainer = styled.div`
 
 export const UsuarioForm = styled.div`
     width: 30%;
-    background-color: ${ darkModeBody };
+    background-color: ${ props => props.darkMode ? darkModeOption : lightModeOption };
     height: 800px;
     border-radius: 5%;
     padding: 10px;
@@ -31,6 +31,7 @@ export const UsuarioImage = styled.img`
 `;
 
 export const UsuarioFormTitle = styled.h1`
+    color: white;
     text-align: center;
 `;
 
@@ -39,6 +40,7 @@ export const UsuarioInputImage = styled.input`
     border-radius: 5px;
     padding: 5px;
     min-height: 30px;
+    color: white;
 `;
 
 export const UsuarioCamp = styled.div`
@@ -48,6 +50,7 @@ export const UsuarioCamp = styled.div`
 
 export const UsuarioLabel = styled.label`
     width: 100%;
+    color: white;
 `;
 
 export const UsuarioInputText = styled.input`
@@ -59,6 +62,7 @@ export const UsuarioInputText = styled.input`
     background-color: transparent;
     border: 2px solid white;
     text-align: center;
+    color: white;
 `;
 
 export const UsuarioButton = styled.input`
@@ -87,6 +91,7 @@ export const UsuarioSelect = styled.select`
     background-color: transparent;
     border: 2px solid white;
     text-align: center;
+    color: white;
 `;
 
 export const UsuarioOption = styled.option``;

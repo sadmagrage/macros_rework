@@ -8,6 +8,6 @@ export const PropertiesContainer = styled.div`
 export const MacroValue = styled.p`
     width: 100%;
     font-size: 20px;
-    color: ${ props => props.darkMode ? white : black };
+    color: ${ white };
     text-align: center;
 `;

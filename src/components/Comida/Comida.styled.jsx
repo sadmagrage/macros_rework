@@ -8,7 +8,7 @@ export const ComidaContainer = styled.div`
 `
 
 export const ComidaTitle = styled.h3`
-    color: ${ props => props.darkMode ? white : black };
+    color: ${ white };
     text-align: center;
 `;
 
@@ -19,11 +19,11 @@ export const ComidaImage = styled.img`
 
 export const ComidaInput = styled.input`
     background-color: transparent;
-    color: ${ props => props.darkMode ? white : black };
+    color: ${  white };
     width: 100%;
     padding-left: 5px;
     border-radius: 7px;
-    border: 2px solid ${ props => props.darkMode ? white : black };
+    border: 2px solid ${ white };
     outline: none;
     appearance: textfield;
     margin-bottom: 5px;  

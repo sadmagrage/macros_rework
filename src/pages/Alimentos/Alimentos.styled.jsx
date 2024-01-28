@@ -16,9 +16,9 @@ export const SearchInput = styled.input`
     width: 200px;
     padding-left: 5px;
     border-radius: 7px;
-    background-color: ${ props => props.darkMode ? darkModeBody : lightModeBody };
-    color: ${ props => props.darkMode ? white : black };
-    border: 2px solid transparent;
+    background-color: transparent;
+    color: ${ white };
+    border: 2px solid ${ white };
     outline: none;
     margin: 20px 60px 0px 0px;
     appearance: textfield;
@@ -60,7 +60,7 @@ export const Alimento = styled.div`
 `;
 
 export const AlimentoNome = styled.h3`
-    color: ${ props => props.darkMode ? white : black };
+    color: ${ white };
     text-align: center;
 `;
 
@@ -72,5 +72,5 @@ export const AlimentoImage = styled.img`
 
 export const Macro = styled.p`
     align-self: center;
-    color: ${ props => props.darkMode ? white : black };
+    color: ${ white };
 `;

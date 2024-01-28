@@ -41,8 +41,8 @@ export const InfoContainer = styled.div`
 `;
 
 export const FilterButton = styled.input`
-    border: 2px solid ${ props => props.darkMode ? white : black };
-    color: ${ props => props.darkMode ? white : black };
+    border: 2px solid ${ white };
+    color: ${ white };
     background-color: transparent;
     width: 100%;
     margin-bottom: 5px;
@@ -51,11 +51,11 @@ export const FilterButton = styled.input`
 
 export const FilterInput = styled.input`
     background-color: transparent;
-    color: ${ props => props.darkMode ? white : black };
+    color: ${ white };
     width: 100%;
     padding-left: 5px;
     border-radius: 7px;
-    border: 2px solid ${ props => props.darkMode ? white : black };
+    border: 2px solid ${ white };
     outline: none;
     appearance: textfield;
     margin-bottom: 5px;
