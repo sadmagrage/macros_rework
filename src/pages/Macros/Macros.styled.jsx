@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { darkModeBody } from "../../utils/colors";
+import { black, darkModeBody, darkModeOption, lightModeBody, lightModeOption, white } from "../../utils/colors";
 
 export const MacrosContainer = styled.div`
+    background-color: ${ props => props.darkMode ? darkModeBody : lightModeBody };
     flex: 1;
     width: 100vw;
     display: flex;
@@ -10,7 +11,7 @@ export const MacrosContainer = styled.div`
 `;
 
 export const MacrosScreen = styled.div`
-    background-color: ${ darkModeBody };
+    background-color: ${ props => props.darkMode ? darkModeOption : lightModeOption };
     width: 95%;
     height: 90%;
     border-radius: 15px;
@@ -40,8 +41,8 @@ export const InfoContainer = styled.div`
 `;
 
 export const FilterButton = styled.input`
-    border: 2px solid white;
-    color: white;
+    border: 2px solid ${ props => props.darkMode ? white : black };
+    color: ${ props => props.darkMode ? white : black };
     background-color: transparent;
     width: 100%;
     margin-bottom: 5px;
@@ -49,20 +50,20 @@ export const FilterButton = styled.input`
 `;
 
 export const FilterInput = styled.input`
-    background-color: rgba(255, 255, 255, 0.5);
-    color: black;
+    background-color: transparent;
+    color: ${ props => props.darkMode ? white : black };
     width: 100%;
     padding-left: 5px;
     border-radius: 7px;
-    border: 2px solid black;
+    border: 2px solid ${ props => props.darkMode ? white : black };
     outline: none;
     appearance: textfield;
     margin-bottom: 5px;
-`
+`;
 
 export const Sugestions = styled.div`
     width: 100%;
     margin: 10px 0px;
     overflow-y: scroll;
-    max-height: 200px;
+    max-height: 500px;
 `;

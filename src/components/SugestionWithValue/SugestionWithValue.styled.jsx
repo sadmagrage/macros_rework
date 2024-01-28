@@ -1,11 +1,12 @@
 import styled from "styled-components";
+import { black, white } from "../../utils/colors";
 
 export const SugestionWithValueItem = styled.div`
     margin: 5px 0px;
 `;
 
 export const SugestionName = styled.h3`
-    color: white;
+    color: ${ props => props.darkMode ? white : black };
     text-align: center;
 `;
 
@@ -21,6 +22,6 @@ export const SugestionImg = styled.img`
 export const SugestionValue = styled.h4`
     width: 30%;
     text-align: center;
-    color: white;
+    color: ${ props => props.darkMode ? white : black };
     align-self: center;
 `;

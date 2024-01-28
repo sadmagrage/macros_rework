@@ -5,6 +5,7 @@ import { ContainerComida, FilterButton, FilterInput, InfoContainer, MacrosComida
 import Comida from '../../components/Comida/Comida';
 import Properties from '../../components/Properties/Properties';
 import Sugestion from '../../components/Sugestions/Sugestion';
+import useTheme from "../../context/ThemeContext";
 
 export function Macros() {
     
@@ -29,6 +30,8 @@ export function Macros() {
 
     const [Atualizador, setAtualizador] = useState(0);
     const [appear, setAppear] = useState("");
+
+    const { darkMode } = useTheme();
 
     const valueToMacros = () => {
         let carb = 0;
@@ -152,8 +155,8 @@ export function Macros() {
 
     if (isAuthenticated()) {
     return (
-        <MacrosContainer>
-            <MacrosScreen>
+        <MacrosContainer darkMode={ darkMode } >
+            <MacrosScreen darkMode={ darkMode } >
                 <MacrosComida>
                     {
                         comida.map((item, index) => {
@@ -173,10 +176,10 @@ export function Macros() {
                     }
                 </MacrosComida>
                 <InfoContainer>
-                    <FilterButton type="button" onClick={ filterAction } value={ ApenasUtilizados ? "Mostrar todos alimentos" : "Mostrar apenas utilizados" } />
-                    <FilterButton value="Esvaziar comida" type="button" onClick={ () => setComidaUtilizadas([]) } />
-                    <FilterInput type="text" onChange={ filterByTextAction } />
-                    <Properties carb={ Carb } prot={ Prot } protl={ Protl } proth={ Proth } fat={ Fat } kcal={ Kcal } gasto={ Gasto } />
+                    <FilterButton darkMode={ darkMode } type="button" onClick={ filterAction } value={ ApenasUtilizados ? "Mostrar todos alimentos" : "Mostrar apenas utilizados" } />
+                    <FilterButton darkMode={ darkMode } value="Esvaziar comida" type="button" onClick={ () => setComidaUtilizadas([]) } />
+                    <FilterInput darkMode={ darkMode } type="text" onChange={ filterByTextAction } />
+                    <Properties macrosProperty={ { Carb, Prot, Proth, Protl, Fat, Kcal, Gasto } } />
                     <Sugestions>
                         {
                             macros.map(macro => <Sugestion onClick={ () => setAppear(appear == macro ? "" : macro) } active={ appear == macro } macro={ macro } dataComida={ dataComida } gasto={ Gasto } kcal={ Kcal } metaProth={ metaProth } metaProtl={ metaProtl } protl={ Protl } proth={ Proth } fat={ Fat } metaFat={ metaFat } />)

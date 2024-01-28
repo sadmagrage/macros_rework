@@ -1,15 +1,17 @@
 import { MacroValue, PropertiesContainer } from "./Properties.styled";
+import useTheme from "../../context/ThemeContext";
 
-export default function Properties ({ carb, prot, protl, proth, fat, kcal, gasto }) {
+export default function Properties ({ macrosProperty }) {
+
+    const { darkMode } = useTheme();
+
     return (
         <PropertiesContainer>
-            <MacroValue>Carb: { carb }</MacroValue>
-            <MacroValue>Prot: { prot }</MacroValue>
-            <MacroValue>Protl: { protl }</MacroValue>
-            <MacroValue>Proth: { proth }</MacroValue>
-            <MacroValue>Fat: { fat }</MacroValue>
-            <MacroValue>Kcal: { kcal }</MacroValue>
-            <MacroValue>Gasto: { gasto }</MacroValue>
+            {
+                Object.keys(macrosProperty).map(macroProperty => 
+                    <MacroValue darkMode={ darkMode } >{ macroProperty }: { macrosProperty[macroProperty] }</MacroValue>
+                )
+            }
         </PropertiesContainer>
     )
 }

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { black, white } from "../../utils/colors";
 
 export const ComidaContainer = styled.div`
     width: 250px;
@@ -7,7 +8,7 @@ export const ComidaContainer = styled.div`
 `
 
 export const ComidaTitle = styled.h3`
-    color: white;
+    color: ${ props => props.darkMode ? white : black };
     text-align: center;
 `;
 
@@ -17,12 +18,12 @@ export const ComidaImage = styled.img`
 `;
 
 export const ComidaInput = styled.input`
-    background-color: rgba(255, 255, 255, 0.5);
-    color: black;
+    background-color: transparent;
+    color: ${ props => props.darkMode ? white : black };
     width: 100%;
     padding-left: 5px;
     border-radius: 7px;
-    border: 2px solid black;
+    border: 2px solid ${ props => props.darkMode ? white : black };
     outline: none;
     appearance: textfield;
     margin-bottom: 5px;  

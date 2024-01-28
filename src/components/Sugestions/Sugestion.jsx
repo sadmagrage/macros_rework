@@ -1,8 +1,11 @@
 import SugestionWithValue from "../SugestionWithValue/SugestionWithValue";
 import SugestionNoValue from "../SugestionNoValue/SugestionNoValue";
 import { BottomArrow, ComidaSugestion, ComidaSugestionContainer, Description, MacroName, SugestionContainer } from "./Sugestion.styled";
+import useTheme from "../../context/ThemeContext";
 
 export default function Sugestion ({ onClick, macro, active, dataComida, gasto, kcal, metaProtl, protl, metaProth, proth, metaFat, fat }) {
+
+    const { darkMode } = useTheme();
 
     const sugestionItem = (macro, comida, index) => {
         if ((macro === "Carb" && comida.carb >= 0.2 && comida.carb < 1) || (macro === "Carb" && comida.nome.toLowerCase() === "suco prats") || (macro === "Carb" && comida.nome.toLowerCase() === "feijao")) {
@@ -28,10 +31,10 @@ export default function Sugestion ({ onClick, macro, active, dataComida, gasto, 
     }
 
     return (
-        <SugestionContainer onClick={ onClick }>
+        <SugestionContainer darkMode={ darkMode } onClick={ onClick }>
             <Description>
-                <MacroName>{ macro }</MacroName>
-                <BottomArrow>v</BottomArrow>
+                <MacroName darkMode={ darkMode } >{ macro }</MacroName>
+                <BottomArrow darkMode={ darkMode } >v</BottomArrow>
             </Description>
             <ComidaSugestionContainer appear={ active } >
                 <ComidaSugestion>

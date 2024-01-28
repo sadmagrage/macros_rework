@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { black, darkModeHeader, lightGrey, white } from "../../utils/colors";
+import { black, darkModeHeader, lightGrey, lightModeBody, white } from "../../utils/colors";
 
 export const HeaderContainer = styled.div`
     display: flex;
@@ -36,7 +36,7 @@ export const ProfileContainer = styled.div`
 `;
 
 export const ThemeToggler = styled.div`
-    background-color: ${ white };
+    background-color: ${ lightModeBody };
     width: 70px;
     height: 30px;
     border-radius: 20px;
