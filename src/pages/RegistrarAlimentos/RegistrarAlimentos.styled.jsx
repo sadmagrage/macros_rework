@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { darkModeBody, white } from "../../utils/colors";
+import { darkModeBody, darkModeOption, lightModeBody, lightModeOption, white } from "../../utils/colors";
 
 export const RegistrarAlimentoContainer = styled.div`
     flex: 1;
-    background-color: ${ white };
+    background-color: ${ props => props.darkMode ? darkModeBody : lightModeBody };
     background-size: 100vw 100%;
     display: flex;
     justify-content: center;
@@ -12,7 +12,7 @@ export const RegistrarAlimentoContainer = styled.div`
 
 export const FormContainerAlimento = styled.div`
     height: 500px !important;
-    background-color: ${ darkModeBody };
+    background-color: ${ props => props.darkMode ? darkModeOption : lightModeOption };
     display: flex;
     flex-direction: column;
     align-items: center;

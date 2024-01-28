@@ -4,10 +4,13 @@ import { isAuthenticated } from "../../utils/auth";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { FormContainerAlimento, RegistrarAlimentoButton, RegistrarAlimentoContainer, RegistrarAlimentoForm, RegistrarAlimentoInput, RegistrarAlimentoLabel, RegistrarAlimentoTitle } from "./RegistrarAlimentos.styled";
+import useTheme from "../../context/ThemeContext";
 
 export function RegistrarAlimentos() {
 
     const navigate = useNavigate();
+    const { darkMode } = useTheme();
+
     const [formCamp] = useState(["Nome", "Quantidade", "Carb", "Protl", "Proth", "Fat", "Image link"]);
     const [formBody] = useState({
         nome: "",
@@ -45,8 +48,8 @@ export function RegistrarAlimentos() {
 
     if (isAuthenticated()) {
         return (
-            <RegistrarAlimentoContainer>
-                <FormContainerAlimento>
+            <RegistrarAlimentoContainer darkMode={ darkMode } >
+                <FormContainerAlimento darkMode={ darkMode } >
                     <RegistrarAlimentoTitle>Registrar alimentos</RegistrarAlimentoTitle>
                     <RegistrarAlimentoForm>
                         {
