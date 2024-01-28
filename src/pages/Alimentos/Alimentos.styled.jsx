@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { darkModeBody, white } from "../../utils/colors";
+import { black, darkModeBody, darkModeOption, lightModeBody, lightModeOption, white } from "../../utils/colors";
 
 export const AlimentosStyled = styled.div`
     flex: 1;
     width: 100vw;
-    background-color: ${ white };
+    background-color: ${ props => props.darkMode ? darkModeBody : lightModeBody };
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -16,9 +16,9 @@ export const SearchInput = styled.input`
     width: 200px;
     padding-left: 5px;
     border-radius: 7px;
-    background-color: rgba(0, 0, 0, 0.5);
-    border: 2px solid black;
-    color: white;
+    background-color: ${ props => props.darkMode ? darkModeBody : lightModeBody };
+    color: ${ props => props.darkMode ? white : black };
+    border: 2px solid transparent;
     outline: none;
     margin: 20px 60px 0px 0px;
     appearance: textfield;
@@ -28,7 +28,7 @@ export const SearchInput = styled.input`
 export const AlimentosMenu = styled.div`
     display: flex;
     flex-direction: column;
-    background-color: ${ darkModeBody };
+    background-color: ${ props => props.darkMode ? darkModeOption : lightModeOption };
     width: 90%;
     height: fit-content;
     margin: 10px 20px;
@@ -60,7 +60,7 @@ export const Alimento = styled.div`
 `;
 
 export const AlimentoNome = styled.h3`
-    color: white;
+    color: ${ props => props.darkMode ? white : black };
     text-align: center;
 `;
 
@@ -72,5 +72,5 @@ export const AlimentoImage = styled.img`
 
 export const Macro = styled.p`
     align-self: center;
-    color: white;
+    color: ${ props => props.darkMode ? white : black };
 `;

@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { isAuthenticated } from '../../utils/auth';
 import { getComida } from '../../utils/api';
 import { Alimento, AlimentoImage, AlimentoNome, AlimentosMenu, AlimentosParentContainer, AlimentosStyled, Macro, SearchInput } from './Alimentos.styled';
+import useTheme from "../../context/ThemeContext";
 
 export function Alimentos() {
     const [DataAlimentos, setDataAlimentos] = useState([]);
     const [Alimentos, setAlimentos] = useState([]);
+    const [macroCamps] = useState(["Carb", "Proth", "Protl", "Fat"]);
+    const { darkMode } = useTheme();
 
     const container = [];
     let containerText = "";
@@ -16,12 +19,11 @@ export function Alimentos() {
             containerText = <div key={ container.length === 2 ? container[0].comida_id + container[1].comida_id : container[0].comida_id } >{ container.map(containerItem => {
                 return (
                     <Alimento key={ containerItem.comida_id } >
-                        <AlimentoNome>{ containerItem.nome }</AlimentoNome>
+                        <AlimentoNome darkMode={ darkMode } >{ containerItem.nome }</AlimentoNome>
                         <AlimentoImage src={ containerItem.img } />
-                        <Macro>Carb: { containerItem.carb.toFixed(3) }</Macro>
-                        <Macro>Protl: { containerItem.protl.toFixed(3) }</Macro>
-                        <Macro>Proth: { containerItem.proth.toFixed(3) }</Macro>
-                        <Macro>Fat: { containerItem.fat.toFixed(3) }</Macro>
+                        {
+                            macroCamps.map(macroCamp => <Macro darkMode={ darkMode } >{ macroCamp }: { containerItem[macroCamp.toLowerCase()].toFixed(3) }</Macro>)
+                        }
                     </Alimento>)
             }) }</div>
             const tamanhoContainer = container.length;
@@ -58,9 +60,9 @@ export function Alimentos() {
 
     if (isAuthenticated()) {
         return (
-            <AlimentosStyled>
-                <AlimentosMenu>
-                    <SearchInput type="text" onChange={ searchAction } />
+            <AlimentosStyled darkMode={ darkMode } >
+                <AlimentosMenu darkMode={ darkMode } >
+                    <SearchInput darkMode={ darkMode } type="text" onChange={ searchAction } />
                     <AlimentosParentContainer>
                         {
                             Alimentos.map(iterateAlimento)
