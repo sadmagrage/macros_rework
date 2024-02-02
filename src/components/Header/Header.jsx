@@ -11,12 +11,13 @@ export function Header() {
     const [dataUser, setDataUser] = useState({ "username": "", "img": "" });
     const [atualizador, setAtualizador] = useState(0);
     const [isLogin, setIsLogin] = useState(window.location.pathname === '/login');
-    const { darkMode, toggleTheme } = useTheme();
+    const { darkMode, toggleTheme, saveTheme } = useTheme();
     const navigate = useNavigate();
 
     const [link] = useState([{ isLogin: true, url: "/", text: "Home" }, { isLogin: true, url: "/macros", text: "Macros" }, { isLogin: true, url: "/alimentos", text: "Alimentos" }, { isLogin: false, url: "/repositorios", text: "Repositórios" }]);
     
     useEffect(() => {
+        
         if (!isLogin) {
             const data = decodeToken();
 
@@ -47,7 +48,7 @@ export function Header() {
             </HeaderLinks>
             {
                 isLogin ? 
-            <ThemeToggler onClick={ toggleTheme } >
+            <ThemeToggler onClick={ () => { toggleTheme(); saveTheme(); } } >
                 <ThemeIcon darkMode={ darkMode } src="/icons/sun.png" alt="" />
                 <ThemeIcon darkMode={ !darkMode } src="/icons/moon.png" alt="" />
             </ThemeToggler>
@@ -55,7 +56,7 @@ export function Header() {
             ""
             }
             <ProfileContainer isLogin={ isLogin } >
-                <ThemeToggler onClick={ toggleTheme } >
+                <ThemeToggler onClick={ () => { toggleTheme(); saveTheme(); } } >
                     <ThemeIcon darkMode={ darkMode } src="/icons/sun.png" alt="" />
                     <ThemeIcon darkMode={ !darkMode } src="/icons/moon.png" alt="" />
                 </ThemeToggler>

@@ -9,6 +9,7 @@ import { RegistrarAlimentos } from "./pages/RegistrarAlimentos/RegistrarAlimento
 import { Header } from "./components/Header/Header"
 import { Repositorios } from "./pages/Repositorios/Repositorios";
 import { MyToast } from "./components/MyToast/MyToast";
+import { useEffect } from "react";
 
 function App() {
 

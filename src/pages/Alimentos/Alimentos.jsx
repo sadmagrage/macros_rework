@@ -3,11 +3,14 @@ import { isAuthenticated } from '../../utils/auth';
 import { getComida } from '../../utils/api';
 import { Alimento, AlimentoImage, AlimentoNome, AlimentosMenu, AlimentosParentContainer, AlimentosStyled, Macro, SearchInput } from './Alimentos.styled';
 import useTheme from "../../context/ThemeContext";
+import { useNavigate } from 'react-router-dom';
 
 export function Alimentos() {
     const [DataAlimentos, setDataAlimentos] = useState([]);
     const [Alimentos, setAlimentos] = useState([]);
     const [macroCamps] = useState(["Carb", "Proth", "Protl", "Fat"]);
+
+    const navigate = useNavigate();
     const { darkMode } = useTheme();
 
     const container = [];

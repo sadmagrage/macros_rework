@@ -4,7 +4,7 @@ import { decodeToken } from "../../utils/decodeToken";
 import { toast } from "react-toastify";
 import { updateData, updateImage } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
-import { setAuthToken } from "../../utils/auth";
+import { isAuthenticated, setAuthToken } from "../../utils/auth";
 import useTheme from "../../context/ThemeContext";
 
 export function Usuario () {
@@ -14,7 +14,7 @@ export function Usuario () {
 
     const [camps] = useState([{ label: "Peso", type: "number" }, { label: "Bodyfat em %", type: "number" }, { label: "Fator de atividade", type: "radio" }, { label: "Superavit em %", type: "number" }, { label: "Deficit em unidade", type: "number" }, { label: "Adicional", type: "number" }, { label: "Estado", type: "select" }]);
     const [radioCamps] = useState([{ fatorAtividade: "Sedentário", value: "1.2" }, { fatorAtividade: "Levemente ativo", value: "1.375" }, { fatorAtividade: "Moderamente ativo", value: "1.55" }, { fatorAtividade: "Muito ativo", value: "1.725" }, { fatorAtividade: "Extremamente", value: "1.9" }, { fatorAtividade: "Outro", value: "0" }]);
-    const [selectOptions] = useState(["Bulking", "Manutenção", "Cutting"]);
+    const [selectOptions] = useState({ bulking: "Bulking", manutencao: "Manutenção", cutting: "Cutting" });
     const [fatorAtividade, setFatorAtividade] = useState("");
     const [imageBuffer, setImageBuffer] = useState();
 
@@ -25,6 +25,7 @@ export function Usuario () {
     const [deficit, setDeficit] = useState("");
     const [adicional, setAdicional] = useState("");
     const [estado, setEstado] = useState("bulking");
+    const [fatorAtividadeOutro, setFatorAtividadeOutro] = useState("");
 
     const inputImage = e => {
         const img = e.target.files[0];
@@ -48,20 +49,18 @@ export function Usuario () {
 
     const sendRequests = () => {
 
-        const fatorAtvValue = radioCamps.filter(radioCamp => radioCamp.fatorAtividade == fatorAtividade)[0].value;
-
         const userBody = {
             peso: parseFloat(peso),
             bodyfat: parseFloat(bf),
-            "fator_atividade": parseFloat(fatorAtvValue),
+            "fator_atividade": parseFloat(fatorAtividade == "Outro" ? fatorAtividadeOutro : radioCamps.filter(radioCamp => radioCamp.fatorAtividade == fatorAtividade)[0].value),
             superavit: parseFloat(superavit),
             deficit: parseFloat(deficit),
             adicional: parseFloat(adicional),
             estado
         };
         
-        //toast.dismiss();
-        toast.loading();
+        toast.dismiss();
+        toast.loading("Atualizando informações", { autoClose: false });
 
         updateData(userBody)
             .then(token => {
@@ -74,14 +73,14 @@ export function Usuario () {
                     updateImage(formImageData)
                         .then(() => {
                             toast.dismiss();
-                            toast.success();
+                            toast.success('Dados atualizados com sucesso');
                             navigate("/")
                         })
                         .catch(() => {toast.dismiss(); toast.error("Erro ao atualizar imagem do usuário")});
                 }
                 else {
                     toast.dismiss();
-                    toast.success();
+                    toast.success('Dados atualizados com sucesso');
                     navigate("/")
                 }
             })
@@ -97,7 +96,7 @@ export function Usuario () {
                     `${ camp.fatorAtividade } - ${ camp.fatorAtividade != "Outro" ? camp.value : "" }` 
                 }
             </UsuarioLabel>
-            { camp.fatorAtividade == "Outro" ? <UsuarioInputText radioCamp={ true } value={ radioCamps.filter(radioCamp => radioCamp.fatorAtividade == "Outro")[0].value } type="number" onChange={ e => radioCamps.filter(globalCamp => globalCamp.fatorAtividade == "Outro")[0].value = e.target.value } /> : "" }
+            { camp.fatorAtividade == "Outro" ? <UsuarioInputText radioCamp={ true } value={ inputOnlyNumber(fatorAtividadeOutro) } onChange={ e => setFatorAtividadeOutro(e.target.value) } /> : "" }
         </div>
         )
     }
@@ -119,7 +118,7 @@ export function Usuario () {
     }
 
     const spawnOptionCamps = camp => {
-        return <UsuarioOption value={ camp.toLowerCase() } >{ camp }</UsuarioOption>
+        return <UsuarioOption value={ camp } >{ selectOptions[camp] }</UsuarioOption>
     }
 
     const spawnCamps = camp => {
@@ -129,15 +128,17 @@ export function Usuario () {
                 <br />
                 {
                     camp.type == "number" ? 
-                        <UsuarioInputText for={ camp.label.toLowerCase() } type={ camp.type } value={ valueUseState(camp.label) } onChange={ e => valueSetState(camp.label, e.target.value) }/> :
+                        <UsuarioInputText for={ camp.label.toLowerCase() } value={ inputOnlyNumber(valueUseState(camp.label)) } onChange={ e => valueSetState(camp.label, e.target.value) }/> :
                     camp.type == "radio" ? 
                         <UsuarioInputRadioContainer>{ radioCamps.map(spawnRadioCamps) }</UsuarioInputRadioContainer> :
                     camp.type == "select" ? 
-                        <UsuarioSelect value={ estado } onChange={ (e) => setEstado(e.target.value) } >{ selectOptions.map(spawnOptionCamps) }</UsuarioSelect> : ""
+                        <UsuarioSelect value={ estado } onChange={ e => setEstado(e.target.value) } >{ Object.keys(selectOptions).map(spawnOptionCamps) }</UsuarioSelect> : ""
                 }
             </UsuarioCamp>
         )
     }
+
+    const inputOnlyNumber = input => typeof input == "string" ? input.replace(/[^0-9.]/g, '') : input;
 
     useEffect(() => {
         const data = decodeToken();
@@ -156,22 +157,27 @@ export function Usuario () {
 
         if (isFatorAtividadeValuePreset) setFatorAtividade(radioCamps.filter(radioCamp => radioCamp.value == data.fator_atividade)[0].fatorAtividade);
         else {
-            radioCamps.filter(radioCamp => "Outro" == radioCamp.fatorAtividade)[0].value = data.fator_atividade;
+            setFatorAtividadeOutro(data.fator_atividade);
             setFatorAtividade("Outro");
         }
     }, []);
 
-    return (
-        <UsuarioContainer darkMode={ darkMode } >
-            <UsuarioForm darkMode={ darkMode } >
-                <UsuarioFormTitle>Configurações</UsuarioFormTitle>
-                <UsuarioImage src={ image } />
-                <UsuarioInputImage type="file" onChange={ inputImage } />
-                {
-                    camps.map(spawnCamps)
-                }
-                <UsuarioButton type="button" value="Enviar" onClick={ sendRequests } />
-            </UsuarioForm>
-        </UsuarioContainer>
-    )
+    if (isAuthenticated()) {
+        return (
+            <UsuarioContainer darkMode={ darkMode } >
+                <UsuarioForm darkMode={ darkMode } >
+                    <UsuarioFormTitle>Configurações</UsuarioFormTitle>
+                    <UsuarioImage src={ image } />
+                    <UsuarioInputImage type="file" onChange={ inputImage } />
+                    {
+                        camps.map(spawnCamps)
+                    }
+                    <UsuarioButton type="button" value="Enviar" onClick={ sendRequests } />
+                </UsuarioForm>
+            </UsuarioContainer>
+        )
+    }
+    else {
+        window.location.pathname = "/login";
+    }
 }

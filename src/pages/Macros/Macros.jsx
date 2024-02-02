@@ -6,6 +6,7 @@ import Comida from '../../components/Comida/Comida';
 import Properties from '../../components/Properties/Properties';
 import Sugestion from '../../components/Sugestions/Sugestion';
 import useTheme from "../../context/ThemeContext";
+import { useNavigate } from 'react-router-dom';
 
 export function Macros() {
     
@@ -32,6 +33,7 @@ export function Macros() {
     const [appear, setAppear] = useState("");
 
     const { darkMode } = useTheme();
+    const navigate = useNavigate();
 
     const valueToMacros = () => {
         let carb = 0;
