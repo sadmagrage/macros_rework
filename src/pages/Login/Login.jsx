@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { login as loginApi, register } from "../../utils/api";
+import { getUserImage, login as loginApi, register } from "../../utils/api";
 import { setAuthToken } from "../../utils/auth";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { Form, FormButton, FormChanger, FormContainer, FormInput, FormLabel, FormTitle, LoginContainer } from "./Login.styled";
 import useTheme from "../../context/ThemeContext";
+import useUserImage from "../../context/UserImageContext";
+import { imageBufferToUrl } from "../../utils/imageBufferToUrl";
 
 export function Login() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const { setUserImage, userImage } = useUserImage();
     const { darkMode } = useTheme();
     const navigate = useNavigate();
 
@@ -23,7 +26,7 @@ export function Login() {
                 toast.success('Login realizado com sucesso');
                 navigate("/");
             }).
-            catch(() => {
+            catch(error => {
                 toast.dismiss();
                 toast.error('Credenciais incorretas');
             });

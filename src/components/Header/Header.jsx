@@ -1,32 +1,43 @@
 import { useEffect, useState } from 'react';
 import { decodeToken } from '../../utils/decodeToken';
-import { removeAuthToken } from '../../utils/auth';
+import { getAuthToken, isTokenExpired, removeAuthToken } from '../../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { HeaderContainer, HeaderLinks, Link, Logout, ProfileContainer, ProfileInfo, ProfilePic, ProfileUsername, ThemeIcon, ThemeToggler } from './Header.styled';
 import useTheme from "../../context/ThemeContext";
+import useUserImage from "../../context/UserImageContext";
+import { imageBufferToUrl } from '../../utils/imageBufferToUrl';
+import { getUserImage } from '../../utils/api';
 
 export function Header() {
     
-    const [dataUser, setDataUser] = useState({ "username": "", "img": "" });
-    const [atualizador, setAtualizador] = useState(0);
+    const [username, setUsername] = useState("");
+    const { userImage, setUserImage } = useUserImage();
+    const [currentUserImage, setCurrentUserImage] = useState("");
     const [isLogin, setIsLogin] = useState(window.location.pathname === '/login');
     const { darkMode, toggleTheme, saveTheme } = useTheme();
     const navigate = useNavigate();
 
     const [link] = useState([{ isLogin: true, url: "/", text: "Home" }, { isLogin: true, url: "/macros", text: "Macros" }, { isLogin: true, url: "/alimentos", text: "Alimentos" }, { isLogin: false, url: "/repositorios", text: "Repositórios" }]);
     
+    useEffect(() => setIsLogin(window.location.pathname === '/login'));
+
     useEffect(() => {
-        
         if (!isLogin) {
             const data = decodeToken();
 
-            setDataUser(data);
-            setAtualizador(atualizador == 1 ? 0 : 1);
-        }
-    }, []);
+            setUsername(data.username);
 
-    useEffect(() => setIsLogin(window.location.pathname === '/login'));
+            if (userImage) setCurrentUserImage(imageBufferToUrl(userImage));
+            else {
+                getUserImage()
+                    .then(image => {
+                        setUserImage(image);
+                        setCurrentUserImage(imageBufferToUrl(image));
+                    });
+            }
+        }
+    }, [isLogin]);
 
     const logout = () => {
         toast.dismiss();
@@ -61,8 +72,8 @@ export function Header() {
                     <ThemeIcon darkMode={ !darkMode } src="/icons/moon.png" alt="" />
                 </ThemeToggler>
                 <ProfileInfo onClick={ () => navigate("/usuario") } >
-                    <ProfilePic src={ dataUser.img } />
-                    <ProfileUsername darkMode={ darkMode } >{ dataUser.username }</ProfileUsername>
+                    <ProfilePic src={ currentUserImage } />
+                    <ProfileUsername darkMode={ darkMode } >{ username }</ProfileUsername>
                 </ProfileInfo>
                 <Logout onClick={ logout } darkMode={ darkMode } >Logout</Logout>
             </ProfileContainer>

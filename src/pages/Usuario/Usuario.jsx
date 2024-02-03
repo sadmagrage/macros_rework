@@ -52,7 +52,7 @@ export function Usuario () {
         const userBody = {
             peso: parseFloat(peso),
             bodyfat: parseFloat(bf),
-            "fator_atividade": parseFloat(fatorAtividade == "Outro" ? fatorAtividadeOutro : radioCamps.filter(radioCamp => radioCamp.fatorAtividade == fatorAtividade)[0].value),
+            "fatorAtividade": parseFloat(fatorAtividade == "Outro" ? fatorAtividadeOutro : radioCamps.filter(radioCamp => radioCamp.fatorAtividade == fatorAtividade)[0].value),
             superavit: parseFloat(superavit),
             deficit: parseFloat(deficit),
             adicional: parseFloat(adicional),
@@ -153,11 +153,11 @@ export function Usuario () {
 
         let isFatorAtividadeValuePreset = false;
 
-        radioCamps.map(radioCamp => radioCamp.value == data.fator_atividade ? isFatorAtividadeValuePreset = true : "" );
+        radioCamps.map(radioCamp => radioCamp.value == data.fatorAtividade ? isFatorAtividadeValuePreset = true : "" );
 
-        if (isFatorAtividadeValuePreset) setFatorAtividade(radioCamps.filter(radioCamp => radioCamp.value == data.fator_atividade)[0].fatorAtividade);
+        if (isFatorAtividadeValuePreset) setFatorAtividade(radioCamps.filter(radioCamp => radioCamp.value == data.fatorAtividade)[0].fatorAtividade);
         else {
-            setFatorAtividadeOutro(data.fator_atividade);
+            setFatorAtividadeOutro(data.fatorAtividade);
             setFatorAtividade("Outro");
         }
     }, []);

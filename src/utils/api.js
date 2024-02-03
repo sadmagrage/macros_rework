@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { getAuthToken, removeAuthToken } from "./auth";
+import { imageBufferToUrl } from "./imageBufferToUrl";
 
 // const axios = Axios.create({
 //     baseURL: "https://innate-confirmed-tulip.glitch.me"
@@ -14,12 +15,9 @@ export const login = async credentials => {
     return new Promise( async (resolve, reject) => {
         try {
             const response = await axios.post(`/user/login`, credentials);
-        
-            localStorage.setItem("user_img", JSON.stringify(response.data.userImg.data));
-    
             resolve(response.data.token);
         } catch (error) {
-            reject();
+            reject(error);
         }
     });
 }
@@ -30,6 +28,19 @@ export const register = async credentials => {
             const response = await axios.post(`/user/registrar`, credentials);
 
             resolve(response.data);            
+        } catch (error) {
+            reject();
+        }
+    });
+}
+
+export const getUserImage = async () => {
+    return new Promise( async (resolve, reject) => {
+        try {
+            const headers = { 'Authorization': getAuthToken() }
+            const response = await axios.get("/user/image", { headers });
+            
+            resolve(response.data.data);
         } catch (error) {
             reject();
         }
