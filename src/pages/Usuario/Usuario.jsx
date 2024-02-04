@@ -2,15 +2,18 @@ import { useEffect, useState } from "react";
 import { UsuarioButton, UsuarioCamp, UsuarioContainer, UsuarioForm, UsuarioFormTitle, UsuarioImage, UsuarioInputImage, UsuarioInputRadio, UsuarioInputRadioContainer, UsuarioInputText, UsuarioLabel, UsuarioOption, UsuarioSelect } from "./Usuario.styled";
 import { decodeToken } from "../../utils/decodeToken";
 import { toast } from "react-toastify";
-import { updateData, updateImage } from "../../utils/api";
+import { getUserImage, updateData, updateImage } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { isAuthenticated, setAuthToken } from "../../utils/auth";
 import useTheme from "../../context/ThemeContext";
+import { imageBufferToUrl } from "../../utils/imageBufferToUrl";
+import useUserImage from "../../context/UserImageContext";
 
 export function Usuario () {
 
     const { darkMode } = useTheme();
     const navigate = useNavigate();
+    const { userImage, setUserImage } = useUserImage();
 
     const [camps] = useState([{ label: "Peso", type: "number" }, { label: "Bodyfat em %", type: "number" }, { label: "Fator de atividade", type: "radio" }, { label: "Superavit em %", type: "number" }, { label: "Deficit em unidade", type: "number" }, { label: "Adicional", type: "number" }, { label: "Estado", type: "select" }]);
     const [radioCamps] = useState([{ fatorAtividade: "Sedentário", value: "1.2" }, { fatorAtividade: "Levemente ativo", value: "1.375" }, { fatorAtividade: "Moderamente ativo", value: "1.55" }, { fatorAtividade: "Muito ativo", value: "1.725" }, { fatorAtividade: "Extremamente", value: "1.9" }, { fatorAtividade: "Outro", value: "0" }]);
@@ -19,7 +22,7 @@ export function Usuario () {
     const [imageBuffer, setImageBuffer] = useState();
 
     const [peso, setPeso] = useState("");
-    const [image, setImage] = useState("");
+    const [currentUserImage, setCurrentUserImage] = useState("");
     const [bf, setBf] = useState("");
     const [superavit, setSuperavit] = useState("");
     const [deficit, setDeficit] = useState("");
@@ -41,7 +44,7 @@ export function Usuario () {
 
             const blobURL = URL.createObjectURL(blob);
 
-            setImage(blobURL);
+            setCurrentUserImage(blobURL);
         }
 
         reader.readAsArrayBuffer(img);
@@ -141,10 +144,17 @@ export function Usuario () {
     const inputOnlyNumber = input => typeof input == "string" ? input.replace(/[^0-9.]/g, '') : input;
 
     useEffect(() => {
+        if (userImage) setCurrentUserImage(imageBufferToUrl(userImage));
+            else {
+                getUserImage()
+                    .then(image => {
+                        setUserImage(image);
+                        setCurrentUserImage(imageBufferToUrl(image));
+                    });
+            }
         const data = decodeToken();
 
         setPeso(data.peso);
-        setImage(data.img);
         setBf(data.bodyfat);
         setSuperavit(data.superavit);
         setDeficit(data.deficit);
@@ -167,7 +177,7 @@ export function Usuario () {
             <UsuarioContainer darkMode={ darkMode } >
                 <UsuarioForm darkMode={ darkMode } >
                     <UsuarioFormTitle>Configurações</UsuarioFormTitle>
-                    <UsuarioImage src={ image } />
+                    <UsuarioImage src={ currentUserImage } />
                     <UsuarioInputImage type="file" onChange={ inputImage } />
                     {
                         camps.map(spawnCamps)

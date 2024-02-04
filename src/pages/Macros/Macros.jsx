@@ -66,7 +66,7 @@ export function Macros() {
     }
 
     const autoGetValue = (id) => {
-        const optionalComida = ComidaUtilizadas.filter(comida => comida.comida_id === id);
+        const optionalComida = ComidaUtilizadas.filter(comida => comida.comidaId === id);
         
         if (optionalComida.length === 1) {
             return optionalComida[0].value;
@@ -85,10 +85,10 @@ export function Macros() {
         comida["value"] = e.target.value
 
         if (e.target.value === "") {
-            ComidaUtilizadas.splice(ComidaUtilizadas.findIndex(obj => obj.comida_id === comida.comida_id), 1);
+            ComidaUtilizadas.splice(ComidaUtilizadas.findIndex(obj => obj.comidaId === comida.comidaId), 1);
         }
         else {
-            const optionalComida = ComidaUtilizadas.filter(obj => obj.comida_id === comida.comida_id);
+            const optionalComida = ComidaUtilizadas.filter(obj => obj.comidaId === comida.comidaId);
 
             if (optionalComida.length == 1) {
                 optionalComida[0].value = e.target.value;
@@ -165,7 +165,7 @@ export function Macros() {
                             if (container.length == 1 || index === comida.length - 1) {
                                 container.push(item);
 
-                                containerText = <ContainerComida>{ container.map(comidaItem => <Comida name={ comidaItem.nome } img={ comidaItem.img } onInput={ e => inputComidaAction(e, comidaItem) } value={ autoGetValue(comidaItem.comida_id) } />) }</ContainerComida>
+                                containerText = <ContainerComida>{ container.map(comidaItem => <Comida name={ comidaItem.nome } img={ comidaItem.image } onInput={ e => inputComidaAction(e, comidaItem) } value={ autoGetValue(comidaItem.comidaId) } />) }</ContainerComida>
 
                                 container = [];
 

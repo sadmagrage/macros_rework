@@ -11,7 +11,7 @@ export function RegistrarAlimentos() {
     const navigate = useNavigate();
     const { darkMode } = useTheme();
 
-    const [formCamp] = useState(["Nome", "Quantidade", "Carb", "Protl", "Proth", "Fat", "Image link"]);
+    const [formCamp] = useState(["Nome", "Quantidade", "Carb", "Protl", "Proth", "Fat", "Image"]);
     const [formBody] = useState({
         nome: "",
         quantidade: "",
@@ -31,7 +31,7 @@ export function RegistrarAlimentos() {
         formBody.fat = (formBody.fat == "") ? 0 : parseFloat(formBody.fat);
 
         toast.info("Registrando alimento");
-
+        
         createComida(formBody)
             .then(() => {
                 toast.dismiss();

@@ -4,6 +4,7 @@ import { getComida } from '../../utils/api';
 import { Alimento, AlimentoImage, AlimentoNome, AlimentosMenu, AlimentosParentContainer, AlimentosStyled, Macro, SearchInput } from './Alimentos.styled';
 import useTheme from "../../context/ThemeContext";
 import { useNavigate } from 'react-router-dom';
+import { imageBufferToUrl } from '../../utils/imageBufferToUrl';
 
 export function Alimentos() {
     const [DataAlimentos, setDataAlimentos] = useState([]);
@@ -19,11 +20,11 @@ export function Alimentos() {
     const iterateAlimento = (item, index) => {
         if (container.length > 0 || index === Alimentos.length - 1) {
             container.push(item);
-            containerText = <div key={ container.length === 2 ? container[0].comida_id + container[1].comida_id : container[0].comida_id } >{ container.map(containerItem => {
+            containerText = <div key={ container.length === 2 ? container[0].comidaId + container[1].comidaId : container[0].comidaId } >{ container.map(containerItem => {
                 return (
-                    <Alimento key={ containerItem.comida_id } >
+                    <Alimento key={ containerItem.comidaId } >
                         <AlimentoNome>{ containerItem.nome }</AlimentoNome>
-                        <AlimentoImage src={ containerItem.img } />
+                        <AlimentoImage src={ imageBufferToUrl(containerItem.image.data) } />
                         {
                             macroCamps.map(macroCamp => <Macro>{ macroCamp }: { containerItem[macroCamp.toLowerCase()].toFixed(3) }</Macro>)
                         }
