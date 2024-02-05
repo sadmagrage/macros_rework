@@ -65,5 +65,5 @@ export const Sugestions = styled.div`
     width: 100%;
     margin: 10px 0px;
     overflow-y: scroll;
-    max-height: 500px;
+    height: ${ props => props.designedHeight + "px" };
 `;

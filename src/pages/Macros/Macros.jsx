@@ -31,6 +31,7 @@ export function Macros() {
 
     const [Atualizador, setAtualizador] = useState(0);
     const [appear, setAppear] = useState("");
+    const [designedHeight, setDesignedHeight] = useState(0);
 
     const { darkMode } = useTheme();
     const navigate = useNavigate();
@@ -153,6 +154,32 @@ export function Macros() {
         };
     }, []);
 
+    const resizeSugestions = () => {
+        const containerElement = document.querySelector(".info_container");
+
+        const containerHeight = document.querySelector(".info_container").clientHeight;
+
+        let sumHeights = 0;
+
+        containerElement.childNodes.forEach((child, index) => {
+            const containerElementStyle = getComputedStyle(child);
+
+            if (index !== containerElement.childNodes.length - 1) sumHeights += child.clientHeight;
+
+            sumHeights += parseFloat(containerElementStyle.paddingTop);
+            sumHeights += parseFloat(containerElementStyle.marginTop);
+            sumHeights += parseFloat(containerElementStyle.paddingBottom);
+            sumHeights += parseFloat(containerElementStyle.marginBottom);
+        });
+        
+        setDesignedHeight(containerHeight - sumHeights);
+    }
+
+    useEffect(() => {
+        window.addEventListener('resize', resizeSugestions);
+        resizeSugestions();
+    }, []);
+
     useEffect(valueToMacros, [ComidaUtilizadas]);
 
     if (isAuthenticated()) {
@@ -177,12 +204,12 @@ export function Macros() {
                         })
                     }
                 </MacrosComida>
-                <InfoContainer>
+                <InfoContainer className='info_container' >
                     <FilterButton type="button" onClick={ filterAction } value={ ApenasUtilizados ? "Mostrar todos alimentos" : "Mostrar apenas utilizados" } />
                     <FilterButton value="Esvaziar comida" type="button" onClick={ () => setComidaUtilizadas([]) } />
                     <FilterInput type="text" onChange={ filterByTextAction } />
                     <Properties macrosProperty={ { Carb, Prot, Proth, Protl, Fat, Kcal, Gasto } } />
-                    <Sugestions>
+                    <Sugestions designedHeight={ designedHeight } >
                         {
                             macros.map(macro => <Sugestion onClick={ () => setAppear(appear == macro ? "" : macro) } active={ appear == macro } macro={ macro } dataComida={ dataComida } gasto={ Gasto } kcal={ Kcal } metaProth={ metaProth } metaProtl={ metaProtl } protl={ Protl } proth={ Proth } fat={ Fat } metaFat={ metaFat } />)
                         }
