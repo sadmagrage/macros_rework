@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { black, darkModeBody, darkModeOption, lightModeBody, lightModeOption, white } from "../../utils/colors";
+import { scrollX, scrollY } from "../../utils/personalizeScrollbar";
 
 export const MacrosContainer = styled.div`
     background-color: ${ props => props.darkMode ? darkModeBody : lightModeBody };
@@ -24,6 +25,8 @@ export const MacrosComida = styled.div`
     width: 70%;
     display: flex;
     overflow-x: auto;
+    
+    ${ scrollX }
 `;
 
 export const ContainerComida = styled.div`
@@ -66,4 +69,7 @@ export const Sugestions = styled.div`
     margin: 10px 0px;
     overflow-y: scroll;
     height: ${ props => props.designedHeight + "px" };
+    padding-right: 2px;
+
+    ${ scrollY }
 `;

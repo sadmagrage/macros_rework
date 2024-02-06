@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { black, darkModeBody, darkModeOption, lightModeBody, lightModeOption, white } from "../../utils/colors";
+import { scrollX } from "../../utils/personalizeScrollbar";
 
 export const AlimentosStyled = styled.div`
     flex: 1;
@@ -20,7 +21,7 @@ export const SearchInput = styled.input`
     color: ${ white };
     border: 2px solid ${ white };
     outline: none;
-    margin: 20px 60px 0px 0px;
+    margin-right: 60px;
     appearance: textfield;
     align-self: flex-end;
 `;
@@ -30,10 +31,11 @@ export const AlimentosMenu = styled.div`
     flex-direction: column;
     background-color: ${ props => props.darkMode ? darkModeOption : lightModeOption };
     width: 90%;
-    height: fit-content;
+    height: 90%;
     margin: 10px 20px;
     border-radius: 15px;
     align-self: center;
+    justify-content: center;
 `;
 
 export const AlimentosParentContainer = styled.div`
@@ -48,6 +50,8 @@ export const AlimentosParentContainer = styled.div`
     overflow-x: scroll;
     overflow-y: hidden;
     width: 95%;
+
+    ${ scrollX }
 `;
 
 export const AlimentosContainer = styled.div``;

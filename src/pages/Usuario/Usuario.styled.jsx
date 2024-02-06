@@ -13,20 +13,44 @@ export const UsuarioForm = styled.div`
     width: 30%;
     background-color: ${ props => props.darkMode ? darkModeOption : lightModeOption };
     height: 800px;
-    border-radius: 5%;
     padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-y: scroll;
-    scrollbar-width: thin;
-    scrollbar-color: transparent transparent;
+    overflow-y: auto;
+    border-radius: 5%;
+
+    // scrollbar-color: transparent transparent;
+
+    &::-webkit-scrollbar {
+        width: 5px;
+      }
+    
+      &::-webkit-scrollbar-thumb {
+        background-color: #3498db;
+        border-radius: 5px;
+      }
+    
+      &::-webkit-scrollbar-track {
+        background-color: #ecf0f1;
+        border-radius: 5px;
+      }
+    
+      &:hover {
+        &::-webkit-scrollbar-thumb {
+          background-color: #2980b9;
+        }
+    
+        &::-webkit-scrollbar-track {
+          background-color: #dcdde1;
+        }
+      }
 `;
 
 export const UsuarioImage = styled.img`
-    width: 500px;
-    height: 500px;
-    border-radius: 50%;    
+    width: 90%;
+    height: auto;
+    border-radius: 50%;
     margin: 20px 0px;
 `;
 
