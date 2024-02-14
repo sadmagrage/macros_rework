@@ -8,9 +8,11 @@ export const RegistrarAlimentoContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 90px;
 `;
 
 export const FormContainerAlimento = styled.div`
+    margin: 15px 0;
     height: 500px !important;
     background-color: ${ props => props.darkMode ? darkModeOption : lightModeOption };
     display: flex;

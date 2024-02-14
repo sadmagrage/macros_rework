@@ -28,7 +28,7 @@ export const HeaderMenu = styled.div`
     flex-direction: column;
     justify-content: center;
     @media ${ breakpoint.bg } {
-        ${ props => !props.isLogin ? `
+        ${ props => !props.noPermission ? `
             position: absolute;
             top: 30px;
             z-index: 1;
@@ -38,12 +38,13 @@ export const HeaderMenu = styled.div`
 
 export const HeaderLinksContainer = styled.div`
     @media ${ breakpoint.bg } {
-        display: grid;
+        ${ props => !props.noPermission ? `
+            display: grid;
+            overflow: hidden;
+            transition: grid-template-rows 300ms;
+        ` : "" }
         grid-template-rows: ${ props => props.activeMenu ? "1fr" : "0fr" };
-        overflow: hidden;
-        transition: grid-template-rows 300ms;
     }
-    
 `
 
 export const HeaderLinksWrapper = styled.div`
@@ -52,7 +53,7 @@ export const HeaderLinksWrapper = styled.div`
     display: flex;
 
     @media ${ breakpoint.bg } {
-        ${ props => !props.isLogin ? `
+        ${ props => !props.noPermission ? `
             flex-direction: column;
             margin-top: 20px;
         ` : "" }
@@ -60,7 +61,7 @@ export const HeaderLinksWrapper = styled.div`
 `;
 
 export const Link = styled.a`
-    ${ props => props.isLogin ? "display: none;" : "" }
+    ${ props => props.noPermission ? "display: none;" : "" }
     text-decoration: none;
     color: ${ props => props.darkMode ? white : black };
     box-sizing: initial;
@@ -72,7 +73,7 @@ export const Link = styled.a`
 `;
 
 export const ProfileContainer = styled.div`
-    display: ${ props => props.isLogin ? "none" : "flex" };
+    display: ${ props => props.noPermission ? "none" : "flex" };
     justify-content: space-around;
     align-items: center;
     padding: 5px;

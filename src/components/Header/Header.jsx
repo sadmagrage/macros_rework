@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { decodeToken } from '../../utils/decodeToken';
-import { getAuthToken, isTokenExpired, removeAuthToken } from '../../utils/auth';
+import { getAuthToken, isAuthenticated, isTokenExpired, removeAuthToken } from '../../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { HeaderContainer, HeaderContent, HeaderLinksContainer, HeaderLinksWrapper, HeaderMenu, Link, Logout, ProfileContainer, ProfileInfo, ProfilePic, ProfileUsername, ThemeIcon, ThemeToggler } from './Header.styled';
@@ -18,11 +18,11 @@ export function Header() {
     const [username, setUsername] = useState("");
     const { userImage, setUserImage } = useUserImage();
     const [currentUserImage, setCurrentUserImage] = useState("");
-    const [isLogin, setIsLogin] = useState(window.location.pathname === '/login');
+    const [noPermission, setNoPermission] = useState(true);
     const { darkMode, toggleTheme, saveTheme } = useTheme();
     const navigate = useNavigate();
 
-    const [link] = useState([{ isLogin: true, url: "/", text: "Home" }, { isLogin: true, url: "/macros", text: "Macros" }, { isLogin: true, url: "/alimentos", text: "Alimentos" }, { isLogin: false, url: "/repositorios", text: "Repositórios" }]);
+    const [link] = useState([{ noPermission: true, url: "/", text: "Home" }, { noPermission: true, url: "/macros", text: "Macros" }, { noPermission: true, url: "/alimentos", text: "Alimentos" }, { noPermission: false, url: "/repositorios", text: "Repositórios" }]);
     const { activeMenu, setActiveMenu } = useActiveMenu();
     const [width, setWidth] = useState(window.innerWidth);
     
@@ -30,12 +30,12 @@ export function Header() {
         setWidth(window.innerWidth);
     }
 
-    useEffect(() => setIsLogin(window.location.pathname === '/login'));
+    useEffect(() => setNoPermission(window.location.pathname === '/login' || (window.location.pathname === "/repositorios" && !isAuthenticated())));
 
     useEffect(() => window.addEventListener('resize', setCurrentWidth), []);
 
     useEffect(() => {
-        if (!isLogin) {
+        if (!noPermission) {
             const data = decodeToken();
 
             setUsername(data.username);
@@ -49,7 +49,7 @@ export function Header() {
                     });
             }
         }
-    }, [isLogin]);
+    }, [noPermission]);
 
     const logout = () => {
         toast.dismiss();
@@ -61,13 +61,13 @@ export function Header() {
     return (
         <HeaderContainer darkMode={ darkMode } >
             <HeaderContent>
-                <HeaderMenu activeMenu={ activeMenu } isLogin={ isLogin } >
-                    { !isLogin && width < 901 ? activeMenu ? <IoCloseSharp color={ darkMode ? white : black } onClick={ () => setActiveMenu(!activeMenu) } cursor={ "pointer" } /> : <TiThMenu color={ darkMode ? white : black } onClick={ () => setActiveMenu(!activeMenu) } cursor={ "pointer" } /> : "" }
-                    <HeaderLinksContainer activeMenu={ activeMenu } >
-                        <HeaderLinksWrapper darkMode={ darkMode } isLogin={ isLogin } activeMenu={ activeMenu } >
+                <HeaderMenu activeMenu={ activeMenu } noPermission={ noPermission } >
+                    { !noPermission && width < 901 ? activeMenu ? <IoCloseSharp color={ darkMode ? white : black } onClick={ () => setActiveMenu(!activeMenu) } cursor={ "pointer" } /> : <TiThMenu color={ darkMode ? white : black } onClick={ () => setActiveMenu(!activeMenu) } cursor={ "pointer" } /> : "" }
+                    <HeaderLinksContainer noPermission={ noPermission } activeMenu={ activeMenu } >
+                        <HeaderLinksWrapper darkMode={ darkMode } noPermission={ noPermission } activeMenu={ activeMenu } >
                             {
-                                link.map(linkItem => linkItem.isLogin ? 
-                                    <Link darkMode={ darkMode } isLogin={ isLogin } onClick={ () => { navigate(linkItem.url);setActiveMenu(false); }} >{ linkItem.text }</Link>
+                                link.map(linkItem => linkItem.noPermission ? 
+                                    <Link darkMode={ darkMode } noPermission={ noPermission } onClick={ () => { navigate(linkItem.url);setActiveMenu(false); }} >{ linkItem.text }</Link>
                                         :
                                     <Link darkMode={ darkMode } onClick={ () => navigate(linkItem.url)} >{ linkItem.text }</Link>
                                 )
@@ -77,7 +77,7 @@ export function Header() {
                 </HeaderMenu>
                 <div/>
                 {
-                    isLogin ? 
+                    noPermission ? 
                 <ThemeToggler onClick={ () => { toggleTheme(); saveTheme(); } } >
                     <ThemeIcon darkMode={ darkMode } src="/icons/sun.png" alt="" />
                     <ThemeIcon darkMode={ !darkMode } src="/icons/moon.png" alt="" />
@@ -85,7 +85,7 @@ export function Header() {
                     :
                 ""
                 }
-                <ProfileContainer isLogin={ isLogin } >
+                <ProfileContainer noPermission={ noPermission } >
                     <ThemeToggler onClick={ () => { toggleTheme(); saveTheme(); } } >
                         <ThemeIcon darkMode={ darkMode } src="/icons/sun.png" alt="" />
                         <ThemeIcon darkMode={ !darkMode } src="/icons/moon.png" alt="" />
