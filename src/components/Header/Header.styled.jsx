@@ -9,7 +9,7 @@ export const HeaderContainer = styled.div`
     height: 90px;
     background-color: ${ props => props.darkMode ? darkModeHeader : lightModeHeader };
     font-size: 30px;
-    position: absolute;
+    position: fixed;
     top: 0%;
 `;
 
