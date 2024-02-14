@@ -37,3 +37,58 @@ export const ComidaSugestionContainer = styled.div`
 export const ComidaSugestion = styled.div`
     min-height: 0;
 `;
+
+
+//BACKUP
+
+/*
+export const HeaderContent = styled.div`
+    margin: 0px 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+`
+
+export const HeaderMenu = styled.div`
+    display: flex;
+    min-height: 100%;
+    justify-content: center;
+    flex-direction: column;
+
+    @media ${ breakpoint.bg } {
+        ${ props => !props.isLogin && props.activeMenu ? `
+            position: absolute;
+            top: 30px;
+        ` : "" }
+    }
+`;
+
+export const HeaderLinks = styled.div`
+    display: flex;
+    background-color: ${ props => props.darkMode ? darkModeHeader : white };
+    
+    @media ${ breakpoint.bg } {
+        ${ props => props.activeMenu ? 
+        `
+            flex-direction: column;
+            font-size: 20px;
+            height: min-content;
+        ` : "display: none;" }
+    }
+`;
+
+export const Link = styled.a`
+    ${ props => props.isLogin ? "display: none;" : "" }
+    text-decoration: none;
+    color: ${ props => props.darkMode ? white : black };
+    box-sizing: initial;
+    padding: 15px;
+
+    &:hover {
+        cursor: pointer;
+    }
+`;
+*/

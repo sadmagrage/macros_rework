@@ -1,19 +1,62 @@
 import styled from "styled-components";
-import { black, darkModeHeader, lightGrey, lightModeBody, white } from "../../utils/colors";
+import { black, darkModeHeader, lightGrey, lightModeBody, lightModeHeader, white } from "../../utils/colors";
+import breakpoint from "../../utils/breakpoints"
 
 export const HeaderContainer = styled.div`
     display: flex;
-    flex-direction: row;
+    align-items: center;
     width: 100vw;
     height: 90px;
-    justify-content: space-around;
-    align-items: center;
-    background-color: ${ props => props.darkMode ? darkModeHeader : white };
+    background-color: ${ props => props.darkMode ? darkModeHeader : lightModeHeader };
     font-size: 30px;
+    position: absolute;
+    top: 0%;
 `;
 
-export const HeaderLinks = styled.div`
+export const HeaderContent = styled.div`
+    margin: 0px 15px;
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+`
+
+export const HeaderMenu = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    @media ${ breakpoint.bg } {
+        ${ props => !props.isLogin ? `
+            position: absolute;
+            top: 30px;
+            z-index: 1;
+        ` : "" }
+    }
+`;
+
+export const HeaderLinksContainer = styled.div`
+    @media ${ breakpoint.bg } {
+        display: grid;
+        grid-template-rows: ${ props => props.activeMenu ? "1fr" : "0fr" };
+        overflow: hidden;
+        transition: grid-template-rows 300ms;
+    }
+    
+`
+
+export const HeaderLinksWrapper = styled.div`
+    background-color: ${ props => props.darkMode ? darkModeHeader : lightModeHeader };
+    min-height: 0;
+    display: flex;
+
+    @media ${ breakpoint.bg } {
+        ${ props => !props.isLogin ? `
+            flex-direction: column;
+            margin-top: 20px;
+        ` : "" }
+    }
 `;
 
 export const Link = styled.a`
@@ -22,6 +65,10 @@ export const Link = styled.a`
     color: ${ props => props.darkMode ? white : black };
     box-sizing: initial;
     padding: 15px;
+
+    &:hover {
+        cursor: pointer;
+    }
 `;
 
 export const ProfileContainer = styled.div`
@@ -29,6 +76,8 @@ export const ProfileContainer = styled.div`
     justify-content: space-around;
     align-items: center;
     padding: 5px;
+    position: relative;
+    z-index: 2;
 
     &:hover {
         cursor: pointer;

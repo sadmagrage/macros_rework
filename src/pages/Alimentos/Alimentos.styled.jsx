@@ -9,6 +9,7 @@ export const AlimentosStyled = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-top: 90px;
 `;
 
 export const SearchInput = styled.input`
@@ -32,7 +33,7 @@ export const AlimentosMenu = styled.div`
     background-color: ${ props => props.darkMode ? darkModeOption : lightModeOption };
     width: 90%;
     height: 90%;
-    margin: 10px 20px;
+    margin: 0 20px;
     border-radius: 15px;
     align-self: center;
     justify-content: center;

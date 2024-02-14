@@ -7,6 +7,8 @@ export const RepositoriosContainer = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
+    margin-top: 90px;
 `;
 
 export const RepositorioLink = styled.a`
