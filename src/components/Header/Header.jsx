@@ -10,6 +10,7 @@ import { imageBufferToUrl } from '../../utils/imageBufferToUrl';
 import { getUserImage } from '../../utils/api';
 import { TiThMenu } from 'react-icons/ti';
 import { IoCloseSharp } from "react-icons/io5";
+import { FiSun, FiMoon } from "react-icons/fi";
 import { black, white } from '../../utils/colors';
 import useActiveMenu from '../../context/ActiveMenuContext';
 
@@ -58,6 +59,19 @@ export function Header() {
         navigate("/login");
     }
 
+    const themeToggler = () => {
+        return (
+            <ThemeToggler onClick={ () => { toggleTheme(); saveTheme(); } } >
+                <ThemeIcon darkMode={ darkMode } >
+                    <FiSun color='black' size={ "25px" } strokeWidth={ "1.5px" } />
+                </ThemeIcon>
+                <ThemeIcon darkMode={ !darkMode } >
+                    <FiMoon color='black' size={ "25px" } strokeWidth={ "1.5px" } />
+                </ThemeIcon>
+            </ThemeToggler>
+        )
+    }
+
     return (
         <HeaderContainer darkMode={ darkMode } >
             <HeaderContent>
@@ -78,18 +92,12 @@ export function Header() {
                 <div/>
                 {
                     noPermission ? 
-                <ThemeToggler onClick={ () => { toggleTheme(); saveTheme(); } } >
-                    <ThemeIcon darkMode={ darkMode } src="/icons/sun.png" alt="" />
-                    <ThemeIcon darkMode={ !darkMode } src="/icons/moon.png" alt="" />
-                </ThemeToggler>
+                    themeToggler()
                     :
                 ""
                 }
                 <ProfileContainer noPermission={ noPermission } >
-                    <ThemeToggler onClick={ () => { toggleTheme(); saveTheme(); } } >
-                        <ThemeIcon darkMode={ darkMode } src="/icons/sun.png" alt="" />
-                        <ThemeIcon darkMode={ !darkMode } src="/icons/moon.png" alt="" />
-                    </ThemeToggler>
+                    { themeToggler() }
                     <ProfileInfo onClick={ () => { navigate("/usuario");setActiveMenu(false); } } >
                         <ProfilePic src={ currentUserImage } />
                         <ProfileUsername darkMode={ darkMode } >{ username }</ProfileUsername>

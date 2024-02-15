@@ -79,24 +79,28 @@ export const ProfileContainer = styled.div`
     padding: 5px;
     position: relative;
     z-index: 2;
+`;
+
+export const ThemeToggler = styled.div`
+    background-color: ${ lightModeBody };
+    width: 65px;
+    height: 30px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     &:hover {
         cursor: pointer;
     }
 `;
 
-export const ThemeToggler = styled.div`
-    background-color: ${ lightModeBody };
-    width: 70px;
-    height: 30px;
-    border-radius: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-`;
-
-export const ThemeIcon = styled.img`
+export const ThemeIcon = styled.div`
     background-color: ${ props => props.darkMode ? "transparent" :  lightGrey };
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
     border-radius: 50px;
     width: 30px;
     height: 30px;
@@ -128,4 +132,8 @@ export const ProfileInfo = styled.div`
     display: flex;
     flex-direction: column;
     margin: auto 30px;
+
+    &:hover {
+        cursor: pointer;
+    }
 `;
