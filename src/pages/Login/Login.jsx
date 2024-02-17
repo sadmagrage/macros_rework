@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getUserImage, login as loginApi, register } from "../../utils/api";
 import { setAuthToken } from "../../utils/auth";
 import { toast } from "react-toastify";
