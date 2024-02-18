@@ -4,10 +4,16 @@ const size = {
     bg: "900px"
 }
 
-const breakpoint = {
+const breakpointWidth = {
     sm: `(max-width: ${ size.sm })`,
     md: `(max-width: ${ size.md })`,
     bg: `(max-width: ${ size.bg })`,
 }
 
-export default breakpoint
+const breakpointHeight = {
+    sm: `(max-height: ${ size.sm })`,
+    md: `(max-height: ${ size.md })`,
+    bg: `(max-height: ${ size.bg })`,
+}
+
+export { breakpointWidth, breakpointHeight }

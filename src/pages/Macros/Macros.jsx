@@ -127,6 +127,7 @@ export function Macros() {
     let containerText = "";
 
     useEffect(() => {
+        console.log("teste");
 
         getSpent()
             .then(data => {
@@ -173,11 +174,13 @@ export function Macros() {
         });
         
         setDesignedHeight(containerHeight - sumHeights);
+        console.log("teste");
     }
 
     useEffect(() => {
         window.addEventListener('resize', resizeSugestions);
         resizeSugestions();
+        console.log("teste");
     }, []);
 
     useEffect(valueToMacros, [ComidaUtilizadas]);
@@ -207,7 +210,7 @@ export function Macros() {
                 <InfoContainer className='info_container' >
                     <FilterButton type="button" onClick={ filterAction } value={ ApenasUtilizados ? "Mostrar todos alimentos" : "Mostrar apenas utilizados" } />
                     <FilterButton value="Esvaziar comida" type="button" onClick={ () => setComidaUtilizadas([]) } />
-                    <FilterInput type="text" onChange={ filterByTextAction } />
+                    <FilterInput placeholder='Digite o nome do alimento' type="text" onChange={ filterByTextAction } />
                     <Properties macrosProperty={ { Carb, Prot, Proth, Protl, Fat, Kcal, Gasto } } />
                     <Sugestions designedHeight={ designedHeight } >
                         {

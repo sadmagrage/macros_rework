@@ -1,10 +1,15 @@
 import styled from "styled-components";
 import { black, white } from "../../utils/colors";
+import { breakpointHeight } from "../../utils/breakpoints";
 
 export const ComidaContainer = styled.div`
     width: 250px;
     height: min-content;
     margin: 10px 15px;
+    
+    @media ${ breakpointHeight.bg } {
+        width: 300px;
+    }
 `
 
 export const ComidaTitle = styled.h3`
@@ -13,7 +18,7 @@ export const ComidaTitle = styled.h3`
 `;
 
 export const ComidaImage = styled.img`
-    width: 250px;
+    width: 100%;
     height: 150px;
 `;
 

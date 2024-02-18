@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { black, darkModeHeader, lightGrey, lightModeBody, lightModeHeader, white } from "../../utils/colors";
-import breakpoint from "../../utils/breakpoints"
+import { breakpointWidth } from "../../utils/breakpoints"
 
 export const HeaderContainer = styled.div`
     display: flex;
@@ -27,7 +27,7 @@ export const HeaderMenu = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    @media ${ breakpoint.bg } {
+    @media ${ breakpointWidth.bg } {
         ${ props => !props.noPermission ? `
             position: absolute;
             top: 30px;
@@ -37,7 +37,7 @@ export const HeaderMenu = styled.div`
 `;
 
 export const HeaderLinksContainer = styled.div`
-    @media ${ breakpoint.bg } {
+    @media ${ breakpointWidth.bg } {
         ${ props => !props.noPermission ? `
             display: grid;
             overflow: hidden;
@@ -52,7 +52,7 @@ export const HeaderLinksWrapper = styled.div`
     min-height: 0;
     display: flex;
 
-    @media ${ breakpoint.bg } {
+    @media ${ breakpointWidth.bg } {
         ${ props => !props.noPermission ? `
             flex-direction: column;
             margin-top: 20px;

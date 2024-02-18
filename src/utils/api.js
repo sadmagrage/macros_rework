@@ -5,7 +5,6 @@ const axios = Axios.create({
     baseURL: import.meta.env.VITE_API_URL
 });
 
-
 export const login = async credentials => {
     return new Promise( async (resolve, reject) => {
         try {

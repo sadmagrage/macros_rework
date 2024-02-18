@@ -18,7 +18,7 @@ export default function Sugestion ({ onClick, macro, active, dataComida, gasto, 
         else if (macro === "Proth" && comida.proth > 0) {
             const faltaProth = (metaProth - proth) / comida.proth;
 
-            return <SugestionWithValue name={ comida.name } img={ comida.image } value={ faltaProth } />
+            return <SugestionWithValue name={ comida.nome } img={ comida.image } value={ faltaProth } />
         }
         else if (macro === "Fat" && index == dataComida.length - 1) {
             const faltaFat = (metaFat - fat);

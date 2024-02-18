@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { black, darkModeBody, darkModeOption, lightModeBody, lightModeOption, white } from "../../utils/colors";
+import { darkModeBody, darkModeOption, lightModeBody, lightModeOption, white } from "../../utils/colors";
 import { scrollX, scrollY } from "../../utils/personalizeScrollbar";
+import { breakpointHeight, breakpointWidth } from "../../utils/breakpoints";
 
 export const MacrosContainer = styled.div`
     background-color: ${ props => props.darkMode ? darkModeBody : lightModeBody };
@@ -10,6 +11,10 @@ export const MacrosContainer = styled.div`
     justify-content: center;
     align-items: center;
     margin-top: 90px;
+
+    @media ${ breakpointWidth.bg } {
+        height: calc(100% - 90px);
+    }
 `;
 
 export const MacrosScreen = styled.div`
@@ -20,20 +25,40 @@ export const MacrosScreen = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
+
+    @media ${ breakpointWidth.bg } {
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
 `;
 
 export const MacrosComida = styled.div`
-    width: 70%;
+    width: 90%;
     display: flex;
     overflow-x: auto;
     
     ${ scrollX }
+    
+    @media ${ breakpointWidth.bg } {
+        // width: 90%;
+
+        @media ${ breakpointHeight.bg } {
+            height: calc(100% - 290px);
+        }
+    }
 `;
 
 export const ContainerComida = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+
+    @media ${ breakpointHeight.bg } and ${ breakpointWidth.bg } {
+        flex-direction: row;
+        align-self: center;
+        width: 200%;
+    }
 `;
 
 export const InfoContainer = styled.div`
@@ -42,6 +67,12 @@ export const InfoContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    
+    @media ${ breakpointWidth.bg } {
+        flex-wrap: wrap;
+        height: 280px;
+        width: 90%;
+    }
 `;
 
 export const FilterButton = styled.input`
@@ -51,6 +82,10 @@ export const FilterButton = styled.input`
     width: 100%;
     margin-bottom: 5px;
     border-radius: 7px;
+
+    @media ${ breakpointWidth.bg } {
+        width: 150px;
+    }
 `;
 
 export const FilterInput = styled.input`
@@ -63,6 +98,11 @@ export const FilterInput = styled.input`
     outline: none;
     appearance: textfield;
     margin-bottom: 5px;
+    text-align: center;
+
+    @media ${ breakpointWidth.bg } {
+        width: 150px;
+    }
 `;
 
 export const Sugestions = styled.div`
@@ -70,7 +110,14 @@ export const Sugestions = styled.div`
     margin: 10px 0px;
     overflow-y: scroll;
     height: ${ props => props.designedHeight + "px" };
-    padding-right: 2px;
+    padding: 0px 15px;
 
     ${ scrollY }
+
+    @media ${ breakpointWidth.bg } {
+        overflow-y: auto;
+        width: calc(100% - 160px);
+        height: 100%;
+        margin: 0;
+    }
 `;
