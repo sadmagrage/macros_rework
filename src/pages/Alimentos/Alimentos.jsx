@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { isAuthenticated } from '../../utils/auth';
 import { getComida } from '../../utils/api';
-import { Alimento, AlimentoImage, AlimentoNome, AlimentosMenu, AlimentosParentContainer, AlimentosStyled, Macro, SearchInput } from './Alimentos.styled';
+import { Alimento, AlimentoImage, AlimentoNome, AlimentosContainer, AlimentosMenu, AlimentosParentContainer, AlimentosStyled, Macro, SearchInput } from './Alimentos.styled';
 import useTheme from "../../context/ThemeContext";
 import { useNavigate } from 'react-router-dom';
 import { imageBufferToUrl } from '../../utils/imageBufferToUrl';
@@ -20,7 +20,7 @@ export function Alimentos() {
     const iterateAlimento = (item, index) => {
         if (container.length > 0 || index === Alimentos.length - 1) {
             container.push(item);
-            containerText = <div key={ container.length === 2 ? container[0].comidaId + container[1].comidaId : container[0].comidaId } >{ container.map(containerItem => {
+            containerText = <AlimentosContainer key={ container.length === 2 ? container[0].comidaId + container[1].comidaId : container[0].comidaId } >{ container.map(containerItem => {
                 return (
                     <Alimento key={ containerItem.comidaId } >
                         <AlimentoNome>{ containerItem.nome }</AlimentoNome>
@@ -29,7 +29,7 @@ export function Alimentos() {
                             macroCamps.map(macroCamp => <Macro>{ macroCamp }: { containerItem[macroCamp.toLowerCase()].toFixed(3) }</Macro>)
                         }
                     </Alimento>)
-            }) }</div>
+            }) }</AlimentosContainer>
             const tamanhoContainer = container.length;
             for (let i = 0; i < tamanhoContainer; i++) {
                 container.pop();

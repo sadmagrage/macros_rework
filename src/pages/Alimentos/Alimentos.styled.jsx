@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { black, darkModeBody, darkModeOption, lightModeBody, lightModeOption, white } from "../../utils/colors";
 import { scrollX } from "../../utils/personalizeScrollbar";
+import { breakpointHeight } from "../../utils/breakpoints";
 
 export const AlimentosStyled = styled.div`
     flex: 1;
@@ -23,8 +24,13 @@ export const SearchInput = styled.input`
     border: 2px solid ${ white };
     outline: none;
     margin-right: 60px;
+    margin-bottom: 15px;
     appearance: textfield;
     align-self: flex-end;
+
+    @media ${ breakpointHeight.bg } {
+        margin: 7.5px 60px 7.5px 0;
+    }
 `;
 
 export const AlimentosMenu = styled.div`
@@ -40,7 +46,6 @@ export const AlimentosMenu = styled.div`
 `;
 
 export const AlimentosParentContainer = styled.div`
-    box-sizing: initial;
     height: fit-content;
     border-radius: 15px;
     padding: 15px;
@@ -53,9 +58,17 @@ export const AlimentosParentContainer = styled.div`
     width: 95%;
 
     ${ scrollX }
+
+    @media ${ breakpointHeight.bg } {
+        padding: 0px;
+    }
 `;
 
-export const AlimentosContainer = styled.div``;
+export const AlimentosContainer = styled.div`
+    @media (max-height: 800px) {
+        display: flex;
+    }
+`;
 
 export const Alimento = styled.div`
     display: flex;
