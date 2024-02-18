@@ -2,7 +2,7 @@ import Axios from "axios";
 import { getAuthToken, removeAuthToken } from "./auth";
 
 const axios = Axios.create({
-    baseURL: process.env.VITE_API_URL
+    baseURL: import.meta.env.VITE_API_URL
 });
 
 export const login = async credentials => {
