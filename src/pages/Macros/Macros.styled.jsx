@@ -26,38 +26,46 @@ export const MacrosScreen = styled.div`
     justify-content: space-around;
     align-items: center;
 
-    @media ${ breakpointWidth.bg } {
+    @media ${ breakpointWidth.bg } and (orientation: portrait) {
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
+    }
+
+    @media ${ breakpointWidth.bg } and (orientation: landscape) {
+        
     }
 `;
 
 export const MacrosComida = styled.div`
     width: 90%;
-    display: flex;
     overflow-x: auto;
     
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-rows: repeat(3, 1fr);
+    grid-auto-columns: minmax(250px, 1fr);
+    grid-gap: 10px;
+
     ${ scrollX }
+
+    @media (min-width: 900px) and (max-height: 900px) {
+        grid-template-rows: repeat(2, 1fr);
+    }
     
     @media ${ breakpointWidth.bg } {
-        // width: 90%;
+        grid-template-rows: repeat(2, 1fr);
 
-        @media ${ breakpointHeight.bg } {
+        @media (max-height: 920px) and (orientation: portrait) {
             height: calc(100% - 290px);
+            grid-template-rows: repeat(1, 1fr);
+            align-items: center;
         }
     }
-`;
 
-export const ContainerComida = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-
-    @media ${ breakpointHeight.bg } and ${ breakpointWidth.bg } {
-        flex-direction: row;
-        align-self: center;
-        width: 200%;
+    @media (max-height: 600px) {
+        grid-template-rows: repeat(1, 1fr);
     }
 `;
 
@@ -68,9 +76,15 @@ export const InfoContainer = styled.div`
     flex-direction: column;
     align-items: center;
     
-    @media ${ breakpointWidth.bg } {
+    @media ${ breakpointWidth.bg } and (orientation: portrait) {
         flex-wrap: wrap;
         height: 280px;
+        width: 90%;
+    }
+
+    @media ${ breakpointWidth.bg } and (orientation: landscape) {
+        flex-wrap: wrap;
+        height: 100%;
         width: 90%;
     }
 `;
@@ -79,7 +93,7 @@ export const FilterButton = styled.input`
     border: 2px solid ${ white };
     color: ${ white };
     background-color: transparent;
-    width: 100%;
+    width: calc(100% - 15px * 2);
     margin-bottom: 5px;
     border-radius: 7px;
 
@@ -91,7 +105,7 @@ export const FilterButton = styled.input`
 export const FilterInput = styled.input`
     background-color: transparent;
     color: ${ white };
-    width: 100%;
+    width: calc(100% - 15px * 2);
     padding-left: 5px;
     border-radius: 7px;
     border: 2px solid ${ white };

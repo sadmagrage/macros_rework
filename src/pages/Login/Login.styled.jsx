@@ -3,7 +3,8 @@ import { darkModeBody, darkModeOption, lightModeBody, lightModeOption } from "..
 
 export const LoginContainer = styled.div`
     background-color: ${ props => props.darkMode ? darkModeBody : lightModeBody };
-    flex: 1;
+    margin-top: 90px;
+    height: calc(100% - 90px);
     display: flex;
     justify-content: center;
     align-items: center;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getComida, getSpent } from "../../utils/api";
 import { isAuthenticated } from '../../utils/auth';
-import { ContainerComida, FilterButton, FilterInput, InfoContainer, MacrosComida, MacrosContainer, MacrosScreen, Sugestions } from './Macros.styled';
+import { FilterButton, FilterInput, InfoContainer, MacrosComida, MacrosContainer, MacrosScreen, Sugestions } from './Macros.styled';
 import Comida from '../../components/Comida/Comida';
 import Properties from '../../components/Properties/Properties';
 import Sugestion from '../../components/Sugestions/Sugestion';
@@ -66,7 +66,7 @@ export function Macros() {
         setKcal(kcal.toFixed(2));
     }
 
-    const autoGetValue = (id) => {
+    const autoGetValue = id => {
         const optionalComida = ComidaUtilizadas.filter(comida => comida.comidaId === id);
         
         if (optionalComida.length === 1) {
@@ -113,7 +113,6 @@ export function Macros() {
         else {
             setComida(ComidaUtilizadas);
         }
-
     }
 
     const filterByTextAction = (e) => {
@@ -122,13 +121,9 @@ export function Macros() {
         e.target.value ==  "" ? setComida(dataComida) : setComida(filteredData);
     }
 
-    let container = [];
     const macros = ["Carb", "Protl", "Proth", "Fat"];
-    let containerText = "";
 
     useEffect(() => {
-        console.log("teste");
-
         getSpent()
             .then(data => {
                 setGasto(data.gasto);
@@ -174,13 +169,11 @@ export function Macros() {
         });
         
         setDesignedHeight(containerHeight - sumHeights);
-        console.log("teste");
     }
 
     useEffect(() => {
         window.addEventListener('resize', resizeSugestions);
         resizeSugestions();
-        console.log("teste");
     }, []);
 
     useEffect(valueToMacros, [ComidaUtilizadas]);
@@ -191,20 +184,7 @@ export function Macros() {
             <MacrosScreen darkMode={ darkMode } >
                 <MacrosComida>
                     {
-                        comida.map((item, index) => {
-                            if (container.length == 1 || index === comida.length - 1) {
-                                container.push(item);
-
-                                containerText = <ContainerComida>{ container.map(comidaItem => <Comida name={ comidaItem.nome } img={ comidaItem.image } onInput={ e => inputComidaAction(e, comidaItem) } value={ autoGetValue(comidaItem.comidaId) } />) }</ContainerComida>
-
-                                container = [];
-
-                                return containerText;
-                            }
-                            else {
-                                container.push(item);
-                            }
-                        })
+                        comida.map(comidaItem => <Comida name={ comidaItem.nome } img={ comidaItem.image } onInput={ e => inputComidaAction(e, comidaItem) } value={ autoGetValue(comidaItem.comidaId) } />)
                     }
                 </MacrosComida>
                 <InfoContainer className='info_container' >

@@ -6,10 +6,6 @@ export const ComidaContainer = styled.div`
     width: 250px;
     height: min-content;
     margin: 10px 15px;
-    
-    @media ${ breakpointHeight.bg } {
-        width: 300px;
-    }
 `
 
 export const ComidaTitle = styled.h3`

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { black, darkModeBody, darkModeOption, lightModeBody, lightModeOption, white } from "../../utils/colors";
 import { scrollX } from "../../utils/personalizeScrollbar";
-import { breakpointHeight } from "../../utils/breakpoints";
+import { breakpointHeight, breakpointWidth } from "../../utils/breakpoints";
 
 export const AlimentosStyled = styled.div`
     flex: 1;
@@ -14,22 +14,22 @@ export const AlimentosStyled = styled.div`
 `;
 
 export const SearchInput = styled.input`
+    display: ${ props => props.isLoaded ? "unset" : "none" };
     align-self: end;
     height: 20px;
     width: 200px;
-    padding-left: 5px;
     border-radius: 7px;
     background-color: transparent;
     color: ${ white };
     border: 2px solid ${ white };
     outline: none;
-    margin-right: 60px;
-    margin-bottom: 15px;
     appearance: textfield;
-    align-self: flex-end;
+    margin-right: 5%;
+    padding: 0px 5px;
 
-    @media ${ breakpointHeight.bg } {
-        margin: 7.5px 60px 7.5px 0;
+
+    @media ${ breakpointWidth.md } {
+        align-self: center;
     }
 `;
 
@@ -46,21 +46,27 @@ export const AlimentosMenu = styled.div`
 `;
 
 export const AlimentosParentContainer = styled.div`
-    height: fit-content;
     border-radius: 15px;
     padding: 15px;
-    display: flex;
     margin: 0px auto 20px auto;
-    flex-direction: row;
-    flex-wrap: nowrap;
     overflow-x: scroll;
     overflow-y: hidden;
     width: 95%;
-
+    display: ${ props => props.isLoaded ? "grid" : "none" };
+    
+    grid-auto-flow: column;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-rows: repeat(2, 1fr);
+    grid-auto-columns: minmax(250px, 1fr);
+    
     ${ scrollX }
 
     @media ${ breakpointHeight.bg } {
         padding: 0px;
+        
+        @media (max-height: 800px) {
+            grid-template-rows: repeat(1, 1fr);
+        }
     }
 `;
 
