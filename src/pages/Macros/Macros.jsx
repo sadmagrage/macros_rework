@@ -7,6 +7,8 @@ import Properties from '../../components/Properties/Properties';
 import Sugestion from '../../components/Sugestions/Sugestion';
 import useTheme from "../../context/ThemeContext";
 import { useNavigate } from 'react-router-dom';
+import useComida from '../../context/ComidaContext';
+import { imageBufferToUrl } from '../../utils/imageBufferToUrl';
 
 export function Macros() {
     
@@ -34,6 +36,7 @@ export function Macros() {
     const [designedHeight, setDesignedHeight] = useState(0);
 
     const { darkMode } = useTheme();
+    const { comidaFetch, setComidaFetch, alreadyFetched, setAlreadyFetched } = useComida();
     const navigate = useNavigate();
 
     const valueToMacros = () => {
@@ -137,8 +140,20 @@ export function Macros() {
 
         getComida()
             .then(data => {
-                setComida(data);
-                setDataComida(data);
+                setComidaFetch(data);
+                
+                comidaFetch.map(item => {
+                    const newComida = {};
+
+                    Object.keys(item).map(prop => {
+                        newComida[prop] = item.prop;
+                        if (prop == "image") newComida[prop] = imageBufferToUrl(item.image.data);
+                    });
+
+                    comida.push(newComida);
+                    dataComida.push(newComida);
+                    console.log(comida);
+                });
             })
             .catch(error => console.log(error));
 

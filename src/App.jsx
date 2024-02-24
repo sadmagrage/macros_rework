@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 
 import { Home } from "./pages/Home/Home";
 import { Login } from "./pages/Login/Login";
-import { Macros } from "./pages/Macros/Macros";
+import { Macros1 } from "./pages/Macros1/Macros1";
 import { Usuario } from "./pages/Usuario/Usuario";
 import { Alimentos } from "./pages/Alimentos/Alimentos";
 import { RegistrarAlimentos } from "./pages/RegistrarAlimentos/RegistrarAlimentos";
@@ -21,7 +21,7 @@ function App() {
         <Route path="/alimentos" element={ <Alimentos /> } />
         <Route path="/alimentos/registrar" element={ <RegistrarAlimentos /> } />
         <Route path="/usuario" element={ <Usuario /> } />
-        <Route path="/macros" element={ <Macros /> } />
+        <Route path="/macros" element={ <Macros1 /> } />
         <Route path="/repositorios" element={ <Repositorios /> } />
       </Routes>
       <MyToast />

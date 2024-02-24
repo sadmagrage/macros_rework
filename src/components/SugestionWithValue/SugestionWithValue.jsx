@@ -7,7 +7,7 @@ export default function SugestionWithValue ({ name, img, value}) {
         <SugestionWithValueItem>
             <SugestionName>{ name }</SugestionName>
             <SugestionData>
-                <SugestionImg src={ imageBufferToUrl(img.data) } />
+                <SugestionImg src={ img } />
                 <SugestionValue>{ value.toFixed(2) }</SugestionValue>
             </SugestionData>
         </SugestionWithValueItem>
