@@ -49,7 +49,7 @@ export const AlimentosParentContainer = styled.div`
     border-radius: 15px;
     padding: 15px;
     margin: 0px auto 20px auto;
-    overflow-x: scroll;
+    overflow-x: auto;
     overflow-y: hidden;
     width: 95%;
     display: ${ props => props.isLoaded ? "grid" : "none" };

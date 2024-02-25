@@ -33,9 +33,10 @@ export function Macros1 () {
 
     const [appear, setAppear] = useState("");
     const [designedHeight, setDesignedHeight] = useState(0);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const { darkMode } = useTheme();
-    const { comidaFetch, setComidaFetch, alreadyFetched, setAlreadyFetched } = useComida();
+    const { comidaFetch, setComidaFetch } = useComida();
     const navigate = useNavigate();
 
     const valueToMacros = () => {
@@ -44,7 +45,7 @@ export function Macros1 () {
         let protl = 0;
         let proth = 0;
         let fat = 0;
-    
+
         comidaUtilizadas.map(item => {
             const valor = item.value[item.value.length - 1] == "+" || item.value[item.value.length - 1] == "-" || item.value[item.value.length - 1] == "*" || item.value[item.value.length - 1] == "/" ? eval(item.value.slice(0, -1)) : eval(item.value) ;
             
@@ -100,8 +101,14 @@ export function Macros1 () {
                 comidaUtilizadas.push(comida);
             }
         }
-        
-        valueToMacros();
+
+        const saveComida = [];
+
+        Promise.all(comidaUtilizadas.map(item => saveComida.push({ comidaId: item.comidaId, value: item.value })))
+            .then(() => {
+                localStorage.setItem("comida", JSON.stringify(saveComida));
+                valueToMacros();
+            })
     }
     
     const filterAction = () => {
@@ -169,16 +176,51 @@ export function Macros1 () {
     }, []);
 
     useEffect(() => {
-        comidaFetch.map(item => {
+        const comidaStorage = JSON.parse(localStorage.getItem("comida"));
+        
+        if (comidaStorage) {
+            const comidaUtilizadasStorage = [];
+
+            Promise.all(comidaStorage.map(comidaStorageItem => {
+                const comidaUtilizadasStorageItem = {};
+
+                const comidaSearchResult = dataComida.filter(dataComidaItem => dataComidaItem.comidaId == comidaStorageItem.comidaId);
+                if (comidaSearchResult.length > 0) {
+                    const comidaItem = comidaSearchResult[0];
+                    
+                    Object.keys(comidaItem).map(prop => {
+                        comidaUtilizadasStorageItem[prop] = comidaItem[prop];
+                    });
+
+                    comidaUtilizadasStorageItem["value"] = comidaStorageItem.value;
+
+                    comidaUtilizadasStorage.push(comidaUtilizadasStorageItem);
+                }
+            }))
+            .then(() => {
+                setComidaUtilizadas(comidaUtilizadasStorage);
+                valueToMacros();
+            });
+        };
+    }, [isLoaded]);
+
+    useEffect(() => {
+        comidaFetch.map((item, index) => {
             const newComida = {};
 
-            Object.keys(item).map(prop => {
-                newComida[prop] = item[prop];
-                if (prop == "image") newComida[prop] = imageBufferToUrl(item.image.data);
-            });
+            const alreadyHasInComida = comida.filter(comidaItem => item.comidaId == comidaItem.comidaId).length != 0;
+            const alreadyHasInDataComida = dataComida.filter(comidaItem => item.comidaId == comidaItem.comidaId).length != 0;
 
-            comida.push(newComida);
-            dataComida.push(newComida);
+            if (!alreadyHasInComida && !alreadyHasInDataComida) {
+                Object.keys(item).map(prop => {
+                    newComida[prop] = item[prop];
+                    if (prop == "image") newComida[prop] = imageBufferToUrl(item.image.data);
+                });
+
+                if (!alreadyHasInComida) comida.push(newComida);
+                if (!alreadyHasInDataComida) dataComida.push(newComida);
+            }
+            if (index == comidaFetch.length - 1) setIsLoaded(true);
         });
     }, [comidaFetch])
     

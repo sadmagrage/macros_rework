@@ -1,4 +1,3 @@
-import { imageBufferToUrl } from "../../utils/imageBufferToUrl";
 import { SugestionData, SugestionImg, SugestionName, SugestionValue, SugestionWithValueItem } from "./SugestionWithValue.styled";
 
 export default function SugestionWithValue ({ name, img, value}) {

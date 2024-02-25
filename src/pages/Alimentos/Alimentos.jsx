@@ -5,40 +5,56 @@ import { Alimento, AlimentoImage, AlimentoNome, AlimentosContainer, AlimentosMen
 import useTheme from "../../context/ThemeContext";
 import { useNavigate } from 'react-router-dom';
 import { imageBufferToUrl } from '../../utils/imageBufferToUrl';
+import useComida from '../../context/ComidaContext';
 
 export function Alimentos() {
-    const [DataAlimentos, setDataAlimentos] = useState([]);
-    const [Alimentos, setAlimentos] = useState([]);
+    const [dataComida, setDataComida] = useState([]);
+    const [comida, setComida] = useState([]);
     const [macroCamps] = useState(["Carb", "Proth", "Protl", "Fat"]);
 
     const [isLoaded, setIsLoaded] = useState(false);
 
+    const { comidaFetch, setComidaFetch } = useComida();
     const navigate = useNavigate();
     const { darkMode } = useTheme();
-
-    const container = [];
-    let containerText = "";
     
     const searchAction = e => {
         if (e.target.value !== "") {
-            let filteredData = DataAlimentos.filter(item => item.nome.toLowerCase().includes(e.target.value.toLowerCase()));
+            let filteredData = dataComida.filter(item => item.nome.toLowerCase().includes(e.target.value.toLowerCase()));
 
-            setAlimentos(filteredData)
+            setComida(filteredData)
         }
         else {
-            setAlimentos(DataAlimentos)
+            setComida(dataComida)
         }
     }
 
     useEffect(() => {
-        getComida()
-            .then(data => {
-                setDataAlimentos(data);
-                setAlimentos(data);
-                setIsLoaded(true);
-            })
-            .catch(error => console.log(error.message));
+        if (comidaFetch.length == 0) getComida()
+            .then(data => setComidaFetch(data))
+            .catch(error => console.log(error));
     }, []);
+
+    useEffect(() => {
+        comidaFetch.map((item, index) => {
+            const newComida = {};
+
+            const alreadyHasInComida = comida.filter(comidaItem => item.comidaId == comidaItem.comidaId).length != 0;
+            const alreadyHasInDataComida = dataComida.filter(comidaItem => item.comidaId == comidaItem.comidaId).length != 0;
+
+            if (!alreadyHasInComida && !alreadyHasInDataComida) {
+                Object.keys(item).map(prop => {
+                    newComida[prop] = item[prop];
+                    if (prop == "image") newComida[prop] = imageBufferToUrl(item.image.data);
+                });
+
+                if (!alreadyHasInComida) comida.push(newComida);
+                if (!alreadyHasInDataComida) dataComida.push(newComida);
+            }
+
+            if (index == comidaFetch.length - 1) setIsLoaded(true);
+        });
+    }, [comidaFetch])
 
     if (isAuthenticated()) {
         return (
@@ -47,10 +63,10 @@ export function Alimentos() {
                     <SearchInput type="text" onChange={ searchAction } isLoaded={ isLoaded } />
                     <AlimentosParentContainer isLoaded={ isLoaded } >
                         {
-                            Alimentos.map(containerItem =>
+                            comida.map(containerItem =>
                                 <Alimento key={ containerItem.comidaId } >
                                     <AlimentoNome>{ containerItem.nome }</AlimentoNome>
-                                    <AlimentoImage src={ imageBufferToUrl(containerItem.image.data) } />
+                                    <AlimentoImage src={ containerItem.image } />
                                     {
                                         macroCamps.map(macroCamp => <Macro>{ macroCamp }: { containerItem[macroCamp.toLowerCase()].toFixed(3) }</Macro>)
                                     }
