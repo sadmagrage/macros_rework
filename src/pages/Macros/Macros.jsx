@@ -9,6 +9,7 @@ import useComida from "../../context/ComidaContext";
 import useTheme from "../../context/ThemeContext";
 import { getComida, getSpent } from "../../utils/api";
 import { imageBufferToUrl } from "../../utils/imageBufferToUrl";
+import { toast } from "react-toastify";
 
 export function Macros () {
 
@@ -172,9 +173,18 @@ export function Macros () {
             })
             .catch(error => console.log(error.message));
 
-        if (comidaFetch.length == 0) getComida()
-            .then(data => setComidaFetch(data))
-            .catch(error => console.log(error));
+        if (comidaFetch.length == 0) {
+            toast.dismiss();
+            toast.loading("Carregando dados");
+
+            getComida()
+                .then(data => {
+                    setComidaFetch(data);
+                    toast.dismiss();
+                    toast.success("Carregado com sucesso");
+                })
+                .catch(error => toast.error("Erro ao carregar"));
+            }
     }, []);
 
     useEffect(() => {

@@ -6,6 +6,7 @@ import useTheme from "../../context/ThemeContext";
 import { useNavigate } from 'react-router-dom';
 import { imageBufferToUrl } from '../../utils/imageBufferToUrl';
 import useComida from '../../context/ComidaContext';
+import { toast } from 'react-toastify';
 
 export function Alimentos() {
     const [dataComida, setDataComida] = useState([]);
@@ -30,9 +31,18 @@ export function Alimentos() {
     }
 
     useEffect(() => {
-        if (comidaFetch.length == 0) getComida()
-            .then(data => setComidaFetch(data))
-            .catch(error => console.log(error));
+        if (comidaFetch.length == 0) {
+            toast.dismiss();
+            toast.loading("Carregando dados");
+
+            getComida()
+                .then(data => {
+                    setComidaFetch(data);
+                    toast.dismiss();
+                    toast.success("Carregado com sucesso");
+                })
+                .catch(error => toast.error("Erro ao carregar"));
+            }
     }, []);
 
     useEffect(() => {
