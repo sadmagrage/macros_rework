@@ -31,6 +31,10 @@ export const SearchInput = styled.input`
     @media ${ breakpointWidth.md } {
         align-self: center;
     }
+
+    @media (max-height: 470px) {
+        margin-top: 5px;
+    }
 `;
 
 export const AlimentosMenu = styled.div`
@@ -92,9 +96,23 @@ export const AlimentoImage = styled.img`
     margin: 5px 0px;
     width: 100%;
     height: 150px;
+    
+    @media (max-height: 410px) {
+        max-height: 100px;
+    }
 `;
 
 export const Macro = styled.p`
     align-self: center;
     color: ${ white };
+`;
+
+export const MacroContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    @media (max-height: 450px) {
+        flex-direction: row;
+        justify-content: space-between;
+    }
 `;

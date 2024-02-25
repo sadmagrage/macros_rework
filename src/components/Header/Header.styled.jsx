@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { black, darkModeHeader, lightGrey, lightModeBody, lightModeHeader, white } from "../../utils/colors";
-import { breakpointWidth } from "../../utils/breakpoints"
+import { breakpointHeight, breakpointWidth } from "../../utils/breakpoints"
 
 export const HeaderContainer = styled.div`
     display: flex;

@@ -10,4 +10,8 @@ export const MacroValue = styled.p`
     font-size: 20px;
     color: ${ white };
     text-align: center;
+    
+    @media (max-height: 385px) {
+        font-size: 15px;
+    }
 `;

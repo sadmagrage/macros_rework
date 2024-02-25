@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { darkModeBody, darkModeOption, lightModeBody, lightModeOption, white } from "../../utils/colors";
+import { breakpointWidth } from "../../utils/breakpoints";
 
 export const UsuarioContainer = styled.div`
     flex: 1;
@@ -20,6 +21,13 @@ export const UsuarioForm = styled.div`
     align-items: center;
     overflow-y: auto;
     border-radius: 5%;
+
+    @media ${ breakpointWidth.bg } {
+        width: 60%;
+    }
+    @media ${ breakpointWidth.md } {
+        width: 90%;
+    }
 `;
 
 export const UsuarioImage = styled.img`

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { isAuthenticated } from '../../utils/auth';
 import { getComida } from '../../utils/api';
-import { Alimento, AlimentoImage, AlimentoNome, AlimentosContainer, AlimentosMenu, AlimentosParentContainer, AlimentosStyled, Macro, SearchInput } from './Alimentos.styled';
+import { Alimento, AlimentoImage, AlimentoNome, AlimentosContainer, AlimentosMenu, AlimentosParentContainer, AlimentosStyled, Macro, MacroContainer, SearchInput } from './Alimentos.styled';
 import useTheme from "../../context/ThemeContext";
 import { useNavigate } from 'react-router-dom';
 import { imageBufferToUrl } from '../../utils/imageBufferToUrl';
@@ -67,9 +67,11 @@ export function Alimentos() {
                                 <Alimento key={ containerItem.comidaId } >
                                     <AlimentoNome>{ containerItem.nome }</AlimentoNome>
                                     <AlimentoImage src={ containerItem.image } />
-                                    {
-                                        macroCamps.map(macroCamp => <Macro>{ macroCamp }: { containerItem[macroCamp.toLowerCase()].toFixed(3) }</Macro>)
-                                    }
+                                    <MacroContainer>
+                                        {
+                                            macroCamps.map(macroCamp => <Macro>{ macroCamp }: { containerItem[macroCamp.toLowerCase()].toFixed(3) }</Macro>)
+                                        }
+                                    </MacroContainer>
                                 </Alimento>)
                         }
                     </AlimentosParentContainer>
