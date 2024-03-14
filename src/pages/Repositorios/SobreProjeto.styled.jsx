@@ -19,6 +19,7 @@ export const RepositorioLink = styled.a`
     border-radius: 20px;
     border: 2px solid transparent;
     color: white;
+    margin: 5px;
 `;
 
 export const RepositorioLinkTitle = styled.h3`
@@ -27,4 +28,20 @@ export const RepositorioLinkTitle = styled.h3`
 
 export const RepositorioLinkDescription = styled.p`
     text-align: center;
+`;
+
+export const DescricaoProjetoContainer = styled.div`
+    max-width: 600px;
+    background-color: ${ props => props.darkMode ? darkModeOption : lightModeOption };
+    padding: 15px;
+    border-radius: 15px;
+    margin: 5px;
+`;
+
+export const DescricaoProjetoTitle = styled.h3`
+    color: white;
+`;
+
+export const DescricaoProjetoText = styled.p`
+    color: white;
 `;

@@ -23,7 +23,7 @@ export function Header() {
     const { darkMode, toggleTheme, saveTheme } = useTheme();
     const navigate = useNavigate();
 
-    const [link] = useState([{ noPermission: true, url: "/", text: "Home" }, { noPermission: true, url: "/macros", text: "Macros" }, { noPermission: true, url: "/alimentos", text: "Alimentos" }, { noPermission: false, url: "/repositorios", text: "Repositórios" }]);
+    const [link] = useState([{ noPermission: true, url: "/", text: "Home" }, { noPermission: true, url: "/macros", text: "Macros" }, { noPermission: true, url: "/alimentos", text: "Alimentos" }, { noPermission: false, url: "/sobre", text: "Sobre o projeto" }]);
     const { activeMenu, setActiveMenu } = useActiveMenu();
     const [width, setWidth] = useState(window.innerWidth);
     
@@ -31,7 +31,7 @@ export function Header() {
         setWidth(window.innerWidth);
     }
 
-    useEffect(() => setNoPermission(window.location.pathname === '/login' || (window.location.pathname === "/repositorios" && !isAuthenticated())));
+    useEffect(() => setNoPermission(window.location.pathname === '/login' || (window.location.pathname === "/sobre" && !isAuthenticated())));
 
     useEffect(() => window.addEventListener('resize', setCurrentWidth), []);
 

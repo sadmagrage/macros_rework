@@ -7,7 +7,7 @@ import { Usuario } from "./pages/Usuario/Usuario";
 import { Alimentos } from "./pages/Alimentos/Alimentos";
 import { RegistrarAlimentos } from "./pages/RegistrarAlimentos/RegistrarAlimentos";
 import { Header } from "./components/Header/Header"
-import { Repositorios } from "./pages/Repositorios/Repositorios";
+import { SobreProjeto } from "./pages/Repositorios/SobreProjeto";
 import { MyToast } from "./components/MyToast/MyToast";
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
         <Route path="/alimentos/registrar" element={ <RegistrarAlimentos /> } />
         <Route path="/usuario" element={ <Usuario /> } />
         <Route path="/macros" element={ <Macros /> } />
-        <Route path="/repositorios" element={ <Repositorios /> } />
+        <Route path="/sobre" element={ <SobreProjeto /> } />
       </Routes>
       <MyToast />
     </BrowserRouter>
