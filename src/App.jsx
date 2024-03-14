@@ -7,7 +7,7 @@ import { Usuario } from "./pages/Usuario/Usuario";
 import { Alimentos } from "./pages/Alimentos/Alimentos";
 import { RegistrarAlimentos } from "./pages/RegistrarAlimentos/RegistrarAlimentos";
 import { Header } from "./components/Header/Header"
-import { SobreProjeto } from "./pages/Repositorios/SobreProjeto";
+import { SobreProjeto } from "./pages/SobreProjeto/SobreProjeto";
 import { MyToast } from "./components/MyToast/MyToast";
 
 function App() {
