@@ -49,11 +49,19 @@ export function Login() {
     }
 
     const loginAsGuest = () => {
-        loginApi({ "username": "teste", "password": "123" })
+        toast.loading("Fazendo login", { autoClose: false });
+        
+        loginApi({ "username": "Convidado", "password": "123" })
+            .then(token => setAuthToken(token))
             .then(() => {
-                window.location.pathname = "/";
-            })
-            .catch(error => console.log(error.message));
+                toast.dismiss();
+                toast.success('Login realizado com sucesso');
+                navigate("/");
+            }).
+            catch(error => {
+                toast.dismiss();
+                toast.error('Credenciais incorretas');
+            });
     };
     
     const [login, setLogin] = useState(true);
